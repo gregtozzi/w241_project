@@ -1,0 +1,27 @@
+---
+title: "Power calcs"
+output: html_document
+---
+
+```{r}
+options(digits = 3)
+library(data.table)
+```
+Taking Micah's advice, I'm running a low, medium, and high baseline clickthrough probabilities which I'm defining as 0.01, 0.05, and 0.15.  I'm also considering three group sizes (the group size is half of the total number of subjects):  700 (what ChiSci is currently suggesting), 1,000 (the max distro under the MailChimp free tier), and 7,000 (assuming access to the entire Altru list reduced a bit for missing addresses).
+
+In clinical studies, powers between 0.8 and 0.9 seem standard.  I'm not sure what the standard is in advertising, so I'm using 0.85.
+
+```{r}
+Power <- 0.85
+alpha <- 0.05
+
+d <- data.table(baseClickThrough = rep(c(0.01, 0.05, 0.15), 3))
+d[, groupSize := c(700, 700, 700, 1000, 1000, 1000, 7000, 7000, 7000)]
+
+# Base R's built in power function isn't vectorized, so I'm doing this outside of the data table.  The code below computes the minimum difference in click through probability that can be detected at the given power and alpha.
+
+minDiffDetected <- sapply(1:nrow(d), function(i) power.prop.test(n = d$groupSize[i], p1 = d$baseClickThrough[i], p2 = NULL, sig.leve = alpha, power = Power)$p2 - d$baseClickThrough[i])
+
+d[ , minDiffDetected := minDiffDetected]
+d
+```
