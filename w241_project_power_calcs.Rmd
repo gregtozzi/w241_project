@@ -25,3 +25,17 @@ minDiffDetected <- sapply(1:nrow(d), function(i) power.prop.test(n = d$groupSize
 d[ , minDiffDetected := minDiffDetected]
 d
 ```
+
+How about we fix the group size to 1000 and varies base CTR to see pattern. 
+
+```{r}
+
+base.ctr = seq(0.01, 0.5, 0.01) 
+
+min_ate_needed <- sapply(1:length(base.ctr), function(i) power.prop.test(n = 1000, p1 = base.ctr[i], p2 = NULL, sig.leve = 0.05, power = 0.80, strict=T)$p2 - base.ctr[i])
+
+plot(base.ctr, min_ate_needed, type="l")
+title("With 2000 recipients")
+
+```
+
