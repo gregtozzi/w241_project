@@ -1,0 +1,92 @@
+---
+title: "Blocking"
+output: html_document
+---
+
+```{r}
+library(data.table)
+library(magrittr)
+```
+
+#### Load the data
+
+```{r}
+clean_giving <- function(x) {
+  y <- gsub('\\$', '', x)
+  y <- gsub(',', '', y)
+  y <- gsub(' ', '', y)
+  if (y == '-') {
+    return(0)
+  }
+  return(as.numeric(y))
+}
+```
+
+#### Clean-up
+
+```{r}
+file_path <- '../additional_data/boodle.csv'
+d <- fread(file_path)
+d <- d[Email != "0" , ]
+d[ , pred_education := as.factor(d$`Predicted Education (IS)`)]
+d[ , pred_generation := as.factor(d$`Predicted Generation (IS)`)]
+d[ , is_female := as.integer(d$`Predicted Gender (IS)` == 'F')]
+d[ , is_male := as.integer(d$`Predicted Gender (IS)` == 'M')]
+d[ , pred_giving_capacity := sapply(`Predicted Giving Capacity (IS)`, clean_giving)]
+d[ , founders_society := as.integer(`Founders Society` != '0')]
+d[ , member := as.integer(Member != 0)]
+d[ , likes_kids := as.numeric(d$`Affinity for Children Causes`)]
+d[ , likes_education := as.numeric(d$`Affinity for Educational Causes`)]
+```
+
+#### Confirm lookup IDs are unique
+
+```{r}
+d$`Lookup ID` %>% length
+d$`Lookup ID` %>% unique %>% length
+```
+
+#### Block on the predicted generation
+
+```{r}
+assign_groups <- function(dt, nGroups) {
+  return(sample(rep(1:nGroups, ceiling(nrow(dt) / nGroups)))[1:nrow(dt)])
+}
+
+# Blow up the data table, assign the groups, and put Humpty Dumpty back
+# together again
+lookup_id_split <- d %>% split(d$pred_generation)
+lookup_id_split <- lapply(lookup_id_split, function(x) x[ , assignment := assign_groups(x, 4)])
+d_with_assignment <- rbindlist(lookup_id_split)
+d_with_assignment[ , treatment_1 := as.integer(assignment %in% c(1, 2))]
+d_with_assignment[ , treatment_2 := as.integer(assignment %in% c(1, 3))]
+```
+
+#### Randomization checks - first treatment
+I'm running an F-test for each block.
+
+```{r}
+# Fit the blocked intercept models
+generations <- d_with_assignment$pred_generation %>% unique
+intercept_mod <- lapply(generations, function(x) d_with_assignment[pred_generation == x , lm(treatment_1 ~ 1)])
+
+# Fit blocked full models
+full_mod <- lapply(generations, function(x) d_with_assignment[pred_generation == x , lm(treatment_1 ~ 1 + likes_education + likes_kids + pred_giving_capacity + `Total Gifts Amount` + member + is_female)])
+
+# Run F-tests on each block and report the p-values
+sapply(1:length(generations), function(x) anova(full_mod[x][[1]], intercept_mod[x][[1]], test = 'F')$`Pr(>F)`[2])
+```
+
+#### Randomization checks - second treatment
+
+```{r}
+# Fit the blocked intercept models
+generations <- d_with_assignment$pred_generation %>% unique
+intercept_mod <- lapply(generations, function(x) d_with_assignment[pred_generation == x , lm(treatment_2 ~ 1)])
+
+# Fit blocked full models
+full_mod <- lapply(generations, function(x) d_with_assignment[pred_generation == x , lm(treatment_2 ~ 1 + likes_education + likes_kids + pred_giving_capacity + `Total Gifts Amount` + member + is_female)])
+
+# Run F-tests on each block and report the p-values
+sapply(1:length(generations), function(x) anova(full_mod[x][[1]], intercept_mod[x][[1]], test = 'F')$`Pr(>F)`[2])
+```
