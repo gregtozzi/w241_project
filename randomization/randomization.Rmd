@@ -1,0 +1,48 @@
+---
+title: "First Email Randomization"
+output: html_document
+---
+
+```{r}
+source('helper_functions.R')
+library(magrittr)
+```
+
+### Anonymize the data and save as CSVs in the working directory
+```{r}
+load_anon_files('../../additional_data/20201016_index_file.csv',
+                '../../additional_data/20201018_data_file.csv')
+```
+
+### Load the anonymized data, clean it, and select only those IDs of interest
+```{r}
+subject_data <- read_subjects('anonymized_altru.csv')
+index_ids <- fread('anonymized_index.csv')
+subject_data <- subject_data[lookup_id %in% index_ids$`LOOKUP ID`]
+```
+
+### De-duplicate
+```{r}
+duplicates <- subject_data[ , .(which(.N > 1)), keyby = lookup_id]$lookup_id
+subject_data[lookup_id %in% duplicates, ]
+```
+
+Three IDs are repeated twice each.  Remove the first instance of each.
+
+```{r}
+duplicate_index <- which(subject_data$lookup_id %in% duplicates)
+duplicate_index[c(1, 3, 5)]
+subject_index <- setdiff(1:nrow(subject_data), duplicate_index[c(1, 3, 5)])
+subject_data <- subject_data[subject_index , ]
+```
+
+We now have `r subject_data$lookup_id %>% unique %>% length` unique lookup IDs, which is what we want.
+
+### Now for the bad part...
+
+My plan was to block based on giving history since we don't have Boodle data.  Unfortuantely, there's ample evidence that the data that we were provided is incomplete.
+```{r}
+subject_data %>% summary
+```
+
+Note that the `num_gifts` and `total_gift_amt` columns are zero or NA across the board, despite individuals clearly having given to the Center.  Emily went into Altru and spot checked the data for me.  She found evidence that the reported figures do not total across households.  As it stands, I don't know that we can do better than simply pulling a random subset of the IDs and praying for the best.
