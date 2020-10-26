@@ -68,3 +68,20 @@ read_subjects_mail <- function(csv_path) {
   
   return(dt)
 }
+
+anon_results <- function(data_path, randomization_path, results_path) {
+  # Join data from MailChimp to metadata, anonymize, and save output
+  
+  chimp_data <- fread(data_path)
+  names(chimp_data) <- c('Email Address', 'treatment_received', 'open', 'open_time')
+  
+  randomization <- fread(randomization_path)
+  results <- merge(randomization, chimp_data, 'Email Address', all.x = TRUE)
+
+  names(results)[2] = 'lookup_id'
+
+  results_cut <- results[ , c("Last Name", "First Name", "Email Address") := NULL]
+  names(results_cut)[2] = 'treatment_assigned'
+  
+  fwrite(results_cut, results_path)
+}
