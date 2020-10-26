@@ -4,14 +4,15 @@ First Email Randomization
 ``` r
 source('helper_functions.R')
 library(magrittr)
+set.seed(1505)
 ```
 
 ### Anonymize the data and save as CSVs in the working directory
 
 ``` r
-load_anon_files('~/MIDS/W241/additional_data/20201016_index_file.csv',
-                '~/MIDS/W241/additional_data/20201018_data_file.csv',
-                '~/MIDS/W241/additional_data/20200721_data_file.csv')
+#load_anon_files('~/MIDS/W241/additional_data/20201016_index_file.csv',
+#                '~/MIDS/W241/additional_data/20201018_data_file.csv',
+#                '~/MIDS/W241/additional_data/20200721_data_file.csv')
 ```
 
 ### Load the anonymized data, clean it, and select only those IDs of interest
@@ -203,16 +204,16 @@ merged_dt %>% summary
 ### Make our random draw from this population
 
 ``` r
-merged_dt[ , receive_email := as.integer(sample(.N) <= 2000)]
+merged_dt[ , receive_email := as.integer(sample(.N) <= 1980)]
 merged_dt[receive_email == 1, treatment := sample(rep(1:4, .N / 4))]
 merged_dt[receive_email == 1, .N, keyby = treatment]
 ```
 
     ##    treatment   N
-    ## 1:         1 500
-    ## 2:         2 500
-    ## 3:         3 500
-    ## 4:         4 500
+    ## 1:         1 495
+    ## 2:         2 495
+    ## 3:         3 495
+    ## 4:         4 495
 
 ### Randomization checks
 
@@ -231,29 +232,36 @@ merged_dt[receive_email == 1, lm(treatment ~ factor(affinity_children) + factor(
     ## 
     ## Residuals:
     ##     Min      1Q  Median      3Q     Max 
-    ## -2.2773 -1.2814 -0.1997  0.7802  1.7640 
+    ## -1.6209 -0.6181  0.1692  0.8240  1.6387 
     ## 
     ## Coefficients: (3 not defined because of singularities)
     ##                              Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)                   2.46727    0.04381  56.313   <2e-16 ***
-    ## factor(affinity_children)0    1.01777    0.78020   1.305   0.1922    
-    ## factor(affinity_children)35   0.42789    0.74538   0.574   0.5660    
-    ## factor(affinity_children)90   0.73917    0.73223   1.009   0.3129    
-    ## factor(affinity_education)0  -0.13682    0.27183  -0.503   0.6148    
-    ## factor(affinity_education)35 -0.34536    0.20216  -1.708   0.0877 .  
+    ## (Intercept)                   2.46907    0.04483  55.072   <2e-16 ***
+    ## factor(affinity_children)0   -1.55154    1.23066  -1.261    0.208    
+    ## factor(affinity_children)35  -1.31069    1.16197  -1.128    0.259    
+    ## factor(affinity_children)90  -1.38202    1.18619  -1.165    0.244    
+    ## factor(affinity_education)0   0.14302    0.35913   0.398    0.691    
+    ## factor(affinity_education)35 -0.03598    0.18938  -0.190    0.849    
     ## factor(affinity_education)90       NA         NA      NA       NA    
-    ## factor(affinity_science)0    -0.51918    0.36153  -1.436   0.1511    
-    ## factor(affinity_science)35    0.24268    0.26426   0.918   0.3585    
+    ## factor(affinity_science)0     0.05496    0.38697   0.142    0.887    
+    ## factor(affinity_science)35   -0.12239    0.26439  -0.463    0.643    
     ## factor(affinity_science)90         NA         NA      NA       NA    
-    ## factor(affinity_culture)0    -0.34892    0.67199  -0.519   0.6037    
-    ## factor(affinity_culture)35   -0.31384    0.66387  -0.473   0.6364    
-    ## factor(affinity_culture)42   -0.15452    0.66255  -0.233   0.8156    
-    ## factor(affinity_culture)50   -0.26836    0.66818  -0.402   0.6880    
+    ## factor(affinity_culture)0     1.46324    1.12733   1.298    0.194    
+    ## factor(affinity_culture)35    1.44647    1.12257   1.289    0.198    
+    ## factor(affinity_culture)42    1.49850    1.12462   1.332    0.183    
+    ## factor(affinity_culture)50    1.43265    1.12582   1.273    0.203    
     ## factor(affinity_culture)90         NA         NA      NA       NA    
-    ## factor(is_member.x)1         -0.01733    0.06449  -0.269   0.7882    
+    ## factor(is_member.x)1         -0.06985    0.06383  -1.094    0.274    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 1.118 on 1987 degrees of freedom
-    ## Multiple R-squared:  0.007392,   Adjusted R-squared:  0.001397 
-    ## F-statistic: 1.233 on 12 and 1987 DF,  p-value: 0.2537
+    ## Residual standard error: 1.12 on 1967 degrees of freedom
+    ## Multiple R-squared:  0.003683,   Adjusted R-squared:  -0.002395 
+    ## F-statistic: 0.606 on 12 and 1967 DF,  p-value: 0.8388
+
+### Export the anonymized assignments
+
+``` r
+random_assignment <- merged_dt[receive_email == 1, c("lookup_id", "treatment")]
+fwrite(random_assignment, "anonymized_assignments.csv")
+```

@@ -6,13 +6,14 @@ output: github_document
 ```{r}
 source('helper_functions.R')
 library(magrittr)
+set.seed(1505)
 ```
 
 ### Anonymize the data and save as CSVs in the working directory
 ```{r}
-load_anon_files('~/MIDS/W241/additional_data/20201016_index_file.csv',
-                '~/MIDS/W241/additional_data/20201018_data_file.csv',
-                '~/MIDS/W241/additional_data/20200721_data_file.csv')
+#load_anon_files('~/MIDS/W241/additional_data/20201016_index_file.csv',
+#                '~/MIDS/W241/additional_data/20201018_data_file.csv',
+#                '~/MIDS/W241/additional_data/20200721_data_file.csv')
 ```
 
 ### Load the anonymized data, clean it, and select only those IDs of interest
@@ -66,7 +67,7 @@ merged_dt %>% summary
 
 ### Make our random draw from this population
 ```{r}
-merged_dt[ , receive_email := as.integer(sample(.N) <= 2000)]
+merged_dt[ , receive_email := as.integer(sample(.N) <= 1980)]
 merged_dt[receive_email == 1, treatment := sample(rep(1:4, .N / 4))]
 merged_dt[receive_email == 1, .N, keyby = treatment]
 ```
@@ -77,4 +78,10 @@ merged_dt$affinity_education[is.na(merged_dt$affinity_education)] <- -999
 merged_dt$affinity_science[is.na(merged_dt$affinity_science)] <- -999
 merged_dt$affinity_culture[is.na(merged_dt$affinity_culture)] <- -999
 merged_dt[receive_email == 1, lm(treatment ~ factor(affinity_children) + factor(affinity_education) + factor(affinity_science) + factor(affinity_culture) + factor(is_member.x))] %>% summary
+```
+
+### Export the anonymized assignments
+```{r}
+random_assignment <- merged_dt[receive_email == 1, c("lookup_id", "treatment")]
+fwrite(random_assignment, "anonymized_assignments.csv")
 ```
