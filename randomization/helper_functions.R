@@ -50,6 +50,7 @@ read_subjects <- function(csv_path) {
   return(dt)
 }
 
+
 read_subjects_mail <- function(csv_path) {
   # Reads a CSV file with subject data and sets proper
   # column classes
@@ -69,6 +70,7 @@ read_subjects_mail <- function(csv_path) {
   return(dt)
 }
 
+
 anon_results <- function(data_path, randomization_path, results_path) {
   # Join data from MailChimp to metadata, anonymize, and save output
   
@@ -84,4 +86,14 @@ anon_results <- function(data_path, randomization_path, results_path) {
   names(results_cut)[2] = 'treatment_assigned'
   
   fwrite(results_cut, results_path)
+}
+
+
+join_covariates <- function(results_path, covariates_path, combined_path) {
+  # Joins MailChimp results back to the covariates keyed by lookup_id
+  results <- fread(results_path)
+  covariates <- fread(covariates_path)
+  names(covariates)[1] = 'lookup_id'
+  results_w_covariates <- merge(results, covariates, all.x = TRUE)
+  fwrite(results_w_covariates, combined_path)
 }
