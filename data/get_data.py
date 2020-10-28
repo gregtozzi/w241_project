@@ -21,7 +21,7 @@ argv = sys.argv
 try:
     opts, args = getopt.getopt(sys.argv[1:], "k:vpc:", ["api_key=", "count="])
 except getopt.GetoptError as err:
-    print(err) # will print something like "option -a not recognized"
+    print(err) 
     sys.exit(2)
 
 api_key = None
@@ -74,9 +74,26 @@ CAMPAIGNS = {
                     'treatment': 4}
 }
 
-fieldnames = ['email', 'treatment', 'open', 'open_time']
+EXPECTED_ACTIONS = ['open', 'click', 'bounce']
+fieldnames = ['email', 'treatment']
+for n in EXPECTED_ACTIONS:
+    fieldnames.append(n)
+    fieldnames.append(n + '_time')
+    fieldnames.append(n + '_count')
 csvwriter = csv.DictWriter(sys.stdout,fieldnames=fieldnames)
 csvwriter.writeheader()
+
+
+
+def process_actions(actions):
+    email_actions_count = len(actions)
+    if len(actions) > 0:
+        email_actions = 1
+        email_actions_time = actions[0]['timestamp']
+    else:
+        email_actions = 0
+        email_actions_time = ''
+    return (email_actions, email_actions_time, email_actions_count)
 
 for c in CAMPAIGNS.values():
     treat_no = c['treatment']
@@ -87,19 +104,22 @@ for c in CAMPAIGNS.values():
     for e in email_activity['emails']:
         email_address = e['email_address']
         email_hash = hashlib.sha256(email_address.encode('utf-8')).hexdigest()
-        opens = [a for a in e['activity'] if a['action'] == 'open']
-        if len(opens) > 0:
-            email_open = 1
-            email_open_time = opens[0]['timestamp']
-        else:
-            email_open = 0
-            email_open_time = ''
+
         row = {}
         if PLAINTEXT:
             row['email'] = email_address
         else:
             row['email'] = email_hash
         row['treatment'] = treat_no
-        row['open'] = email_open
-        row['open_time'] = email_open_time        
+
+        for n in EXPECTED_ACTIONS:
+            b, t, c = process_actions([a for a in e['activity'] if a['action'] == n])
+            row[n] = b
+            row[n + '_time'] = t
+            row[n + '_count'] = c            
+        
+        other_actions = [a for a in e['activity'] if a['action'] not in EXPECTED_ACTIONS]
+        if len(other_actions) > 0:
+            LOGGER.error('unexpected actions for user %s: %s', row['email'], str(other_actions))
+        
         csvwriter.writerow(row)
