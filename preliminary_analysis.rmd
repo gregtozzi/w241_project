@@ -1,0 +1,70 @@
+---
+title: "preliminary_analysis"
+author: "Taeil"
+date: "10/25/2020"
+output: github_document
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(
+    inputFile, encoding = encoding,
+    output_format = c('github_document')) 
+    })
+    
+---
+
+```{r setup, include=FALSE}
+
+library(data.table)
+library(foreign)
+library(lmtest)
+library(sandwich)
+library(stargazer)
+library(data.table)
+library(knitr)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r helper function}
+
+calculate_rse_ci <- function(lm.mod, dt, alpha = 0.05){
+    lm.mod$se.ci_ <- confint(lm.mod, level = 1 - alpha)
+    lm.mod$vcovHC_ <- vcovHC(lm.mod)
+    lm.mod$rse_ <- sqrt(diag(lm.mod$vcovHC_))
+    lm.mod$rse.ci_ <- confint(coeftest(lm.mod, vcov. = lm.mod$vcovHC_), level = 1 - alpha)
+    
+    return(lm.mod)
+}
+
+```
+
+
+## Preliminary analysis
+
+```{r cars}
+d <- fread("./data/20201025_pilot_data.csv")
+
+
+d[treatment_assigned == 1 | treatment_assigned == 2, subject := 1]
+d[treatment_assigned == 3 | treatment_assigned == 4, subject := 0]
+d[treatment_assigned == 1 | treatment_assigned == 3, sender := 1]
+d[treatment_assigned == 2 | treatment_assigned == 4, sender := 0]
+
+#summary(d)
+head(d)
+#names(d)
+#d = na.omit(d)
+```
+Lets quickly check the open treatment effect. 
+
+```{r warning=FALSE}
+m1 = d[ , lm(open ~ subject)]
+m2 = d[ , lm(open ~ sender)]
+m3 = d[ , lm(open ~ subject + sender + subject*sender)]
+m1 = calculate_rse_ci(m1, d)
+m2 = calculate_rse_ci(m2, d)
+m3 = calculate_rse_ci(m3, d)
+
+stargazer(m1, m2, m3, type="text")
+    
+```
+
