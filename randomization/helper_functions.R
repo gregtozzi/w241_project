@@ -75,7 +75,7 @@ anon_results <- function(data_path, randomization_path, results_path) {
   # Join data from MailChimp to metadata, anonymize, and save output
   
   chimp_data <- fread(data_path)
-  names(chimp_data) <- c('Email Address', 'treatment_received', 'open', 'open_time')
+  names(chimp_data)[1:2] <- c('Email Address', 'treatment_received')
   
   randomization <- fread(randomization_path)
   results <- merge(randomization, chimp_data, 'Email Address', all.x = TRUE)
