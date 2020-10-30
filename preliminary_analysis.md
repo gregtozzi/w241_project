@@ -17,7 +17,8 @@ calculate_rse_ci <- function(lm.mod, dt, alpha = 0.05){
 ## Preliminary analysis
 
 ``` r
-d <- fread("./data/20201025_pilot_data.csv")
+#d <- fread("./data/20201025_pilot_data.csv")
+d <- fread("./data/20201029_results_with_covariates")
 
 
 d[treatment_assigned == 1 | treatment_assigned == 2, subject := 1]
@@ -29,20 +30,69 @@ d[treatment_assigned == 2 | treatment_assigned == 4, sender := 0]
 head(d)
 ```
 
-    ##     lookup_id treatment_assigned treatment_received open open_time subject
-    ## 1: 8-10026640                  4                  4    0      <NA>       0
-    ## 2: 8-10042057                  2                  2    0      <NA>       1
-    ## 3: 8-10031487                  1                  1    0      <NA>       1
-    ## 4: 8-10031709                  2                  2    0      <NA>       1
-    ## 5: 8-10032213                  2                  2    0      <NA>       1
-    ## 6: 8-10052426                  4                  4    0      <NA>       0
-    ##    sender
-    ## 1:      0
-    ## 2:      0
-    ## 3:      1
-    ## 4:      0
-    ## 5:      0
-    ## 6:      0
+    ##    lookup_id treatment_assigned treatment_received open           open_time
+    ## 1:      1000                  2                  2    1 2020-10-20 23:13:52
+    ## 2:      1001                  1                  1    1 2020-10-20 20:53:38
+    ## 3:      1010                  1                 NA   NA                <NA>
+    ## 4:      1012                  2                  2    0                <NA>
+    ## 5:      1016                  4                  4    1 2020-10-21 00:07:21
+    ## 6:      1026                  2                  2    0                <NA>
+    ##    open_count click click_time click_count bounce bounce_time bounce_count
+    ## 1:          4     0       <NA>           0      0        <NA>            0
+    ## 2:          1     0       <NA>           0      0        <NA>            0
+    ## 3:         NA    NA       <NA>          NA     NA        <NA>           NA
+    ## 4:          0     0       <NA>           0      0        <NA>            0
+    ## 5:          2     0       <NA>           0      0        <NA>            0
+    ## 6:          0     0       <NA>           0      0        <NA>            0
+    ##           ZIP Member Total   Number of GIfts Total Gifts Amount
+    ## 1:                                        NA                 NA
+    ## 2:                                        NA                 NA
+    ## 3: 22066-3908                              0                  0
+    ## 4:      20120                              0                  0
+    ## 5: 20191-3804                              0                  0
+    ## 6: 06877-1522                              0                  0
+    ##    Largest Gift Amount Largest Gift Date First Gift Amount First Gift Date
+    ## 1:                  NA                                  NA                
+    ## 2:                  NA                                  NA                
+    ## 3:                   0                                   0                
+    ## 4:                   0                                   0                
+    ## 5:                   0                                   0                
+    ## 6:                   0                                   0                
+    ##    Latest Gift Amount Lastest Gift Date Total Pledges
+    ## 1:                 NA                                
+    ## 2:                 NA                                
+    ## 3:                  0                            0.00
+    ## 4:                  0                            0.00
+    ## 5:                  0                            0.00
+    ## 6:                  0                            0.00
+    ##    Predicted Affinity for Children's Causes
+    ## 1:                                       NA
+    ## 2:                                       NA
+    ## 3:                                       35
+    ## 4:                                       35
+    ## 5:                                        0
+    ## 6:                                        0
+    ##    Predicted Affinity for Educational Causes Predicted Affinity for Science
+    ## 1:                                        NA                             NA
+    ## 2:                                        NA                             NA
+    ## 3:                                        35                             90
+    ## 4:                                        35                             35
+    ## 5:                                         0                              0
+    ## 6:                                         0                              0
+    ##    Predicted Affinity for Arts & Culture Predicted Level of Technology Adoption
+    ## 1:                                    NA                                       
+    ## 2:                                    NA                                       
+    ## 3:                                    42                             Apprentice
+    ## 4:                                    35                                      0
+    ## 5:                                     0                                      0
+    ## 6:                                     0                                      0
+    ##    subject sender
+    ## 1:       1      0
+    ## 2:       1      1
+    ## 3:       1      1
+    ## 4:       1      0
+    ## 5:       0      0
+    ## 6:       1      0
 
 ``` r
 #names(d)
@@ -59,7 +109,7 @@ m1 = calculate_rse_ci(m1, d)
 m2 = calculate_rse_ci(m2, d)
 m3 = calculate_rse_ci(m3, d)
 
-stargazer(m1, m2, m3, type="text")
+stargazer(m1, m2, m3, se = c(list(m1$rse_), list(m2$rse_), list(m3$rse_)), type="text")
 ```
 
     ## 
@@ -69,23 +119,33 @@ stargazer(m1, m2, m3, type="text")
     ##                                                   open                               
     ##                              (1)                   (2)                   (3)         
     ## -------------------------------------------------------------------------------------
-    ## subject                    0.047**                                     0.062**       
-    ##                            (0.019)                                     (0.027)       
+    ## subject                    0.044**                                     0.058**       
+    ##                            (0.019)                                     (0.028)       
     ##                                                                                      
-    ## sender                                            -0.022               -0.006        
+    ## sender                                            -0.025               -0.010        
     ##                                                  (0.019)               (0.027)       
     ##                                                                                      
-    ## subject:sender                                                         -0.031        
+    ## subject:sender                                                         -0.029        
     ##                                                                        (0.039)       
     ##                                                                                      
-    ## Constant                   0.219***              0.254***             0.222***       
-    ##                            (0.014)               (0.014)               (0.019)       
+    ## Constant                   0.223***              0.258***             0.229***       
+    ##                            (0.013)               (0.014)               (0.019)       
     ##                                                                                      
     ## -------------------------------------------------------------------------------------
     ## Observations                1,957                 1,957                 1,957        
     ## R2                          0.003                 0.001                 0.004        
-    ## Adjusted R2                 0.002                 0.0001                0.002        
-    ## Residual Std. Error   0.428 (df = 1955)     0.429 (df = 1955)     0.428 (df = 1953)  
-    ## F Statistic         5.840** (df = 1; 1955) 1.261 (df = 1; 1955) 2.578* (df = 3; 1953)
+    ## Adjusted R2                 0.002                 0.0003                0.002        
+    ## Residual Std. Error   0.430 (df = 1955)     0.430 (df = 1955)     0.430 (df = 1953)  
+    ## F Statistic         5.058** (df = 1; 1955) 1.627 (df = 1; 1955) 2.412* (df = 3; 1953)
     ## =====================================================================================
     ## Note:                                                     *p<0.1; **p<0.05; ***p<0.01
+
+``` r
+m3$rse.ci_
+```
+
+    ##                      2.5 %     97.5 %
+    ## (Intercept)     0.19129234 0.26585052
+    ## subject         0.00329123 0.11273664
+    ## sender         -0.06285655 0.04192768
+    ## subject:sender -0.10496912 0.04761478
