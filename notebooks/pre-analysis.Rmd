@@ -1,0 +1,15 @@
+---
+title: "pre-analysis"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Summary
+
+
+## Treatment candidates 
+
+- 
