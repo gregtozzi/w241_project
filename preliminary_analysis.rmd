@@ -41,7 +41,8 @@ calculate_rse_ci <- function(lm.mod, dt, alpha = 0.05){
 ## Preliminary analysis
 
 ```{r cars}
-d <- fread("./data/20201025_pilot_data.csv")
+#d <- fread("./data/20201025_pilot_data.csv")
+d <- fread("./data/20201029_results_with_covariates")
 
 
 d[treatment_assigned == 1 | treatment_assigned == 2, subject := 1]
@@ -64,7 +65,11 @@ m1 = calculate_rse_ci(m1, d)
 m2 = calculate_rse_ci(m2, d)
 m3 = calculate_rse_ci(m3, d)
 
-stargazer(m1, m2, m3, type="text")
+stargazer(m1, m2, m3, se = c(list(m1$rse_), list(m2$rse_), list(m3$rse_)), type="text")
     
 ```
+```{r}
+m3$rse.ci_
+```
+
 
