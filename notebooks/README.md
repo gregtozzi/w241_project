@@ -38,6 +38,8 @@ used this metadata to check the balance of our random assignment
 
 #### Power calculation
 
+`place holder`
+
 #### Covariate Balance Check (Pre-experiment)
 
 `place holder`
