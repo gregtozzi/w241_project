@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The Children’s Science Center (“the Center”) is a non-profit organization headquartered in Fairfax, Virginia.  Founded in TODO, the Center’s principal objective is to build the Northern Virginia region’s first interactive science center at a greenfield location on donated land in Reston, Virginia.  The capital campaign to raise fund to build this facility is the Center’s primary line of effort.  A recent partnership with the Commonwealth of Virginia’s 
 
-Recognizing the long-term nature of the capital campaign and the need to build interest and advocacy, the Center launched a series of intermediate efforts beginning in TODO.  The Center’s first outreach effort was the Museum without Walls, a program that delivered science-based programs to schools around the region.  In TODO, the Center launched the Lab, a test facility located in a mall sited just outside of the Washington, DC Beltway.  The Lab hosted approximately TODO guests per year until it was temporarily shut down in response to the COVID-19 pandemic.
+Recognizing the long-term nature of the capital campaign and the need to build interest and advocacy, the Center launched a series of intermediate efforts beginning in TODO.  The Center’s first outreach effort was the Museum without Walls, a program that delivered science-based programs to schools around the region.  In TODO, the Center launched the Lab, a test facility located in a shopping mall sited 12 miles outside of the Washington, DC Beltway.  The Lab hosted approximately TODO guests per year until it was temporarily shut down in response to the COVID-19 pandemic.
 
 The Center funds operating expenses with Lab admissions, grants, and philanthropic giving.  The Center’s Development Department is responsible for developing and managing the latter two revenue streams.
 
@@ -35,7 +35,7 @@ The Center introduced two major changes to its process ahead of the 2020 fundrai
 
 ## Research Questions
 
-We sought to answer two questions posed by the Center.  Both questions were related to emails sent by the Center soliciting donations.
+The Center's development staff was most strongly interested in conducting experiments to maximize the opening rates of the Center's fundraising emails.  The Development Director and her staff were keenly aware that email opening was the critical first step in achieving conversion.  The follow-on actions---click though and conversion---were areas of secondary interest for this study.  With this in mind, we sought to answer two specific questions posed by the Center.
 
 1. Is there a difference in email opening or click-through caused by using the Executive Director’s name and title in the from line of the solicitation email versus using the Board Chair’s name and title?
 
