@@ -49,3 +49,37 @@ Both of the subject lines considered were written by the Center's development st
 
 ## Experimental Design
 
+
+### Overview
+
+The experiment was structured as two concurrant A/B tests conducted on a single subject cohort.  With the cohort randomly assigned to four groups, and with the from and subject lines denoted $F_a$, $F_b$, $S_a$, and $S_b$, we assigned treatment combinations across balanced groups:
+
+- Group 1 - $F_a$ and $S_a$
+- Group 2 - $F_a$ and $S_b$
+- Group 3 - $F_b$ and $S_a$
+- Group 4 - $F_b$ and $S_b$
+
+This design allows us to explore heterogenous treatment effects.
+
+Each group would recevied a tailored email containing its assigned treatments sent through Mail Chimp.  We intended to track opening and click through using Mail Chimp's out-of-the-box analytics.
+
+### Interface with Mail Chimp
+
+
+
+### Enrollment Process
+
+The Center provided an anonymized list of TODO stakeholders extracted from its contact database.  The individuals represented the Center's complete contact list less a cohort of approximately 2,000 individuals identifed by the Center for a special traditional mail campaign and less a relatively small number of individuals walled off from fundraising activities due to age, relationship to board members, and other similar factors.  The Center provided the output of the consulting firm's model for individuals with mailing address on file.  This output consisted of buckted predictions of affinity for individuals to certain causes related to the Center's mission---educational causes, children's causes, cultural causes, and scientific causes.
+
+We agreed to target a random sample of 1,980 idividuals for this experiment.  The intent was to remain within the bounds of the Mail Chimp free tier while leaving a small margin for the Center's staff to send test emails to individuals outside of the experiment including key members of the Center's staff and our group. The Center delivered one of four solicition emails via Mail Chimp's web interface.
+
+### Randomization
+
+We sought to create four balanced groups.  
+
+
+### Accounting for Non-Compliance
+
+## Results
+
+## Conclusions

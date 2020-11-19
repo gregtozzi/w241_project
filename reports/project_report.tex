@@ -1,0 +1,251 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Examining the Effects of},
+            pdfauthor={Taeil Goh, Greg Tozzi \& Max Ziff},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{graphicx}
+% grffile has become a legacy package: https://ctan.org/pkg/grffile
+\IfFileExists{grffile.sty}{%
+\usepackage{grffile}
+}{}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Examining the Effects of}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Taeil Goh, Greg Tozzi \& Max Ziff}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{11/17/2020}
+
+
+\begin{document}
+\maketitle
+
+\subsection{Abstract}\label{abstract}
+
+\subsection{Introduction and Context}\label{introduction-and-context}
+
+\subsubsection{The Children's Science
+Center}\label{the-childrens-science-center}
+
+The Children's Science Center (``the Center'') is a non-profit
+organization headquartered in Fairfax, Virginia. Founded in TODO, the
+Center's principal objective is to build the Northern Virginia region's
+first interactive science center at a greenfield location on donated
+land in Reston, Virginia. The capital campaign to raise fund to build
+this facility is the Center's primary line of effort. A recent
+partnership with the Commonwealth of Virginia's
+
+Recognizing the long-term nature of the capital campaign and the need to
+build interest and advocacy, the Center launched a series of
+intermediate efforts beginning in TODO. The Center's first outreach
+effort was the Museum without Walls, a program that delivered
+science-based programs to schools around the region. In TODO, the Center
+launched the Lab, a test facility located in a shopping mall sited 12
+miles outside of the Washington, DC Beltway. The Lab hosted
+approximately TODO guests per year until it was temporarily shut down in
+response to the COVID-19 pandemic.
+
+The Center funds operating expenses with Lab admissions, grants, and
+philanthropic giving. The Center's Development Department is responsible
+for developing and managing the latter two revenue streams.
+
+\subsubsection{The Fundraising Surge}\label{the-fundraising-surge}
+
+The Center conducts a fundraising surge toward the end of the calendar
+year, consistent with the charitable giving cycle in the United States
+{[}TODO: add reference{]}.
+
+The Center expected to engage the majority of its stakeholders by email.
+The Center viewed email marketing as repeated iterations of a three step
+process. The Development Director expected that several rounds of
+engagement would be necessary to achieve a conversion in the form of a
+charitable gift. Within each individual round, the path to conversion
+proceeded from receipt to opening to click-through using an embedded
+link or button.
+
+The Center introduced two major changes to its process ahead of the 2020
+fundraising surge. In previous year-end campaigns, the Center had used
+Constant Contact to send branded emails to stakeholders. In the 2020
+campaign, the Center chose to switch to Mail Chimp's free tier. The
+Center also engaged a consulting firm that applies machine learning to
+the nonprofit space to predict top prospects from among the Center's
+contact list and to predict affinities to aspects of the Center's
+mission. The consulting firm's model requires a physical address as an
+entering argument, and it was, therefore, only applied to that subset of
+the Center's contact list for which physical addresses were entered.
+Based on the consulting firm's output, the Center chose to engage a
+subset of their stakeholder list with physical mail and to wall this
+cohort off from subsequent email engagement.
+
+\subsection{Research Questions}\label{research-questions}
+
+The Center's development staff was most strongly interested in
+conducting experiments to maximize the opening rates of the Center's
+fundraising emails. The Development Director and her staff were keenly
+aware that email opening was the critical first step in achieving
+conversion. The follow-on actions---click though and conversion---were
+areas of secondary interest for this study. With this in mind, we sought
+to answer two specific questions posed by the Center.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Is there a difference in email opening or click-through caused by
+  using the Executive Director's name and title in the from line of the
+  solicitation email versus using the Board Chair's name and title?
+\item
+  Is there a difference in email opening or click-through behavior
+  caused by the choice of using one of two potential subject lines? The
+  two subject lines considered were, ``You can be a Catalyst for STEM
+  Learning 💡,'' and , ``Invest in the Power of STEM Learning 💡.''
+\end{enumerate}
+
+\subsubsection{Hypotheses}\label{hypotheses}
+
+We claim expertise neither in non-profit email fundraising nor in the
+preferences of the Center's stakeholders. The Center's development team
+believed that there would be a significant difference in the opening
+rates associated with the two email from lines considered, though the
+staff did not have a sense of which would result in significantly higher
+opening rates. Underpinning the staff's expectation that we would find a
+significant difference was their belief that the Center's stakeholders
+had a meaningful sense of the Center's leadership and governance
+structure and would react differently when presented with emails from
+either the Executive Director or the Board Chair.
+
+Both of the subject lines considered were written by the Center's
+development staff. The staff believed that subject lines could result in
+significantly different opening rates but did not have a going-in belief
+of which subject line would cause a stronger response.
+
+\subsection{Experimental Design}\label{experimental-design}
+
+\subsubsection{Overview}\label{overview}
+
+The experiment was structured as two concurrant tests conducted on a
+single subject cohort. With the cohort randomly assigned to four groups,
+and with the from and subject lines denoted \(F_a\), \(F_b\), \(S_a\),
+and \(S_b\), we assigned treatment combinations across balanced groups:
+
+\begin{itemize}
+\tightlist
+\item
+  Group 1 - \(F_a\) and \(S_a\)
+\item
+  Group 2 - \(F_a\) and \(S_b\)
+\item
+  Group 3 - \(F_b\) and \(S_a\)
+\item
+  Group 4 - \(F_b\) and \(S_b\)
+\end{itemize}
+
+This design allows us to explore heterogenous treatment effects.
+
+Each group would recevied a tailored email containing its assigned
+treatments sent through Mail Chimp. We intended to track opening and
+click through using Mail Chimp's out-of-the-box analytics.
+
+\subsubsection{Interface with Mail
+Chimp}\label{interface-with-mail-chimp}
+
+\subsubsection{Enrollment Process}\label{enrollment-process}
+
+The Center provided an anonymized list of TODO stakeholders extracted
+from its contact database. The individuals represented the Center's
+complete contact list less a cohort of approximately 2,000 individuals
+identifed by the Center for a special traditional mail campaign and less
+a relatively small number of individuals walled off from fundraising
+activities due to age, relationship to board members, and other similar
+factors. The Center provided the output of the consulting firm's model
+for individuals with mailing address on file. This output consisted of
+buckted predictions of affinity for individuals to certain causes
+related to the Center's mission---educational causes, children's causes,
+cultural causes, and scientific causes.
+
+We agreed to target a random sample of 2,000 idividuals for this
+experiment to remain within the bounds of the Mail Chimp free tier. The
+Center delivered one of four
+
+\subsubsection{Randomization}\label{randomization}
+
+\subsubsection{Accounting for
+Non-Compliance}\label{accounting-for-non-compliance}
+
+\subsection{Results}\label{results}
+
+\subsection{Conclusions}\label{conclusions}
+
+
+\end{document}
