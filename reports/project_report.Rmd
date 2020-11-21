@@ -1,12 +1,14 @@
 ---
 title: "Examining the Effects of "
 author: "Taeil Goh, Greg Tozzi & Max Ziff"
-date: "11/17/2020"
-output:
-  html_document:
-    toc: true
-    toc_float: true
-    css: styles.css
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: github_document
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(
+    output_file = 'README.md',
+    inputFile, encoding = encoding,
+    output_format = c('github_document')) 
+    })
 ---
 
 ```{r setup, include=FALSE}
@@ -63,20 +65,33 @@ This design allows us to explore heterogenous treatment effects.
 
 Each group would recevied a tailored email containing its assigned treatments sent through Mail Chimp.  We intended to track opening and click through using Mail Chimp's out-of-the-box analytics.
 
+### Treatments
+
 ### Interface with Mail Chimp
 
 
 
-### Enrollment Process
+### Enrollment Process & Criteria for Subjects
 
-The Center provided an anonymized list of TODO stakeholders extracted from its contact database.  The individuals represented the Center's complete contact list less a cohort of approximately 2,000 individuals identifed by the Center for a special traditional mail campaign and less a relatively small number of individuals walled off from fundraising activities due to age, relationship to board members, and other similar factors.  The Center provided the output of the consulting firm's model for individuals with mailing address on file.  This output consisted of buckted predictions of affinity for individuals to certain causes related to the Center's mission---educational causes, children's causes, cultural causes, and scientific causes.
+The Center provided an anonymized list of TODO stakeholders extracted from its contact database.  The individuals represented the Center's complete contact list less a cohort of approximately 2,000 individuals identified by the Center for a special traditional mail campaign and less a relatively small number of individuals walled off from fundraising activities due to age, relationship to board members, and other similar factors.  The Center provided the output of the consulting firm's model for individuals with mailing address on file.  This output consisted of buckted predictions of affinity for individuals to certain causes related to the Center's mission---educational causes, children's causes, cultural causes, and scientific causes.
 
-We agreed to target a random sample of 1,980 idividuals for this experiment.  The intent was to remain within the bounds of the Mail Chimp free tier while leaving a small margin for the Center's staff to send test emails to individuals outside of the experiment including key members of the Center's staff and our group. The Center delivered one of four solicition emails via Mail Chimp's web interface.
+We agreed to target a random sample of 1,980 individuals for this experiment.  The intent was to remain within the bounds of the Mail Chimp free tier while leaving a small margin for the Center's staff to send test emails to individuals outside of the experiment including key members of the Center's staff and our group. The Center delivered one of four solicitation emails via Mail Chimp's web interface.
 
 ### Randomization
 
-We sought to create four balanced groups.  
+We sought to create four balanced groups.
 
+### Summary of Experimental Design
+
+### Validation of Randomization Procedure
+
+Balance checks using Boodle.ai data
+
+### Outcome Measures
+
+Open and click-through rates.
+
+### Plan to analyze the data
 
 ### Accounting for Non-Compliance
 
