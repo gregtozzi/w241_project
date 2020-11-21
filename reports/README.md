@@ -1,13 +1,15 @@
 Examining the Effects of
 ================
 Taeil Goh, Greg Tozzi & Max Ziff
-November 20, 2020
+November 21, 2020
 
 ## Abstract
 
+`place holder`
+
 ## Introduction and Context
 
-### The Children’s Science Center
+#### The Children’s Science Center
 
 The Children’s Science Center (“the Center”) is a non-profit
 organization headquartered in Fairfax, Virginia. Founded in TODO, the
@@ -19,23 +21,23 @@ partnership with the Commonwealth of Virginia’s
 
 Recognizing the long-term nature of the capital campaign and the need to
 build interest and advocacy, the Center launched a series of
-intermediate efforts beginning in TODO. The Center’s first outreach
+intermediate efforts beginning in `TODO.` The Center’s first outreach
 effort was the Museum without Walls, a program that delivered
-science-based programs to schools around the region. In TODO, the Center
-launched the Lab, a test facility located in a shopping mall sited 12
-miles outside of the Washington, DC Beltway. The Lab hosted
-approximately TODO guests per year until it was temporarily shut down in
-response to the COVID-19 pandemic.
+science-based programs to schools around the region. In `TODO`, the
+Center launched the Lab, a test facility located in a shopping mall
+sited 12 miles outside of the Washington, DC Beltway. The Lab hosted
+approximately `TODO` guests per year until it was temporarily shut down
+in response to the COVID-19 pandemic.
 
 The Center funds operating expenses with Lab admissions, grants, and
 philanthropic giving. The Center’s Development Department is responsible
 for developing and managing the latter two revenue streams.
 
-### The Fundraising Surge
+##### The Fundraising Surge
 
 The Center conducts a fundraising surge toward the end of the calendar
 year, consistent with the charitable giving cycle in the United States
-\[TODO: add reference\].
+\[`TODO`: add reference\].
 
 The Center expected to engage the majority of its stakeholders by email.
 The Center viewed email marketing as repeated iterations of a three step
@@ -59,7 +61,7 @@ Based on the consulting firm’s output, the Center chose to engage a
 subset of their stakeholder list with physical mail and to wall this
 cohort off from subsequent email engagement.
 
-## Research Questions
+#### Research Questions
 
 The Center’s development staff was most strongly interested in
 conducting experiments to maximize the opening rates of the Center’s
@@ -79,7 +81,9 @@ answer two specific questions posed by the Center.
     The two subject lines considered were, “You can be a Catalyst for
     STEM Learning 💡,” and , “Invest in the Power of STEM Learning 💡.”
 
-### Hypotheses
+## Research Proposal
+
+#### Research Hypotheses
 
 We claim expertise neither in non-profit email fundraising nor in the
 preferences of the Center’s stakeholders. The Center’s development team
@@ -97,9 +101,9 @@ development staff. The staff believed that subject lines could result in
 significantly different opening rates but did not have a going-in belief
 of which subject line would cause a stronger response.
 
-## Experimental Design
+#### Treatment in Details
 
-### Overview
+`see page 428`
 
 The experiment was structured as two concurrant A/B tests conducted on a
 single subject cohort. With the cohort randomly assigned to four groups,
@@ -111,17 +115,18 @@ and \(S_b\), we assigned treatment combinations across balanced groups:
   - Group 3 - \(F_b\) and \(S_a\)
   - Group 4 - \(F_b\) and \(S_b\)
 
-This design allows us to explore heterogenous treatment effects.
+This design allows us to explore heterogeneous treatment effects.
 
-Each group would recevied a tailored email containing its assigned
+Each group would received a tailored email containing its assigned
 treatments sent through Mail Chimp. We intended to track opening and
 click through using Mail Chimp’s out-of-the-box analytics.
 
-### Treatments
+#### Enrollment Process & Criteria for Subjects
 
-### Interface with Mail Chimp
-
-### Enrollment Process & Criteria for Subjects
+  - The criteria by which subjects were included
+  - explain how subjects were randomly assigned to experimental groups
+  - TG: need explanation of 2000 selection was randomized and no
+    selection bias
 
 The Center provided an anonymized list of TODO stakeholders extracted
 from its contact database. The individuals represented the Center’s
@@ -142,24 +147,26 @@ test emails to individuals outside of the experiment including key
 members of the Center’s staff and our group. The Center delivered one of
 four solicitation emails via Mail Chimp’s web interface.
 
-### Randomization
+#### Summary of Experimental Design
 
-We sought to create four balanced groups.
+#### Validation of Randomization Procedure
 
-### Summary of Experimental Design
-
-### Validation of Randomization Procedure
+  - check the soundness of the randomization procedure
+  - covariate balance (see chapter 4)
 
 Balance checks using Boodle.ai data
 
-### Outcome Measures
+#### Outcome Measures
 
-Open and click-through rates.
+  - Open and click-through rates.
+  - mail chimp
 
-### Plan to analyze the data
+#### Plan to analyze the data
 
-### Accounting for Non-Compliance
+  - how you plan to analyze the data
 
-## Results
+#### Accounting for Non-Compliance
+
+## Research Report
 
 ## Conclusions
