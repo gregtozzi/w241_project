@@ -12,6 +12,15 @@ knit: (function(inputFile, encoding) {
 ---
 
 ```{r setup, include=FALSE}
+
+library(data.table)
+library(foreign)
+library(lmtest)
+library(sandwich)
+library(stargazer)
+library(data.table)
+library(knitr)
+
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -69,6 +78,13 @@ This design allows us to explore heterogeneous treatment effects.
 
 Each group would received a tailored email containing its assigned treatments sent through Mail Chimp.  We intended to track opening and click through using Mail Chimp's out-of-the-box analytics.
 
+#### Power calculation 
+
+`place holder`
+
+```{r}
+
+```
 
 
 #### Enrollment Process & Criteria for Subjects
@@ -103,4 +119,66 @@ Balance checks using Boodle.ai data
 
 
 ## Research Report
+
+#### Flow Diagram 
+
+`optional`
+
+#### Experiment Results 
+
+- Attrition 
+- additional outcome (e.g., unsubscription rate)
+- Mediation analysis: why more open rate? 
+- description of experimental results 
+
+We are confident that the method we employed in this case produced evidence that the difference in opening rates was caused by the difference in subject lines.  You can reasonably expect that this result would generalize to the remainder of the candidate email recipients during the current year-end fund drive.  We suggest caution when drawing broader conclusions, however for the following reasons:
+1. Responsiveness to the two subject lines may have been affected by factors that we could not control for, including the current public health and political situations.
+2. We drew our subjects from a filtered list of potential recipients.  Adding individuals to the population of recipients may invalidate the study’s results.
+
+
+```{r helper function}
+
+calculate_rse_ci <- function(lm.mod, dt, alpha = 0.05){
+    lm.mod$se.ci_ <- confint(lm.mod, level = 1 - alpha)
+    lm.mod$vcovHC_ <- vcovHC(lm.mod)
+    lm.mod$rse_ <- sqrt(diag(lm.mod$vcovHC_))
+    lm.mod$rse.ci_ <- confint(coeftest(lm.mod, vcov. = lm.mod$vcovHC_), level = 1 - alpha)
+    
+    return(lm.mod)
+}
+
+```
+
+```{r cars}
+#d <- fread("./data/20201025_pilot_data.csv")
+d <- fread("../data/raw/20201029_results_with_covariates")
+
+d[treatment_assigned == 1 | treatment_assigned == 2, subject := 1]
+d[treatment_assigned == 3 | treatment_assigned == 4, subject := 0]
+d[treatment_assigned == 1 | treatment_assigned == 3, sender := 1]
+d[treatment_assigned == 2 | treatment_assigned == 4, sender := 0]
+
+#summary(d)
+#head(d)
+#names(d)
+#d = na.omit(d)
+```
+
+
+```{r warning=FALSE}
+m1 = d[ , lm(open ~ subject)]
+m2 = d[ , lm(open ~ sender)]
+m3 = d[ , lm(open ~ subject + sender + subject*sender)]
+m1 = calculate_rse_ci(m1, d)
+m2 = calculate_rse_ci(m2, d)
+m3 = calculate_rse_ci(m3, d)
+
+stargazer(m1, m2, m3, se = c(list(m1$rse_), list(m2$rse_), list(m3$rse_)), type="text")
+    
+```
+```{r}
+m3$rse.ci_
+```
+
+
 

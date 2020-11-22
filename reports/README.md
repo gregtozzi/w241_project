@@ -121,6 +121,10 @@ Each group would received a tailored email containing its assigned
 treatments sent through Mail Chimp. We intended to track opening and
 click through using Mail Chimp’s out-of-the-box analytics.
 
+#### Power calculation
+
+`place holder`
+
 #### Enrollment Process & Criteria for Subjects
 
   - The criteria by which subjects were included
@@ -169,4 +173,100 @@ Balance checks using Boodle.ai data
 
 ## Research Report
 
-## Conclusions
+#### Flow Diagram
+
+`optional`
+
+#### Experiment Results
+
+  - Attrition
+  - additional outcome (e.g., unsubscription rate)
+  - Mediation analysis: why more open rate?
+  - description of experimental results
+
+We are confident that the method we employed in this case produced
+evidence that the difference in opening rates was caused by the
+difference in subject lines. You can reasonably expect that this result
+would generalize to the remainder of the candidate email recipients
+during the current year-end fund drive. We suggest caution when drawing
+broader conclusions, however for the following reasons: 1.
+Responsiveness to the two subject lines may have been affected by
+factors that we could not control for, including the current public
+health and political situations. 2. We drew our subjects from a filtered
+list of potential recipients. Adding individuals to the population of
+recipients may invalidate the study’s results.
+
+``` r
+calculate_rse_ci <- function(lm.mod, dt, alpha = 0.05){
+    lm.mod$se.ci_ <- confint(lm.mod, level = 1 - alpha)
+    lm.mod$vcovHC_ <- vcovHC(lm.mod)
+    lm.mod$rse_ <- sqrt(diag(lm.mod$vcovHC_))
+    lm.mod$rse.ci_ <- confint(coeftest(lm.mod, vcov. = lm.mod$vcovHC_), level = 1 - alpha)
+    
+    return(lm.mod)
+}
+```
+
+``` r
+#d <- fread("./data/20201025_pilot_data.csv")
+d <- fread("../data/raw/20201029_results_with_covariates")
+
+d[treatment_assigned == 1 | treatment_assigned == 2, subject := 1]
+d[treatment_assigned == 3 | treatment_assigned == 4, subject := 0]
+d[treatment_assigned == 1 | treatment_assigned == 3, sender := 1]
+d[treatment_assigned == 2 | treatment_assigned == 4, sender := 0]
+
+#summary(d)
+#head(d)
+#names(d)
+#d = na.omit(d)
+```
+
+``` r
+m1 = d[ , lm(open ~ subject)]
+m2 = d[ , lm(open ~ sender)]
+m3 = d[ , lm(open ~ subject + sender + subject*sender)]
+m1 = calculate_rse_ci(m1, d)
+m2 = calculate_rse_ci(m2, d)
+m3 = calculate_rse_ci(m3, d)
+
+stargazer(m1, m2, m3, se = c(list(m1$rse_), list(m2$rse_), list(m3$rse_)), type="text")
+```
+
+    ## 
+    ## =====================================================================================
+    ##                                            Dependent variable:                       
+    ##                     -----------------------------------------------------------------
+    ##                                                   open                               
+    ##                              (1)                   (2)                   (3)         
+    ## -------------------------------------------------------------------------------------
+    ## subject                    0.044**                                     0.058**       
+    ##                            (0.019)                                     (0.028)       
+    ##                                                                                      
+    ## sender                                            -0.025               -0.010        
+    ##                                                  (0.019)               (0.027)       
+    ##                                                                                      
+    ## subject:sender                                                         -0.029        
+    ##                                                                        (0.039)       
+    ##                                                                                      
+    ## Constant                   0.223***              0.258***             0.229***       
+    ##                            (0.013)               (0.014)               (0.019)       
+    ##                                                                                      
+    ## -------------------------------------------------------------------------------------
+    ## Observations                1,957                 1,957                 1,957        
+    ## R2                          0.003                 0.001                 0.004        
+    ## Adjusted R2                 0.002                 0.0003                0.002        
+    ## Residual Std. Error   0.430 (df = 1955)     0.430 (df = 1955)     0.430 (df = 1953)  
+    ## F Statistic         5.058** (df = 1; 1955) 1.627 (df = 1; 1955) 2.412* (df = 3; 1953)
+    ## =====================================================================================
+    ## Note:                                                     *p<0.1; **p<0.05; ***p<0.01
+
+``` r
+m3$rse.ci_
+```
+
+    ##                      2.5 %     97.5 %
+    ## (Intercept)     0.19129234 0.26585052
+    ## subject         0.00329123 0.11273664
+    ## sender         -0.06285655 0.04192768
+    ## subject:sender -0.10496912 0.04761478
