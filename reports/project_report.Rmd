@@ -24,6 +24,12 @@ library(knitr)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Alex's suggestions
+- who is the audience of the report and adjust the story 
+- enough technical details to convince reproducability 
+- or to client as a project consultant report (project closeout report)
+- 
+
 ## Abstract
 
 `place holder`

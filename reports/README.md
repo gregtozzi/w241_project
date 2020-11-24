@@ -1,8 +1,18 @@
 Examining the Effects of
 ================
 Taeil Goh, Greg Tozzi & Max Ziff
-November 21, 2020
+November 23, 2020
 
+## Alex’s suggestions
+
+  - who is the audience of the report and adjust the story
+
+  - enough technical details to convince reproducability
+
+  - or to client as a project consultant report (project closeout
+    report)
+
+  - 
 ## Abstract
 
 `place holder`
