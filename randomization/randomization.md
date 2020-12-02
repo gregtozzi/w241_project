@@ -263,5 +263,5 @@ merged_dt[receive_email == 1, lm(treatment ~ factor(affinity_children) + factor(
 
 ``` r
 random_assignment <- merged_dt[receive_email == 1, c("lookup_id", "treatment")]
-fwrite(random_assignment, "anonymized_assignments.csv")
+#fwrite(random_assignment, "anonymized_assignments.csv")
 ```
