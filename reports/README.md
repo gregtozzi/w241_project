@@ -3,16 +3,6 @@ Examining the Effects of
 Taeil Goh, Greg Tozzi & Max Ziff
 December 03, 2020
 
-## Alex’s suggestions
-
-  - who is the audience of the report and adjust the story
-
-  - enough technical details to convince reproducability
-
-  - or to client as a project consultant report (project closeout
-    report)
-
-  - 
 ## Abstract
 
 `place holder`
@@ -282,6 +272,10 @@ its covariates.
 
 ## Research Report
 
+`Alex's suggestions` - who is the audience of the report and adjust the
+story - enough technical details to convince reproducability - or to
+client as a project consultant report (project closeout report)
+
 #### Flow Diagram
 
 `optional`
@@ -298,12 +292,20 @@ evidence that the difference in opening rates was caused by the
 difference in subject lines. You can reasonably expect that this result
 would generalize to the remainder of the candidate email recipients
 during the current year-end fund drive. We suggest caution when drawing
-broader conclusions, however for the following reasons: 1.
-Responsiveness to the two subject lines may have been affected by
-factors that we could not control for, including the current public
-health and political situations. 2. We drew our subjects from a filtered
-list of potential recipients. Adding individuals to the population of
-recipients may invalidate the study’s results.
+broader conclusions, however for the following reasons:
+
+1.  Responsiveness to the two subject lines may have been affected by
+    factors that we could not control for, including the current public
+    health and political situations.
+
+2.  We drew our subjects from a filtered list of potential recipients.
+    Adding individuals to the population of recipients may invalidate
+    the study’s results.
+
+Meanwhile, we did not observe enough clicks to draw conclusions about
+the effect of the subject and from line choices on click-through
+rate.The following table describes statistic details how we analyzed the
+experiment.
 
     ## 
     ## Effect of different subjects and senders
@@ -333,3 +335,6 @@ recipients may invalidate the study’s results.
     ## F Statistic                                             5.058** (df = 1; 1955) 1.627 (df = 1; 1955) 2.412* (df = 3; 1953) 0.666 (df = 3; 1953)
     ## ==============================================================================================================================================
     ## Note:                                                                                                              *p<0.1; **p<0.05; ***p<0.01
+
+  - Subject: ***5.8*** percentage point \[0.3pp \~ 11.3pp\]
+  - Sender: no significant difference

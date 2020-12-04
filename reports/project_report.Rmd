@@ -25,12 +25,6 @@ library(magrittr)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Alex's suggestions
-- who is the audience of the report and adjust the story 
-- enough technical details to convince reproducability 
-- or to client as a project consultant report (project closeout report)
-- 
-
 ## Abstract
 
 `place holder`
@@ -188,6 +182,11 @@ The MailChimp API reports events keyed by email address, thus it was necessary t
 
 ## Research Report
 
+`Alex's suggestions`
+- who is the audience of the report and adjust the story 
+- enough technical details to convince reproducability 
+- or to client as a project consultant report (project closeout report)
+
 #### Flow Diagram 
 
 `optional`
@@ -200,8 +199,12 @@ The MailChimp API reports events keyed by email address, thus it was necessary t
 - description of experimental results 
 
 We are confident that the method we employed in this case produced evidence that the difference in opening rates was caused by the difference in subject lines.  You can reasonably expect that this result would generalize to the remainder of the candidate email recipients during the current year-end fund drive.  We suggest caution when drawing broader conclusions, however for the following reasons:
+
 1. Responsiveness to the two subject lines may have been affected by factors that we could not control for, including the current public health and political situations.
+
 2. We drew our subjects from a filtered list of potential recipients.  Adding individuals to the population of recipients may invalidate the study’s results.
+
+Meanwhile, we did not observe enough clicks to draw conclusions about the effect of the subject and from line choices on click-through rate.The following table describes statistic details how we analyzed the experiment. 
 
 
 ```{r helper function, echo=FALSE}
@@ -267,4 +270,6 @@ stargazer(m1.open, m2.open, m3.open, m4.click,
 ```
 
 
+- Subject: ***`r round(m3.open$coefficients[[2]]*100,2)`*** percentage point [`r round(m3.open$rse.ci_[2,1]*100,1)`pp ~ `r round(m3.open$rse.ci_[2,2]*100,1)`pp]
+- Sender: no significant difference
 
