@@ -181,21 +181,6 @@ To select subjects, we first filtered the extract of the Center’s
 compelte donor database on the list of individuals the Centered intended
 to target by email. In the process, we removed three duplicated entries.
 
-``` r
-source('../randomization/helper_functions.R')
-
-# Load the data and subset on IDs of interest
-subject_data <- read_subjects('../randomization//anonymized_altru.csv')
-index_ids    <- fread('../randomization//anonymized_index.csv')
-subject_data <- subject_data[lookup_id %in% index_ids$`LOOKUP ID`]
-
-# De-duplicate
-duplicates      <- subject_data[ , .(which(.N > 1)), keyby = lookup_id]$lookup_id
-duplicate_index <- which(subject_data$lookup_id %in% duplicates)
-subject_index   <- setdiff(1:nrow(subject_data), duplicate_index[c(1, 3, 5)])
-subject_data    <- subject_data[subject_index , ]
-```
-
 We had hoped to incorporate donor history into our randomization scheme
 and balance checks, but the data provided by the Center was extremely
 sparse and contained obvious errors. For every entry in the total gift
@@ -227,14 +212,6 @@ following section.
 We conducted our randomization in two steps. First, we identified 1,980
 individuals who would receive an email. Then, we randomly divided those
 individuals into four treatment groups of 495 individuals each.
-
-``` r
-set.seed(1505)
-merged_dt[ , receive_email := as.integer(sample(.N) <= 1980)]
-merged_dt[receive_email == 1, treatment := sample(rep(1:4, .N / 4))]
-random_assignment <- merged_dt[receive_email == 1, c("lookup_id", "treatment")]
-random_assignment %>% head
-```
 
     ##    lookup_id treatment
     ## 1:      1000         2
@@ -328,59 +305,6 @@ health and political situations. 2. We drew our subjects from a filtered
 list of potential recipients. Adding individuals to the population of
 recipients may invalidate the study’s results.
 
-``` r
-calculate_rse_ci <- function(lm.mod, dt, alpha = 0.05){
-    lm.mod$se.ci_ <- confint(lm.mod, level = 1 - alpha)
-    lm.mod$vcovHC_ <- vcovHC(lm.mod)
-    lm.mod$rse_ <- sqrt(diag(lm.mod$vcovHC_))
-    lm.mod$rse.ci_ <- confint(coeftest(lm.mod, vcov. = lm.mod$vcovHC_), level = 1 - alpha)
-    
-    return(lm.mod)
-}
-```
-
-``` r
-#d <- fread("./data/20201025_pilot_data.csv")
-d <- fread("../data/raw/20201029_results_with_covariates")
-
-d[treatment_assigned == 1 | treatment_assigned == 2, subject := 1]
-d[treatment_assigned == 3 | treatment_assigned == 4, subject := 0]
-d[treatment_assigned == 1 | treatment_assigned == 3, sender := 1]
-d[treatment_assigned == 2 | treatment_assigned == 4, sender := 0]
-
-#summary(d)
-#head(d)
-#names(d)
-#d = na.omit(d)
-```
-
-``` r
-m1.open = d[ , lm(open ~ subject)]
-m2.open = d[ , lm(open ~ sender)]
-m3.open = d[ , lm(open ~ subject + sender + subject*sender)]
-m1.open = calculate_rse_ci(m1.open, d)
-m2.open = calculate_rse_ci(m2.open, d)
-m3.open = calculate_rse_ci(m3.open, d)
-
-m4.click = d[ , lm(click ~ subject + sender + subject*sender)]
-m4.click = calculate_rse_ci(m4.click, d)
-
-# dep.var.labels=c("You can be a Catalyst for STEM Learning","Jill McNabb, Board Chair ")
-
-stargazer(m1.open, m2.open, m3.open, m4.click,
-          se = c(list(m1.open$rse_), list(m2.open$rse_), 
-                 list(m3.open$rse_), list(m4.click$rse_)), 
-          type="text",
-          title = "Effect of different subjects and senders",
-          dep.var.labels=c("Open Rate", "Click Rate"),
-          covariate.labels=c("(subject) You can be a Catalyst", 
-                             "(from) Board Chair" 
-                             , "(subject) You can be a Catalyst (from) Board Chair", 
-                             "(subject) Invest in the Power (from) Executive Director"),
-          align=TRUE
-          )
-```
-
     ## 
     ## Effect of different subjects and senders
     ## ==============================================================================================================================================
@@ -409,31 +333,3 @@ stargazer(m1.open, m2.open, m3.open, m4.click,
     ## F Statistic                                             5.058** (df = 1; 1955) 1.627 (df = 1; 1955) 2.412* (df = 3; 1953) 0.666 (df = 3; 1953)
     ## ==============================================================================================================================================
     ## Note:                                                                                                              *p<0.1; **p<0.05; ***p<0.01
-
-``` r
-m1.open$rse.ci_
-```
-
-    ##                   2.5 %     97.5 %
-    ## (Intercept) 0.197187844 0.24953347
-    ## subject     0.005581806 0.08184571
-
-``` r
-m3.open$rse.ci_
-```
-
-    ##                      2.5 %     97.5 %
-    ## (Intercept)     0.19129234 0.26585052
-    ## subject         0.00329123 0.11273664
-    ## sender         -0.06285655 0.04192768
-    ## subject:sender -0.10496912 0.04761478
-
-``` r
-m4.click$rse.ci_
-```
-
-    ##                       2.5 %      97.5 %
-    ## (Intercept)    -0.001578614 0.009741879
-    ## subject        -0.008974431 0.004876206
-    ## sender         -0.008977868 0.004929829
-    ## subject:sender -0.008025835 0.008008834

@@ -89,7 +89,7 @@ Each group would received a tailored email containing its assigned treatments se
 
 `place holder`
 
-```{r}
+```{r, echo=FALSE}
 
 ```
 
@@ -111,7 +111,7 @@ We agreed to target a random sample of 1,980 individuals for this experiment.  T
 
 To select subjects, we first filtered the extract of the Center's compelte donor database on the list of individuals the Centered intended to target by email.  In the process, we removed three duplicated entries.
 
-```{r}
+```{r, echo=FALSE}
 source('../randomization/helper_functions.R')
 
 # Load the data and subset on IDs of interest
@@ -145,7 +145,7 @@ As explained above, outputs of the third party study only existed for individual
 
 We conducted our randomization in two steps.  First, we identified 1,980 individuals who would receive an email.  Then, we randomly divided those individuals into four treatment groups of 495 individuals each.
 
-```{r}
+```{r, echo=FALSE}
 set.seed(1505)
 merged_dt[ , receive_email := as.integer(sample(.N) <= 1980)]
 merged_dt[receive_email == 1, treatment := sample(rep(1:4, .N / 4))]
@@ -204,7 +204,7 @@ We are confident that the method we employed in this case produced evidence that
 2. We drew our subjects from a filtered list of potential recipients.  Adding individuals to the population of recipients may invalidate the study’s results.
 
 
-```{r helper function}
+```{r helper function, echo=FALSE}
 
 calculate_rse_ci <- function(lm.mod, dt, alpha = 0.05){
     lm.mod$se.ci_ <- confint(lm.mod, level = 1 - alpha)
@@ -218,7 +218,7 @@ calculate_rse_ci <- function(lm.mod, dt, alpha = 0.05){
 ```
 
 
-```{r cars}
+```{r, echo=FALSE}
 #d <- fread("./data/20201025_pilot_data.csv")
 d <- fread("../data/raw/20201029_results_with_covariates")
 
@@ -234,7 +234,7 @@ d[treatment_assigned == 2 | treatment_assigned == 4, sender := 0]
 ```
 
 
-```{r warning=FALSE}
+```{r warning=FALSE, echo=FALSE}
 m1.open = d[ , lm(open ~ subject)]
 m2.open = d[ , lm(open ~ sender)]
 m3.open = d[ , lm(open ~ subject + sender + subject*sender)]
@@ -260,9 +260,9 @@ stargazer(m1.open, m2.open, m3.open, m4.click,
           align=TRUE
           )
 
-m1.open$rse.ci_
-m3.open$rse.ci_
-m4.click$rse.ci_
+# m1.open$rse.ci_
+# m3.open$rse.ci_
+# m4.click$rse.ci_
 
 ```
 
