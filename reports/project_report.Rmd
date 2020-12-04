@@ -217,6 +217,7 @@ calculate_rse_ci <- function(lm.mod, dt, alpha = 0.05){
 
 ```
 
+
 ```{r cars}
 #d <- fread("./data/20201025_pilot_data.csv")
 d <- fread("../data/raw/20201029_results_with_covariates")
@@ -234,18 +235,35 @@ d[treatment_assigned == 2 | treatment_assigned == 4, sender := 0]
 
 
 ```{r warning=FALSE}
-m1 = d[ , lm(open ~ subject)]
-m2 = d[ , lm(open ~ sender)]
-m3 = d[ , lm(open ~ subject + sender + subject*sender)]
-m1 = calculate_rse_ci(m1, d)
-m2 = calculate_rse_ci(m2, d)
-m3 = calculate_rse_ci(m3, d)
+m1.open = d[ , lm(open ~ subject)]
+m2.open = d[ , lm(open ~ sender)]
+m3.open = d[ , lm(open ~ subject + sender + subject*sender)]
+m1.open = calculate_rse_ci(m1.open, d)
+m2.open = calculate_rse_ci(m2.open, d)
+m3.open = calculate_rse_ci(m3.open, d)
 
-stargazer(m1, m2, m3, se = c(list(m1$rse_), list(m2$rse_), list(m3$rse_)), type="text")
-    
-```
-```{r}
-m3$rse.ci_
+m4.click = d[ , lm(click ~ subject + sender + subject*sender)]
+m4.click = calculate_rse_ci(m4.click, d)
+
+# dep.var.labels=c("You can be a Catalyst for STEM Learning","Jill McNabb, Board Chair ")
+
+stargazer(m1.open, m2.open, m3.open, m4.click,
+          se = c(list(m1.open$rse_), list(m2.open$rse_), 
+                 list(m3.open$rse_), list(m4.click$rse_)), 
+          type="text",
+          title = "Effect of different subjects and senders",
+          dep.var.labels=c("Open Rate", "Click Rate"),
+          covariate.labels=c("(subject) You can be a Catalyst", 
+                             "(from) Board Chair" 
+                             , "(subject) You can be a Catalyst (from) Board Chair", 
+                             "(subject) Invest in the Power (from) Executive Director"),
+          align=TRUE
+          )
+
+m1.open$rse.ci_
+m3.open$rse.ci_
+m4.click$rse.ci_
+
 ```
 
 
