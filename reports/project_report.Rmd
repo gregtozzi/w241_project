@@ -25,7 +25,36 @@ library(magrittr)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Abstract
+## Executive Summary and Recommendations
+
+Thank you for the opportunity to work with the Children's Science Center.  Below you will find a summary of our finding and recommendations.  Details of our analysis are included in the technical report that this summary.
+
+### Research Questions
+We sought to answer two questions posed by the Center.  Both questions were related to emails sent by the Center soliciting donations.
+
+1. Is there a difference in email opening or click-through caused by the choice of using the Executive Director’s name and title in the from line versus using the Board Chair’s name and title?  *While we did observe a difference in opening rates favoring emails from Jill McNabb, the difference was not significant.*
+2. Is there a difference in email opening or click-through behavior caused by the choice of using one of two potential subject lines?  *The subject line, “You can be a Catalyst for STEM Learning 💡,” caused significantly higher opening rates.*  We did not observe enough clicks to draw conclusions about the effect of the subject and from line choices on click-through rate.
+
+### Review of the Methodology
+The Center provided our team with a list of approximately 12,000 potential subjects for this study.  This list was compiled from the Center’s Altru database but specifically excluded individuals who were previously selected by the Center to receive a solicitation by traditional mail.  We randomly selected 1,980 subjects to receive an email soliciting a donation.  These individuals were evenly split into four groups of 495 with each group being assigned a unique combination of from and subject lines.  The 68% of the population that had mailing addresses on file with the Center also had metadata provided by Boodle.ai related to their predicted affinity for various causes.  We used this metadata to check the balance of our random assignment
+
+The Center provided a final quality assurance check of the individuals we assigned to the study and removed 23 records.  The Center sent emails to the remaining individuals using Mailchimp on October 20, 2020.  We extracted the results from Mailchimp on October 28, 2020.
+
+### Results
+
+Results for open rates are summarized below.
+
+| Open Rates (24% avg) | You can be a Catalyst for STEM Learning 💡 (26.4%) | Invest in the Power of STEM Learning 💡 (21.6%) |
+|--|--|--|
+|Nene Spivy, Executive Director (22.8%) | 24.4% | 21.2% |
+|Jill McNabb, Board Chair (25.2%) | 28.2% | 22.0% |
+
+### Recommendations
+Notes on Applying the Results
+We are confident that the method we employed in this case produced evidence that the difference in opening rates was caused by the difference in subject lines.  You can reasonably expect that this result would generalize to the remainder of the candidate email recipients during the current year-end fund drive.  We suggest caution when drawing broader conclusions, however for the following reasons:
+
+1. Responsiveness to the two subject lines may have been affected by factors that we could not control for, including the current public health and political situations.
+2. We drew our subjects from a filtered list of potential recipients.  Adding individuals to the population of recipients may invalidate the study’s results.
 
 `place holder`
 
