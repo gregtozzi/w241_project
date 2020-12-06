@@ -1,9 +1,76 @@
 Examining the Effects of
 ================
 Taeil Goh, Greg Tozzi & Max Ziff
-December 03, 2020
+December 06, 2020
 
-## Abstract
+## Executive Summary and Recommendations
+
+Thank you for the opportunity to work with the Children’s Science
+Center. Below you will find a summary of our finding and
+recommendations. Details of our analysis are included in the technical
+report that this summary.
+
+### Research Questions
+
+We sought to answer two questions posed by the Center. Both questions
+were related to emails sent by the Center soliciting donations.
+
+1.  Is there a difference in email opening or click-through caused by
+    the choice of using the Executive Director’s name and title in the
+    from line versus using the Board Chair’s name and title? *While we
+    did observe a difference in opening rates favoring emails from Jill
+    McNabb, the difference was not significant.*
+2.  Is there a difference in email opening or click-through behavior
+    caused by the choice of using one of two potential subject lines?
+    *The subject line, “You can be a Catalyst for STEM Learning 💡,”
+    caused significantly higher opening rates.* We did not observe
+    enough clicks to draw conclusions about the effect of the subject
+    and from line choices on click-through rate.
+
+### Review of the Methodology
+
+The Center provided our team with a list of approximately 12,000
+potential subjects for this study. This list was compiled from the
+Center’s Altru database but specifically excluded individuals who were
+previously selected by the Center to receive a solicitation by
+traditional mail. We randomly selected 1,980 subjects to receive an
+email soliciting a donation. These individuals were evenly split into
+four groups of 495 with each group being assigned a unique combination
+of from and subject lines. The 68% of the population that had mailing
+addresses on file with the Center also had metadata provided by
+Boodle.ai related to their predicted affinity for various causes. We
+used this metadata to check the balance of our random assignment
+
+The Center provided a final quality assurance check of the individuals
+we assigned to the study and removed 23 records. The Center sent emails
+to the remaining individuals using Mailchimp on October 20, 2020. We
+extracted the results from Mailchimp on October 28, 2020.
+
+### Results
+
+Results for open rates are summarized below.
+
+| Open Rates (24% avg)                   | You can be a Catalyst for STEM Learning 💡 (26.4%) | Invest in the Power of STEM Learning 💡 (21.6%) |
+| -------------------------------------- | ------------------------------------------------- | ---------------------------------------------- |
+| Nene Spivy, Executive Director (22.8%) | 24.4%                                             | 21.2%                                          |
+| Jill McNabb, Board Chair (25.2%)       | 28.2%                                             | 22.0%                                          |
+
+### Recommendations
+
+Notes on Applying the Results We are confident that the method we
+employed in this case produced evidence that the difference in opening
+rates was caused by the difference in subject lines. You can reasonably
+expect that this result would generalize to the remainder of the
+candidate email recipients during the current year-end fund drive. We
+suggest caution when drawing broader conclusions, however for the
+following reasons:
+
+1.  Responsiveness to the two subject lines may have been affected by
+    factors that we could not control for, including the current public
+    health and political situations.
+2.  We drew our subjects from a filtered list of potential recipients.
+    Adding individuals to the population of recipients may invalidate
+    the study’s results.
 
 `place holder`
 
@@ -105,10 +172,11 @@ of which subject line would cause a stronger response.
 
 `see page 428`
 
-The experiment was structured as two concurrant A/B tests conducted on a
-single subject cohort. With the cohort randomly assigned to four groups,
-and with the from and subject lines denoted \(F_a\), \(F_b\), \(S_a\),
-and \(S_b\), we assigned treatment combinations across balanced groups:
+We constructed a factorial experiment to enable consideration of the
+conditional average treatment effects (CATEs) across the four possible
+assignments. With the cohort randomly assigned to four groups, and with
+the from and subject lines denoted \(F_a\), \(F_b\), \(S_a\), and
+\(S_b\), we assigned treatment combinations across balanced groups:
 
   - Group 1 - \(F_a\) and \(S_a\)
   - Group 2 - \(F_a\) and \(S_b\)
@@ -123,7 +191,20 @@ click through using Mail Chimp’s out-of-the-box analytics.
 
 #### Power calculation
 
-`place holder`
+The Center’s experience across all of its email-delivered messaging
+suggested that we should expect opening rates on the order of 10%. To
+understand what deviations from this expectation would yield, we
+considered low, medium, and high baseline opening rates between 5% and
+25% in our power calculations.
+
+Powers between 0.8 and 0.9 are standard in clinical trials. We chose
+0.85 as a target power and computed minimum detected differences for our
+range of baseline rates. Entering into the experiment, we believed that
+it would be unlikely that either treatment would produce differences in
+means as large as those that the power calculations suggested that we
+would need to report a significant finding.
+
+![](README_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
 
 #### Enrollment Process & Criteria for Subjects
 
@@ -133,7 +214,7 @@ click through using Mail Chimp’s out-of-the-box analytics.
     selection bias
 
 The Center’s donor managment database contains over 41,000 individual
-entries, roughly half which include physical addesses. Entries that
+entries, roughly half which include physical addresses. Entries that
 include a phyical address have metadata generated by a third party that
 predict affinities for causes central to the Center’s mission. The
 Center provided us a file listing 12,004 individuals that Center
