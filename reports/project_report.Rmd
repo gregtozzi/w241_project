@@ -30,10 +30,12 @@ knitr::opts_chunk$set(echo = TRUE)
 Thank you for the opportunity to work with the Children's Science Center.  Below you will find a summary of our finding and recommendations.  Details of our analysis are included in the technical report that this summary.
 
 ### Research Questions
+
 We sought to answer two questions posed by the Center.  Both questions were related to emails sent by the Center soliciting donations.
 
 1. Is there a difference in email opening or click-through caused by the choice of using the Executive Director’s name and title in the from line versus using the Board Chair’s name and title?  *While we did observe a difference in opening rates favoring emails from Jill McNabb, the difference was not significant.*
 2. Is there a difference in email opening or click-through behavior caused by the choice of using one of two potential subject lines?  *The subject line, “You can be a Catalyst for STEM Learning 💡,” caused significantly higher opening rates.*  We did not observe enough clicks to draw conclusions about the effect of the subject and from line choices on click-through rate.
+3. combination of 1 & 2
 
 ### Review of the Methodology
 The Center provided our team with a list of approximately 12,000 potential subjects for this study.  This list was compiled from the Center’s Altru database but specifically excluded individuals who were previously selected by the Center to receive a solicitation by traditional mail.  We randomly selected 1,980 subjects to receive an email soliciting a donation.  These individuals were evenly split into four groups of 495 with each group being assigned a unique combination of from and subject lines.  The 68% of the population that had mailing addresses on file with the Center also had metadata provided by Boodle.ai related to their predicted affinity for various causes.  We used this metadata to check the balance of our random assignment
@@ -272,10 +274,19 @@ d[treatment_assigned == 3 | treatment_assigned == 4, subject := 0]
 d[treatment_assigned == 1 | treatment_assigned == 3, sender := 1]
 d[treatment_assigned == 2 | treatment_assigned == 4, sender := 0]
 
+# non-compliance 
+d[, delivered := as.integer(is.na(d$treatment_received)) ]
+
 #summary(d)
 #head(d)
 #names(d)
 #d = na.omit(d)
+```
+
+```{r warning=FALSE}
+# check missing observation 
+
+# work in progress for ITT
 ```
 
 
@@ -298,10 +309,10 @@ stargazer(m1.open, m2.open, m3.open, m4.click,
           type="text",
           title = "Effect of different subjects and senders",
           dep.var.labels=c("Open Rate", "Click Rate"),
-          covariate.labels=c("(subject) You can be a Catalyst", 
+          covariate.labels=c("Catalyst", 
                              "(from) Board Chair" 
-                             , "(subject) You can be a Catalyst (from) Board Chair", 
-                             "(subject) Invest in the Power (from) Executive Director"),
+                             , "Catalyst, from Chair", 
+                             "Invest, from Director"),
           align=TRUE
           )
 
