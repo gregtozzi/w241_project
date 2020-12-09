@@ -274,17 +274,15 @@ d[treatment_assigned == 3 | treatment_assigned == 4, subject := 0]
 d[treatment_assigned == 1 | treatment_assigned == 3, sender := 1]
 d[treatment_assigned == 2 | treatment_assigned == 4, sender := 0]
 
-# non-compliance 
-d[, delivered := as.integer(!is.na(d$treatment_received)) ]
+# mark zero if non-compliant. Well, can we? 
+d[is.na(treatment_received), open := 0]
+d[is.na(treatment_received), click := 0]
 
-#summary(d)
-#head(d)
-#names(d)
-#d = na.omit(d)
 ```
 
 
 ```{r warning=FALSE, echo=FALSE}
+
 m1.open = d[ , lm(open ~ subject)]
 m2.open = d[ , lm(open ~ sender)]
 m3.open = d[ , lm(open ~ subject + sender + subject*sender)]
@@ -320,22 +318,59 @@ stargazer(m1.open, m2.open, m3.open, m4.click,
 - Subject: ***`r round(m3.open$coefficients[[2]]*100,2)`*** percentage point [`r round(m3.open$rse.ci_[2,1]*100,1)`pp ~ `r round(m3.open$rse.ci_[2,2]*100,1)`pp]
 - Sender: no significant difference
 
-#### How about CACE? 
+#### How about CACE (ATET)? 
+
+Our design is placebo design where we can calculate CACE directly comparing the compliers, the average treatment effect (ATET). 
+
+(WIP)
+
+There are 23 bounce emails during the campaign. For this specific experiment, it would be more important to know the CACE (Complier Average Causual Effect) than ITT (Intended To Treat) effect. 
+
 
 ```{r warning=FALSE}
 
-d.compliance = d[, .(d_1 = sum(delivered), sub_total = sum(.N)), by=.(subject, sender)]
+d = d[!is.na(treatment_received), ]
 
-ITT_d_subject = d.compliance[subject == 1, sum(d_1)/sum(sub_total)]
-ITT_d_subject
-# this is not take up rate... what do we with never-taker 
-# d.compliance[subject == 0, sum(d_1)/sum(sub_total)]
+m5.open = d[ , lm(open ~ subject)]
+m5.open = calculate_rse_ci(m5.open, d)
 
-ITT_d_sender = d.compliance[sender == 1, sum(d_1)/sum(sub_total)]
-ITT_d_sender
+m6.open = d[ , lm(open ~ sender)]
+m6.open = calculate_rse_ci(m6.open, d)
 
-CACE.open.subject = m3.open$coefficients[[2]]*100 / ITT_d_subject
+m7.open = d[ , lm(open ~ subject + sender + subject*sender)]
+m7.open = calculate_rse_ci(m7.open, d)
 
+m8.click = d[ , lm(click ~ subject + sender + subject*sender)]
+m8.click = calculate_rse_ci(m8.click, d)
+
+stargazer(m5.open, m6.open, m7.open, m8.click,
+          se = c(list(m5.open$rse_), list(m6.open$rse_), 
+                 list(m7.open$rse_), list(m8.click$rse_)), 
+          type="text",
+          title = "ATET subjects and senders",
+          dep.var.labels=c("Open Rate", "Click Rate"),
+          covariate.labels=c("Subject - Catalyst", 
+                             "From - Board Chair" 
+                             , "Subject - Catalyst, from - Chair", 
+                             "Subject - Invest, from - Director"),
+          align=TRUE
+          )
+
+# # non-compliance 
+# d[, delivered := as.integer(!is.na(d$treatment_received)) ]
+# d.compliance = d[, .(d_1 = sum(delivered), sub_total = sum(.N)), by=.(subject, sender)]
+# 
+# 
+# alpha_subject = d.compliance[subject == 1, sum(d_1)/sum(sub_total)]
+# alpha_subject
+# # this is not take up rate... what do we with never-taker 
+# # d.compliance[subject == 0, sum(d_1)/sum(sub_total)]
+# 
+# alpha_sender = d.compliance[sender == 1, sum(d_1)/sum(sub_total)]
+# alpha_sender
+# 
+# CACE.open.subject = m3.open$coefficients[[2]]*100 / alpha_subject
+# CACE.click.subject = m4.click$coefficients[[2]]*100 / alpha_subject
 
 ```
-- Subject: ***`r round(CACE.open.subject,2)`*** percentage point 
+- Subject: ***`r round(m5.open$coefficients[[2]]*100,2)`*** percentage point [`r round(m5.open$rse.ci_[2,1]*100,1)`pp ~ `r round(m5.open$rse.ci_[2,2]*100,1)`pp]

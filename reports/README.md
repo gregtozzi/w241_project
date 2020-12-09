@@ -1,7 +1,7 @@
 Examining the Effects of
 ================
 Taeil Goh, Greg Tozzi & Max Ziff
-December 08, 2020
+December 09, 2020
 
 ## Executive Summary and Recommendations
 
@@ -397,6 +397,78 @@ experiment.
     ##                                                               Open Rate                                  Click Rate      
     ##                                            (1)                   (2)                   (3)                  (4)         
     ## ------------------------------------------------------------------------------------------------------------------------
+    ## Subject - Catalyst                       0.044**                                     0.059**               -0.002       
+    ##                                          (0.019)                                     (0.028)              (0.004)       
+    ##                                                                                                                         
+    ## From - Board Chair                                              -0.026               -0.012                -0.002       
+    ##                                                                (0.019)               (0.026)              (0.004)       
+    ##                                                                                                                         
+    ## Subject - Catalyst, from - Chair                                                     -0.028                0.000        
+    ##                                                                                      (0.039)              (0.004)       
+    ##                                                                                                                         
+    ## Subject - Invest, from - Director        0.220***              0.256***             0.226***               0.004        
+    ##                                          (0.013)               (0.014)               (0.019)              (0.003)       
+    ##                                                                                                                         
+    ## ------------------------------------------------------------------------------------------------------------------------
+    ## Observations                              1,980                 1,980                 1,980                1,980        
+    ## R2                                        0.003                 0.001                 0.004                0.001        
+    ## Adjusted R2                               0.002                 0.0004                0.002                -0.001       
+    ## Residual Std. Error                 0.428 (df = 1978)     0.429 (df = 1978)     0.428 (df = 1976)    0.045 (df = 1976)  
+    ## F Statistic                       5.333** (df = 1; 1978) 1.859 (df = 1; 1978) 2.579* (df = 3; 1976) 0.667 (df = 3; 1976)
+    ## ========================================================================================================================
+    ## Note:                                                                                        *p<0.1; **p<0.05; ***p<0.01
+
+  - Subject: ***5.86*** percentage point \[0.4pp \~ 11.3pp\]
+  - Sender: no significant difference
+
+#### How about CACE (ATET)?
+
+Our design is placebo design where we can calculate CACE directly
+comparing the compliers, the average treatment effect (ATET).
+
+(WIP)
+
+There are 23 bounce emails during the campaign. For this specific
+experiment, it would be more important to know the CACE (Complier
+Average Causual Effect) than ITT (Intended To Treat) effect.
+
+``` r
+d = d[!is.na(treatment_received), ]
+
+m5.open = d[ , lm(open ~ subject)]
+m5.open = calculate_rse_ci(m5.open, d)
+
+m6.open = d[ , lm(open ~ sender)]
+m6.open = calculate_rse_ci(m6.open, d)
+
+m7.open = d[ , lm(open ~ subject + sender + subject*sender)]
+m7.open = calculate_rse_ci(m7.open, d)
+
+m8.click = d[ , lm(click ~ subject + sender + subject*sender)]
+m8.click = calculate_rse_ci(m8.click, d)
+
+stargazer(m5.open, m6.open, m7.open, m8.click,
+          se = c(list(m5.open$rse_), list(m6.open$rse_), 
+                 list(m7.open$rse_), list(m8.click$rse_)), 
+          type="text",
+          title = "ATET subjects and senders",
+          dep.var.labels=c("Open Rate", "Click Rate"),
+          covariate.labels=c("Subject - Catalyst", 
+                             "From - Board Chair" 
+                             , "Subject - Catalyst, from - Chair", 
+                             "Subject - Invest, from - Director"),
+          align=TRUE
+          )
+```
+
+    ## 
+    ## ATET subjects and senders
+    ## ========================================================================================================================
+    ##                                                                    Dependent variable:                                  
+    ##                                   --------------------------------------------------------------------------------------
+    ##                                                               Open Rate                                  Click Rate      
+    ##                                            (1)                   (2)                   (3)                  (4)         
+    ## ------------------------------------------------------------------------------------------------------------------------
     ## Subject - Catalyst                       0.044**                                     0.058**               -0.002       
     ##                                          (0.019)                                     (0.028)              (0.004)       
     ##                                                                                                                         
@@ -418,32 +490,22 @@ experiment.
     ## ========================================================================================================================
     ## Note:                                                                                        *p<0.1; **p<0.05; ***p<0.01
 
-  - Subject: ***5.8*** percentage point \[0.3pp \~ 11.3pp\]
-  - Sender: no significant difference
-
-#### How about CACE?
-
 ``` r
-d.compliance = d[, .(d_1 = sum(delivered), sub_total = sum(.N)), by=.(subject, sender)]
-
-ITT_d_subject = d.compliance[subject == 1, sum(d_1)/sum(sub_total)]
-ITT_d_subject
+# # non-compliance 
+# d[, delivered := as.integer(!is.na(d$treatment_received)) ]
+# d.compliance = d[, .(d_1 = sum(delivered), sub_total = sum(.N)), by=.(subject, sender)]
+# 
+# 
+# alpha_subject = d.compliance[subject == 1, sum(d_1)/sum(sub_total)]
+# alpha_subject
+# # this is not take up rate... what do we with never-taker 
+# # d.compliance[subject == 0, sum(d_1)/sum(sub_total)]
+# 
+# alpha_sender = d.compliance[sender == 1, sum(d_1)/sum(sub_total)]
+# alpha_sender
+# 
+# CACE.open.subject = m3.open$coefficients[[2]]*100 / alpha_subject
+# CACE.click.subject = m4.click$coefficients[[2]]*100 / alpha_subject
 ```
 
-    ## [1] 0.9909091
-
-``` r
-# this is not take up rate... what do we with never-taker 
-# d.compliance[subject == 0, sum(d_1)/sum(sub_total)]
-
-ITT_d_sender = d.compliance[sender == 1, sum(d_1)/sum(sub_total)]
-ITT_d_sender
-```
-
-    ## [1] 0.9848485
-
-``` r
-CACE.open.subject = m3.open$coefficients[[2]]*100 / ITT_d_subject
-```
-
-  - Subject: ***5.85*** percentage point
+  - Subject: ***4.37*** percentage point \[0.6pp \~ 8.2pp\]
