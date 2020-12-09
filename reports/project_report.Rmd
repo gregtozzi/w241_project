@@ -275,18 +275,12 @@ d[treatment_assigned == 1 | treatment_assigned == 3, sender := 1]
 d[treatment_assigned == 2 | treatment_assigned == 4, sender := 0]
 
 # non-compliance 
-d[, delivered := as.integer(is.na(d$treatment_received)) ]
+d[, delivered := as.integer(!is.na(d$treatment_received)) ]
 
 #summary(d)
 #head(d)
 #names(d)
 #d = na.omit(d)
-```
-
-```{r warning=FALSE}
-# check missing observation 
-
-# work in progress for ITT
 ```
 
 
@@ -309,10 +303,10 @@ stargazer(m1.open, m2.open, m3.open, m4.click,
           type="text",
           title = "Effect of different subjects and senders",
           dep.var.labels=c("Open Rate", "Click Rate"),
-          covariate.labels=c("Catalyst", 
-                             "(from) Board Chair" 
-                             , "Catalyst, from Chair", 
-                             "Invest, from Director"),
+          covariate.labels=c("Subject - Catalyst", 
+                             "From - Board Chair" 
+                             , "Subject - Catalyst, from - Chair", 
+                             "Subject - Invest, from - Director"),
           align=TRUE
           )
 
@@ -326,3 +320,22 @@ stargazer(m1.open, m2.open, m3.open, m4.click,
 - Subject: ***`r round(m3.open$coefficients[[2]]*100,2)`*** percentage point [`r round(m3.open$rse.ci_[2,1]*100,1)`pp ~ `r round(m3.open$rse.ci_[2,2]*100,1)`pp]
 - Sender: no significant difference
 
+#### How about CACE? 
+
+```{r warning=FALSE}
+
+d.compliance = d[, .(d_1 = sum(delivered), sub_total = sum(.N)), by=.(subject, sender)]
+
+ITT_d_subject = d.compliance[subject == 1, sum(d_1)/sum(sub_total)]
+ITT_d_subject
+# this is not take up rate... what do we with never-taker 
+# d.compliance[subject == 0, sum(d_1)/sum(sub_total)]
+
+ITT_d_sender = d.compliance[sender == 1, sum(d_1)/sum(sub_total)]
+ITT_d_sender
+
+CACE.open.subject = m3.open$coefficients[[2]]*100 / ITT_d_subject
+
+
+```
+- Subject: ***`r round(CACE.open.subject,2)`*** percentage point 

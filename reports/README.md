@@ -1,7 +1,7 @@
 Examining the Effects of
 ================
 Taeil Goh, Greg Tozzi & Max Ziff
-December 06, 2020
+December 08, 2020
 
 ## Executive Summary and Recommendations
 
@@ -389,40 +389,61 @@ the effect of the subject and from line choices on click-through
 rate.The following table describes statistic details how we analyzed the
 experiment.
 
-``` r
-# check missing observation 
-
-# work in progress for ITT
-```
-
     ## 
     ## Effect of different subjects and senders
-    ## ============================================================================================================
-    ##                                                        Dependent variable:                                  
-    ##                       --------------------------------------------------------------------------------------
-    ##                                                   Open Rate                                  Click Rate      
-    ##                                (1)                   (2)                   (3)                  (4)         
-    ## ------------------------------------------------------------------------------------------------------------
-    ## Catalyst                     0.044**                                     0.058**               -0.002       
-    ##                              (0.019)                                     (0.028)              (0.004)       
-    ##                                                                                                             
-    ## (from) Board Chair                                  -0.025               -0.010                -0.002       
-    ##                                                    (0.019)               (0.027)              (0.004)       
-    ##                                                                                                             
-    ## Catalyst, from Chair                                                     -0.029               -0.00001      
-    ##                                                                          (0.039)              (0.004)       
-    ##                                                                                                             
-    ## Invest, from Director        0.223***              0.258***             0.229***               0.004        
-    ##                              (0.013)               (0.014)               (0.019)              (0.003)       
-    ##                                                                                                             
-    ## ------------------------------------------------------------------------------------------------------------
-    ## Observations                  1,957                 1,957                 1,957                1,957        
-    ## R2                            0.003                 0.001                 0.004                0.001        
-    ## Adjusted R2                   0.002                 0.0003                0.002                -0.001       
-    ## Residual Std. Error     0.430 (df = 1955)     0.430 (df = 1955)     0.430 (df = 1953)    0.045 (df = 1953)  
-    ## F Statistic           5.058** (df = 1; 1955) 1.627 (df = 1; 1955) 2.412* (df = 3; 1953) 0.666 (df = 3; 1953)
-    ## ============================================================================================================
-    ## Note:                                                                            *p<0.1; **p<0.05; ***p<0.01
+    ## ========================================================================================================================
+    ##                                                                    Dependent variable:                                  
+    ##                                   --------------------------------------------------------------------------------------
+    ##                                                               Open Rate                                  Click Rate      
+    ##                                            (1)                   (2)                   (3)                  (4)         
+    ## ------------------------------------------------------------------------------------------------------------------------
+    ## Subject - Catalyst                       0.044**                                     0.058**               -0.002       
+    ##                                          (0.019)                                     (0.028)              (0.004)       
+    ##                                                                                                                         
+    ## From - Board Chair                                              -0.025               -0.010                -0.002       
+    ##                                                                (0.019)               (0.027)              (0.004)       
+    ##                                                                                                                         
+    ## Subject - Catalyst, from - Chair                                                     -0.029               -0.00001      
+    ##                                                                                      (0.039)              (0.004)       
+    ##                                                                                                                         
+    ## Subject - Invest, from - Director        0.223***              0.258***             0.229***               0.004        
+    ##                                          (0.013)               (0.014)               (0.019)              (0.003)       
+    ##                                                                                                                         
+    ## ------------------------------------------------------------------------------------------------------------------------
+    ## Observations                              1,957                 1,957                 1,957                1,957        
+    ## R2                                        0.003                 0.001                 0.004                0.001        
+    ## Adjusted R2                               0.002                 0.0003                0.002                -0.001       
+    ## Residual Std. Error                 0.430 (df = 1955)     0.430 (df = 1955)     0.430 (df = 1953)    0.045 (df = 1953)  
+    ## F Statistic                       5.058** (df = 1; 1955) 1.627 (df = 1; 1955) 2.412* (df = 3; 1953) 0.666 (df = 3; 1953)
+    ## ========================================================================================================================
+    ## Note:                                                                                        *p<0.1; **p<0.05; ***p<0.01
 
   - Subject: ***5.8*** percentage point \[0.3pp \~ 11.3pp\]
   - Sender: no significant difference
+
+#### How about CACE?
+
+``` r
+d.compliance = d[, .(d_1 = sum(delivered), sub_total = sum(.N)), by=.(subject, sender)]
+
+ITT_d_subject = d.compliance[subject == 1, sum(d_1)/sum(sub_total)]
+ITT_d_subject
+```
+
+    ## [1] 0.9909091
+
+``` r
+# this is not take up rate... what do we with never-taker 
+# d.compliance[subject == 0, sum(d_1)/sum(sub_total)]
+
+ITT_d_sender = d.compliance[sender == 1, sum(d_1)/sum(sub_total)]
+ITT_d_sender
+```
+
+    ## [1] 0.9848485
+
+``` r
+CACE.open.subject = m3.open$coefficients[[2]]*100 / ITT_d_subject
+```
+
+  - Subject: ***5.85*** percentage point
