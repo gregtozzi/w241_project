@@ -432,35 +432,6 @@ There are 23 bounce emails during the campaign. For this specific
 experiment, it would be more important to know the CACE (Complier
 Average Causual Effect) than ITT (Intended To Treat) effect.
 
-``` r
-d = d[!is.na(treatment_received), ]
-
-m5.open = d[ , lm(open ~ subject)]
-m5.open = calculate_rse_ci(m5.open, d)
-
-m6.open = d[ , lm(open ~ sender)]
-m6.open = calculate_rse_ci(m6.open, d)
-
-m7.open = d[ , lm(open ~ subject + sender + subject*sender)]
-m7.open = calculate_rse_ci(m7.open, d)
-
-m8.click = d[ , lm(click ~ subject + sender + subject*sender)]
-m8.click = calculate_rse_ci(m8.click, d)
-
-stargazer(m5.open, m6.open, m7.open, m8.click,
-          se = c(list(m5.open$rse_), list(m6.open$rse_), 
-                 list(m7.open$rse_), list(m8.click$rse_)), 
-          type="text",
-          title = "ATET subjects and senders",
-          dep.var.labels=c("Open Rate", "Click Rate"),
-          covariate.labels=c("Subject - Catalyst", 
-                             "From - Board Chair" 
-                             , "Subject - Catalyst, from - Chair", 
-                             "Subject - Invest, from - Director"),
-          align=TRUE
-          )
-```
-
     ## 
     ## ATET subjects and senders
     ## ========================================================================================================================
@@ -489,23 +460,5 @@ stargazer(m5.open, m6.open, m7.open, m8.click,
     ## F Statistic                       5.058** (df = 1; 1955) 1.627 (df = 1; 1955) 2.412* (df = 3; 1953) 0.666 (df = 3; 1953)
     ## ========================================================================================================================
     ## Note:                                                                                        *p<0.1; **p<0.05; ***p<0.01
-
-``` r
-# # non-compliance 
-# d[, delivered := as.integer(!is.na(d$treatment_received)) ]
-# d.compliance = d[, .(d_1 = sum(delivered), sub_total = sum(.N)), by=.(subject, sender)]
-# 
-# 
-# alpha_subject = d.compliance[subject == 1, sum(d_1)/sum(sub_total)]
-# alpha_subject
-# # this is not take up rate... what do we with never-taker 
-# # d.compliance[subject == 0, sum(d_1)/sum(sub_total)]
-# 
-# alpha_sender = d.compliance[sender == 1, sum(d_1)/sum(sub_total)]
-# alpha_sender
-# 
-# CACE.open.subject = m3.open$coefficients[[2]]*100 / alpha_subject
-# CACE.click.subject = m4.click$coefficients[[2]]*100 / alpha_subject
-```
 
   - Subject: ***4.37*** percentage point \[0.6pp \~ 8.2pp\]
