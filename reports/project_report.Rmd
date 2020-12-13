@@ -285,18 +285,10 @@ The MailChimp API reports events keyed by email address, thus it was necessary t
 
 #### Accounting for Non-Compliance
 
-
+- `TODO`
 
 ## Research Report
 
-`Alex's suggestions`
-- who is the audience of the report and adjust the story 
-- enough technical details to convince reproducability 
-- or to client as a project consultant report (project closeout report)
-
-#### Flow Diagram 
-
-`optional`
 
 #### Experiment Results 
 
@@ -312,6 +304,11 @@ We are confident that the method we employed in this case produced evidence that
 2. We drew our subjects from a filtered list of potential recipients.  Adding individuals to the population of recipients may invalidate the study’s results.
 
 Meanwhile, we did not observe enough clicks to draw conclusions about the effect of the subject and from line choices on click-through rate.The following table describes statistic details how we analyzed the experiment. 
+
+- Subject: ***`r round(m3.open$coefficients[[2]]*100,2)`*** percentage point [`r round(m3.open$rse.ci_[2,1]*100,1)`pp ~ `r round(m3.open$rse.ci_[2,2]*100,1)`pp]
+- Sender: no significant difference
+
+We considered non-compliers (all recipients who we were not able to deliver the emails) marked them that they would not receive nor click the email. 
 
 
 ```{r, echo=FALSE}
@@ -364,17 +361,13 @@ stargazer(m1.open, m2.open, m3.open, m4.click,
 ```
 
 
-- Subject: ***`r round(m3.open$coefficients[[2]]*100,2)`*** percentage point [`r round(m3.open$rse.ci_[2,1]*100,1)`pp ~ `r round(m3.open$rse.ci_[2,2]*100,1)`pp]
-- Sender: no significant difference
-
 #### How about CACE (ATET)? 
 
-Our design is placebo design where we can calculate CACE directly comparing the compliers, the average treatment effect (ATET). 
-
-(WIP)
+- `consider omitting`
 
 There are 23 bounce emails during the campaign. For this specific experiment, it would be more important to know the CACE (Complier Average Casual Effect) than ITT (Intended To Treat) effect. 
 
+- Subject: ***`r round(m5.open$coefficients[[2]]*100,2)`*** percentage point [`r round(m5.open$rse.ci_[2,1]*100,1)`pp ~ `r round(m5.open$rse.ci_[2,2]*100,1)`pp]
 
 ```{r warning=FALSE, echo=FALSE}
 
@@ -422,4 +415,4 @@ stargazer(m5.open, m6.open, m7.open, m8.click,
 # CACE.click.subject = m4.click$coefficients[[2]]*100 / alpha_subject
 
 ```
-- Subject: ***`r round(m5.open$coefficients[[2]]*100,2)`*** percentage point [`r round(m5.open$rse.ci_[2,1]*100,1)`pp ~ `r round(m5.open$rse.ci_[2,2]*100,1)`pp]
+
