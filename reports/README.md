@@ -233,7 +233,7 @@ would need to report a significant finding.
 
 `Taeil` to add x y label
 
-![](README_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+![](reports/figures/unnamed-chunk-1-1.pdf)<!-- -->
 
 #### Enrollment Process & Criteria for Subjects
 

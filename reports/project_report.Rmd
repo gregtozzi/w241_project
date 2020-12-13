@@ -22,6 +22,8 @@ library(data.table)
 library(knitr)
 library(magrittr)
 
+opts_knit$set(root.dir=normalizePath('../'))
+opts_chunk$set(fig.path = "reports/figures/")
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -168,11 +170,11 @@ We agreed to target a random sample of 1,980 individuals for this experiment.  T
 To select subjects, we first filtered the extract of the Center's complete donor database on the list of individuals the Centered intended to target by email.  In the process, we removed three duplicated entries.
 
 ```{r, echo=FALSE}
-source('../src/helper_functions.R')
+source('src/helper_functions.R')
 
 # Load the data and subset on IDs of interest
-subject_data <- read_subjects('../data/raw/anonymized_altru.csv')
-index_ids    <- fread('../data/raw/anonymized_index.csv')
+subject_data <- read_subjects('data/raw/anonymized_altru.csv')
+index_ids    <- fread('data/raw/anonymized_index.csv')
 subject_data <- subject_data[lookup_id %in% index_ids$`LOOKUP ID`]
 
 # De-duplicate
@@ -185,7 +187,7 @@ subject_data    <- subject_data[subject_index , ]
 We had hoped to incorporate donor history into our randomization scheme and balance checks, but the data provided by the Center was extremely sparse and contained obvious errors.  For every entry in the total gift amount column was either zero or `NA` and `r subject_data[first_gift_amt > 0 , .N]` entries in the first gift amount column were nonzero.  The Center's staff was well aware of the data quality issues in their donor database.  With zero covariates in the provided data, we turned to the output of the third party study contained in `anonymized_mail.csv`.  We joined the data in that set to our existing table.
 
 ```{r, echo=FALSE}
-subject_boodle <- read_subjects_mail('../data/raw/anonymized_mail.csv')
+subject_boodle <- read_subjects_mail('data/raw/anonymized_mail.csv')
 subject_boodle <- subject_boodle[lookup_id %in% index_ids$`LOOKUP ID`]
 merged_dt      <- merge(subject_data, subject_boodle, all = TRUE)
 
@@ -299,7 +301,7 @@ We considered non-compliers (all recipients who we were not able to deliver the 
 
 
 ```{r, echo=FALSE}
-d <- fread("../data/raw/20201029_results_with_covariates")
+d <- fread("data/raw/20201029_results_with_covariates")
 
 d[treatment_assigned == 1 | treatment_assigned == 2, subject := 1]
 d[treatment_assigned == 3 | treatment_assigned == 4, subject := 0]
