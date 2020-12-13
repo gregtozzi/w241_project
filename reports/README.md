@@ -1,16 +1,22 @@
 A/B Testing for Email Fundraising
 ================
 Taeil Goh, Greg Tozzi & Max Ziff
-December 12, 2020
+December 13, 2020
 
 ## Executive Summary and Recommendations
 
 Thank you for the opportunity to work with the Children’s Science
-Center. Below you will find a summary of our finding and
-recommendations. Details of our analysis are included in the technical
-report that follows this summary.
+Center. Below you will find a summary of our findings and
+recommendations. This report is written for the Children’s Science
+Center. Still, it includes technical details in the second part to
+validate the work by other data scientists can validate and reproduce
+the results where our conclusion is based on. Due to the sensitivity of
+data stored on Mailchimp, it is required to export script by a person at
+the Children’s Science Center who has access to Mailchimp records.
+Details of our analysis are included in the technical report that
+follows this summary.
 
-### Research Questions
+#### Research Questions
 
 We sought to answer two questions posed by the Center. Both questions
 were related to the effect on opening and click-through rates of
@@ -32,7 +38,7 @@ the planned Fall 2020 fundraising surge.
 *We did not observe enough clicks to draw conclusions about the effect
 of the subject and from line choices on click-through rate.*
 
-### Review of the Methodology
+#### Review of the Methodology
 
 The Center provided our team with a list of approximately 12,000
 potential subjects for this study. This list was compiled from the
@@ -51,7 +57,7 @@ we assigned to the study and removed 23 records. The Center sent emails
 to the remaining individuals using Mailchimp on October 20, 2020. We
 extracted the results from Mailchimp on October 28, 2020.
 
-### Results
+#### Results
 
 Results for open rates are summarized below.
 
@@ -268,7 +274,7 @@ members of the Center’s staff and our group. The Center delivered one of
 four solicitation emails via Mail Chimp’s web interface.
 
 To select subjects, we first filtered the extract of the Center’s
-compelte donor database on the list of individuals the Centered intended
+complete donor database on the list of individuals the Centered intended
 to target by email. In the process, we removed three duplicated entries.
 
 We had hoped to incorporate donor history into our randomization scheme

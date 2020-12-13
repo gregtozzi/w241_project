@@ -38,11 +38,12 @@ calculate_rse_ci <- function(lm.mod, dt, alpha = 0.05){
 
 ```
 
+
 ## Executive Summary and Recommendations
 
-Thank you for the opportunity to work with the Children's Science Center.  Below you will find a summary of our finding and recommendations.  Details of our analysis are included in the technical report that follows this summary.
+Thank you for the opportunity to work with the Children's Science Center.  Below you will find a summary of our findings and recommendations. This report is written for the Children's Science Center. Still, it includes technical details in the second part to validate the work by other data scientists can validate and reproduce the results where our conclusion is based on. Due to the sensitivity of data stored on Mailchimp, it is required to export script by a person at the Children's Science Center who has access to Mailchimp records. Details of our analysis are included in the technical report that follows this summary.
 
-### Research Questions
+#### Research Questions
 
 We sought to answer two questions posed by the Center.  Both questions were related to the effect on opening and click-through rates of treatments in emails sent by the Center soliciting donations ahead of the planned Fall 2020 fundraising surge.
 
@@ -52,12 +53,12 @@ We sought to answer two questions posed by the Center.  Both questions were rela
 
 *We did not observe enough clicks to draw conclusions about the effect of the subject and from line choices on click-through rate.*
 
-### Review of the Methodology
+#### Review of the Methodology
 The Center provided our team with a list of approximately 12,000 potential subjects for this study.  This list was compiled from the Center’s Altru database but specifically excluded individuals who were previously selected by the Center to receive a solicitation by traditional mail.  We randomly selected 1,980 subjects to receive an email soliciting a donation.  These individuals were evenly split into four groups of 495 with each group being assigned a unique combination of from and subject lines.  The 68% of the population that had mailing addresses on file with the Center also had metadata provided by Boodle.ai related to their predicted affinity for various causes.  We used this metadata to check the balance of our random assignment
 
 The Center provided a final quality assurance check of the individuals we assigned to the study and removed 23 records.  The Center sent emails to the remaining individuals using Mailchimp on October 20, 2020.  We extracted the results from Mailchimp on October 28, 2020.
 
-### Results
+#### Results
 
 Results for open rates are summarized below.
 
@@ -162,14 +163,14 @@ The Center provided three data files that we used to develop our randomization. 
 
 We agreed to target a random sample of 1,980 individuals for this experiment.  The intent was to remain within the bounds of the Mail Chimp free tier while leaving a small margin for the Center's staff to send test emails to individuals outside of the experiment including to key members of the Center's staff and our group. The Center delivered one of four solicitation emails via Mail Chimp's web interface.
 
-To select subjects, we first filtered the extract of the Center's compelte donor database on the list of individuals the Centered intended to target by email.  In the process, we removed three duplicated entries.
+To select subjects, we first filtered the extract of the Center's complete donor database on the list of individuals the Centered intended to target by email.  In the process, we removed three duplicated entries.
 
 ```{r, echo=FALSE}
-source('../randomization/helper_functions.R')
+source('../src/helper_functions.R')
 
 # Load the data and subset on IDs of interest
-subject_data <- read_subjects('../randomization//anonymized_altru.csv')
-index_ids    <- fread('../randomization//anonymized_index.csv')
+subject_data <- read_subjects('../data/raw/anonymized_altru.csv')
+index_ids    <- fread('../data/raw/anonymized_index.csv')
 subject_data <- subject_data[lookup_id %in% index_ids$`LOOKUP ID`]
 
 # De-duplicate
@@ -182,7 +183,7 @@ subject_data    <- subject_data[subject_index , ]
 We had hoped to incorporate donor history into our randomization scheme and balance checks, but the data provided by the Center was extremely sparse and contained obvious errors.  For every entry in the total gift amount column was either zero or `NA` and `r subject_data[first_gift_amt > 0 , .N]` entries in the first gift amount column were nonzero.  The Center's staff was well aware of the data quality issues in their donor database.  With zero covariates in the provided data, we turned to the output of the third party study contained in `anonymized_mail.csv`.  We joined the data in that set to our existing table.
 
 ```{r, echo=FALSE}
-subject_boodle <- read_subjects_mail('../randomization/anonymized_mail.csv')
+subject_boodle <- read_subjects_mail('../data/raw/anonymized_mail.csv')
 subject_boodle <- subject_boodle[lookup_id %in% index_ids$`LOOKUP ID`]
 merged_dt      <- merge(subject_data, subject_boodle, all = TRUE)
 
