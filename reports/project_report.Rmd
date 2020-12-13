@@ -1,5 +1,5 @@
 ---
-title: "Examining the Effects of "
+title: "A/B Testing for Email Fundraising"
 author: "Taeil Goh, Greg Tozzi & Max Ziff"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: github_document
@@ -25,17 +25,32 @@ library(magrittr)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r helper function, echo=FALSE}
+
+calculate_rse_ci <- function(lm.mod, dt, alpha = 0.05){
+    lm.mod$se.ci_ <- confint(lm.mod, level = 1 - alpha)
+    lm.mod$vcovHC_ <- vcovHC(lm.mod)
+    lm.mod$rse_ <- sqrt(diag(lm.mod$vcovHC_))
+    lm.mod$rse.ci_ <- confint(coeftest(lm.mod, vcov. = lm.mod$vcovHC_), level = 1 - alpha)
+    
+    return(lm.mod)
+}
+
+```
+
 ## Executive Summary and Recommendations
 
-Thank you for the opportunity to work with the Children's Science Center.  Below you will find a summary of our finding and recommendations.  Details of our analysis are included in the technical report that this summary.
+Thank you for the opportunity to work with the Children's Science Center.  Below you will find a summary of our finding and recommendations.  Details of our analysis are included in the technical report that follows this summary.
 
 ### Research Questions
 
-We sought to answer two questions posed by the Center.  Both questions were related to emails sent by the Center soliciting donations.
+We sought to answer two questions posed by the Center.  Both questions were related to the effect on opening and click-through rates of treatments in emails sent by the Center soliciting donations ahead of the planned Fall 2020 fundraising surge.
 
 1. Is there a difference in email opening or click-through caused by the choice of using the Executive Director’s name and title in the from line versus using the Board Chair’s name and title?  *While we did observe a difference in opening rates favoring emails from Jill McNabb, the difference was not significant.*
-2. Is there a difference in email opening or click-through behavior caused by the choice of using one of two potential subject lines?  *The subject line, “You can be a Catalyst for STEM Learning 💡,” caused significantly higher opening rates.*  We did not observe enough clicks to draw conclusions about the effect of the subject and from line choices on click-through rate.
-3. combination of 1 & 2
+2. Is there a difference in email opening or click-through behavior caused by the choice of using one of two potential subject lines?  *The subject line, “You can be a Catalyst for STEM Learning 💡,” caused significantly higher opening rates.*
+3. Were combinations of the two treatments particularly effective?  *We found no significant effect due to the combination of treatments.*
+
+*We did not observe enough clicks to draw conclusions about the effect of the subject and from line choices on click-through rate.*
 
 ### Review of the Methodology
 The Center provided our team with a list of approximately 12,000 potential subjects for this study.  This list was compiled from the Center’s Altru database but specifically excluded individuals who were previously selected by the Center to receive a solicitation by traditional mail.  We randomly selected 1,980 subjects to receive an email soliciting a donation.  These individuals were evenly split into four groups of 495 with each group being assigned a unique combination of from and subject lines.  The 68% of the population that had mailing addresses on file with the Center also had metadata provided by Boodle.ai related to their predicted affinity for various causes.  We used this metadata to check the balance of our random assignment
@@ -51,14 +66,17 @@ Results for open rates are summarized below.
 |Nene Spivy, Executive Director (22.8%) | 24.4% | 21.2% |
 |Jill McNabb, Board Chair (25.2%) | 28.2% | 22.0% |
 
-### Recommendations
-Notes on Applying the Results
+### Applying the results
+We caution against drawing broad conclusions based on this experiment, particularly with respect to questions that the study was not designed to answer.  
+
 We are confident that the method we employed in this case produced evidence that the difference in opening rates was caused by the difference in subject lines.  You can reasonably expect that this result would generalize to the remainder of the candidate email recipients during the current year-end fund drive.  We suggest caution when drawing broader conclusions, however for the following reasons:
 
 1. Responsiveness to the two subject lines may have been affected by factors that we could not control for, including the current public health and political situations.
 2. We drew our subjects from a filtered list of potential recipients.  Adding individuals to the population of recipients may invalidate the study’s results.
 
-`place holder`
+The difference in opening rates between emails sent from Nene Spivey and Jill McNabb is interesting, but it is not significant.  With the sample size we used, our experiment would not have detected a difference in opening rates smaller than roughly 5.5 percentage points.  This is a fairly large difference.  If you are interested in pursing the question of which principal drives higher opening rates, we suggest that you run another experiment with a larger sample size. 
+
+If you desire to run additional tests in subsequent emails, or if you would benefit from a discussion on setting up a testing program, we are happy to set a call.
 
 ## Introduction and Context 
 
@@ -91,7 +109,6 @@ The Center's development staff was most strongly interested in conducting experi
 
 #### Research Hypotheses
 
-
 We claim expertise neither in non-profit email fundraising nor in the preferences of the Center's stakeholders.  The Center's development team believed that there would be a significant difference in the opening rates associated with the two email from lines considered, though the staff did not have a sense of which would result in significantly higher opening rates.  Underpinning the staff's expectation that we would find a significant difference was their belief that the Center's stakeholders had a meaningful sense of the Center's leadership and governance structure and would react differently when presented with emails from either the Executive Director or the Board Chair.
 
 Both of the subject lines considered were written by the Center's development staff.  The staff believed that subject lines could result in significantly different opening rates but did not have a going-in belief of which subject line would cause a stronger response.
@@ -99,16 +116,14 @@ Both of the subject lines considered were written by the Center's development st
 #### Treatment in Details 
 `see page 428`
 
-We constructed a factorial experiment to enable consideration of the conditional average treatment effects (CATEs) across the four possible assignments.  With the cohort randomly assigned to four groups, and with the from and subject lines denoted $F_a$, $F_b$, $S_a$, and $S_b$, we assigned treatment combinations across balanced groups:
+We addressed the research questions by construction a 2x2 factorial design using the difference in means estimator with the subjects assigned to one of four balanced groups:
 
-- Group 1 - $F_a$ and $S_a$
-- Group 2 - $F_a$ and $S_b$
-- Group 3 - $F_b$ and $S_a$
-- Group 4 - $F_b$ and $S_b$
+- Group 1 - From Executive Director; You can be a Catalyst for STEM Learning 💡
+- Group 2 - From Board Chair; You can be a Catalyst for STEM Learning 💡
+- Group 3 - From Executive Director; Invest in the Power of STEM Learning 💡
+- Group 4 - From Board Chair; Invest in the Power of STEM Learning 💡
 
-This design allows us to explore heterogeneous treatment effects.
-
-Each group would received a tailored email containing its assigned treatments sent through Mail Chimp.  We intended to track opening and click through using Mail Chimp's out-of-the-box analytics.
+While we are principally interested in the discrete effect of each treatment, this design allows us to explore heterogeneous treatment effects.  Each group would received a tailored email containing its assigned treatments sent through Mail Chimp.  We tracked opening and click through using Mail Chimp's out-of-the-box analytics.
 
 #### Power calculation
 
@@ -166,7 +181,7 @@ subject_data    <- subject_data[subject_index , ]
 
 We had hoped to incorporate donor history into our randomization scheme and balance checks, but the data provided by the Center was extremely sparse and contained obvious errors.  For every entry in the total gift amount column was either zero or `NA` and `r subject_data[first_gift_amt > 0 , .N]` entries in the first gift amount column were nonzero.  The Center's staff was well aware of the data quality issues in their donor database.  With zero covariates in the provided data, we turned to the output of the third party study contained in `anonymized_mail.csv`.  We joined the data in that set to our existing table.
 
-```{r}
+```{r, echo=FALSE}
 subject_boodle <- read_subjects_mail('../randomization/anonymized_mail.csv')
 subject_boodle <- subject_boodle[lookup_id %in% index_ids$`LOOKUP ID`]
 merged_dt      <- merge(subject_data, subject_boodle, all = TRUE)
@@ -195,9 +210,56 @@ random_assignment %>% head
 #### Summary of Experimental Design
 
 #### Validation of Randomization Procedure
-- check the soundness of the randomization procedure 
-- covariate balance (see chapter 4)
 
+Data quality issues limited the number of covariates available to perform balance checks.  In the end, we had membership data for our entire sample.  We also had predicted affinities provided by Boodle.ai for about two-thirds of the sample.  These affinities were for elements of the Center's mission:  children's causes, cultural causes, educational causes, and science causes.  Boodle's methodology requires a mailing address, so the remaining third of the sample did not have mailing addresses on file.  Not have an address on file is an indicator of engagement with the Center, so we created an indicator variable capturing this covariate  There were, of course, no instances in which an individual without an mailing address on file also had data in any of the Boodle-generated covariates.  Including the no mailing address covariate in the balance check required that we run two separate regressions for each treatment variable---one which captured the Boodle.ai-generated affinities and membership data, and the other which captured the lack of a mailing address and membership data.
+
+The regressions show no significant relationship between the covariates we tested and the treatment variables.  We are confident that our randomization was successful.
+
+```{r, echo=FALSE}
+# Code individual treatments
+merged_dt[treatment %in% c(1, 2), subj_catalyst := 1]
+merged_dt[treatment %in% c(3, 4), subj_catalyst := 0]
+merged_dt[treatment %in% c(1, 3), from_ED := 1]
+merged_dt[treatment %in% c(2, 4), from_ED := 0]
+
+# Build a factor for entries without 3rd party affinity data
+merged_dt[is.na(affinity_science), missing_affinities := 1]
+merged_dt[!is.na(affinity_science), missing_affinities := 0]
+
+balance_lm_catalyst <- merged_dt[receive_email == 1, lm(subj_catalyst ~ factor(affinity_children) + factor(affinity_education) + factor(affinity_science) + factor(affinity_culture) + is_member.x)]
+
+balance_lm_catalyst_mbr <- merged_dt[receive_email == 1, lm(subj_catalyst ~ is_member.x + missing_affinities)]
+
+balance_lm_ED <- merged_dt[receive_email == 1, lm(from_ED ~ factor(affinity_children) + factor(affinity_education) + factor(affinity_science) + factor(affinity_culture) + is_member.x)]
+
+balance_lm_ED_mbr <- merged_dt[receive_email == 1, lm(from_ED ~ is_member.x + missing_affinities)]
+
+balance_catalyst <- calculate_rse_ci(balance_lm_catalyst, merged_dt)
+balance_ED <- calculate_rse_ci(balance_lm_ED, merged_dt)
+balance_catalyst_mbr <- calculate_rse_ci(balance_lm_catalyst_mbr, merged_dt)
+balance_ED_mbr <- calculate_rse_ci(balance_lm_ED_mbr, merged_dt)
+
+stargazer(balance_catalyst, balance_ED, balance_catalyst_mbr, balance_ED_mbr,
+          se = c(list(balance_catalyst$rse_), list(balance_ED$rse_),
+                 list(balance_catalyst_mbr$rse_), list(balance_ED_mbr$rse_)), 
+          type="text",
+          title = "Covariate Balance",
+          dep.var.labels=c("Subj: Catalyst", "From: ED", "Subj: Catalyst", "From: ED"),
+          covariate.labels=c("Affinity - Children 35", 
+                             "Affinity - Children 90",
+                             "Affinity - Education 35",
+                             "Affinity - Education 90",
+                             "Affinity - Science 35",
+                             "Affinity - Science 90",
+                             "Affinity - Culture 35",
+                             "Affinity - Culture 42",
+                             "Affinity - Culture 50",
+                             "Affinity - Culture 90",
+                             "Member",
+                             "No address"),
+          align=FALSE
+          )
+```
 
 
 #### Outcome Measures
@@ -249,20 +311,6 @@ We are confident that the method we employed in this case produced evidence that
 2. We drew our subjects from a filtered list of potential recipients.  Adding individuals to the population of recipients may invalidate the study’s results.
 
 Meanwhile, we did not observe enough clicks to draw conclusions about the effect of the subject and from line choices on click-through rate.The following table describes statistic details how we analyzed the experiment. 
-
-
-```{r helper function, echo=FALSE}
-
-calculate_rse_ci <- function(lm.mod, dt, alpha = 0.05){
-    lm.mod$se.ci_ <- confint(lm.mod, level = 1 - alpha)
-    lm.mod$vcovHC_ <- vcovHC(lm.mod)
-    lm.mod$rse_ <- sqrt(diag(lm.mod$vcovHC_))
-    lm.mod$rse.ci_ <- confint(coeftest(lm.mod, vcov. = lm.mod$vcovHC_), level = 1 - alpha)
-    
-    return(lm.mod)
-}
-
-```
 
 
 ```{r, echo=FALSE}
@@ -324,7 +372,7 @@ Our design is placebo design where we can calculate CACE directly comparing the 
 
 (WIP)
 
-There are 23 bounce emails during the campaign. For this specific experiment, it would be more important to know the CACE (Complier Average Causual Effect) than ITT (Intended To Treat) effect. 
+There are 23 bounce emails during the campaign. For this specific experiment, it would be more important to know the CACE (Complier Average Casual Effect) than ITT (Intended To Treat) effect. 
 
 
 ```{r warning=FALSE, echo=FALSE}

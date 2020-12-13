@@ -1,19 +1,21 @@
-Examining the Effects of
+A/B Testing for Email Fundraising
 ================
 Taeil Goh, Greg Tozzi & Max Ziff
-December 09, 2020
+December 12, 2020
 
 ## Executive Summary and Recommendations
 
 Thank you for the opportunity to work with the Children’s Science
 Center. Below you will find a summary of our finding and
 recommendations. Details of our analysis are included in the technical
-report that this summary.
+report that follows this summary.
 
 ### Research Questions
 
 We sought to answer two questions posed by the Center. Both questions
-were related to emails sent by the Center soliciting donations.
+were related to the effect on opening and click-through rates of
+treatments in emails sent by the Center soliciting donations ahead of
+the planned Fall 2020 fundraising surge.
 
 1.  Is there a difference in email opening or click-through caused by
     the choice of using the Executive Director’s name and title in the
@@ -23,10 +25,12 @@ were related to emails sent by the Center soliciting donations.
 2.  Is there a difference in email opening or click-through behavior
     caused by the choice of using one of two potential subject lines?
     *The subject line, “You can be a Catalyst for STEM Learning 💡,”
-    caused significantly higher opening rates.* We did not observe
-    enough clicks to draw conclusions about the effect of the subject
-    and from line choices on click-through rate.
-3.  combination of 1 & 2
+    caused significantly higher opening rates.*
+3.  Were combinations of the two treatments particularly effective? *We
+    found no significant effect due to the combination of treatments.*
+
+*We did not observe enough clicks to draw conclusions about the effect
+of the subject and from line choices on click-through rate.*
 
 ### Review of the Methodology
 
@@ -56,15 +60,18 @@ Results for open rates are summarized below.
 | Nene Spivy, Executive Director (22.8%) | 24.4%                                             | 21.2%                                          |
 | Jill McNabb, Board Chair (25.2%)       | 28.2%                                             | 22.0%                                          |
 
-### Recommendations
+### Applying the results
 
-Notes on Applying the Results We are confident that the method we
-employed in this case produced evidence that the difference in opening
-rates was caused by the difference in subject lines. You can reasonably
-expect that this result would generalize to the remainder of the
-candidate email recipients during the current year-end fund drive. We
-suggest caution when drawing broader conclusions, however for the
-following reasons:
+We caution against drawing broad conclusions based on this experiment,
+particularly with respect to questions that the study was not designed
+to answer.
+
+We are confident that the method we employed in this case produced
+evidence that the difference in opening rates was caused by the
+difference in subject lines. You can reasonably expect that this result
+would generalize to the remainder of the candidate email recipients
+during the current year-end fund drive. We suggest caution when drawing
+broader conclusions, however for the following reasons:
 
 1.  Responsiveness to the two subject lines may have been affected by
     factors that we could not control for, including the current public
@@ -73,7 +80,17 @@ following reasons:
     Adding individuals to the population of recipients may invalidate
     the study’s results.
 
-`place holder`
+The difference in opening rates between emails sent from Nene Spivey and
+Jill McNabb is interesting, but it is not significant. With the sample
+size we used, our experiment would not have detected a difference in
+opening rates smaller than roughly 5.5 percentage points. This is a
+fairly large difference. If you are interested in pursing the question
+of which principal drives higher opening rates, we suggest that you run
+another experiment with a larger sample size.
+
+If you desire to run additional tests in subsequent emails, or if you
+would benefit from a discussion on setting up a testing program, we are
+happy to set a call.
 
 ## Introduction and Context
 
@@ -173,21 +190,22 @@ of which subject line would cause a stronger response.
 
 `see page 428`
 
-We constructed a factorial experiment to enable consideration of the
-conditional average treatment effects (CATEs) across the four possible
-assignments. With the cohort randomly assigned to four groups, and with
-the from and subject lines denoted \(F_a\), \(F_b\), \(S_a\), and
-\(S_b\), we assigned treatment combinations across balanced groups:
+We addressed the research questions by construction a 2x2 factorial
+design using the difference in means estimator with the subjects
+assigned to one of four balanced groups:
 
-  - Group 1 - \(F_a\) and \(S_a\)
-  - Group 2 - \(F_a\) and \(S_b\)
-  - Group 3 - \(F_b\) and \(S_a\)
-  - Group 4 - \(F_b\) and \(S_b\)
+  - Group 1 - From Executive Director; You can be a Catalyst for STEM
+    Learning 💡
+  - Group 2 - From Board Chair; You can be a Catalyst for STEM Learning
+    💡
+  - Group 3 - From Executive Director; Invest in the Power of STEM
+    Learning 💡
+  - Group 4 - From Board Chair; Invest in the Power of STEM Learning 💡
 
-This design allows us to explore heterogeneous treatment effects.
-
-Each group would received a tailored email containing its assigned
-treatments sent through Mail Chimp. We intended to track opening and
+While we are principally interested in the discrete effect of each
+treatment, this design allows us to explore heterogeneous treatment
+effects. Each group would received a tailored email containing its
+assigned treatments sent through Mail Chimp. We tracked opening and
 click through using Mail Chimp’s out-of-the-box analytics.
 
 #### Power calculation
@@ -263,18 +281,6 @@ provided data, we turned to the output of the third party study
 contained in `anonymized_mail.csv`. We joined the data in that set to
 our existing table.
 
-``` r
-subject_boodle <- read_subjects_mail('../randomization/anonymized_mail.csv')
-subject_boodle <- subject_boodle[lookup_id %in% index_ids$`LOOKUP ID`]
-merged_dt      <- merge(subject_data, subject_boodle, all = TRUE)
-
-# De-duplicate (again)
-duplicates_merged <- merged_dt[ , .(which(.N > 1)), keyby = lookup_id]$lookup_id
-duplicate_index_merged <- which(merged_dt$lookup_id %in% duplicates_merged)
-merged_index <- setdiff(1:nrow(merged_dt), duplicate_index_merged[c(1, 3)])
-merged_dt <- merged_dt[merged_index , ]
-```
-
 As explained above, outputs of the third party study only existed for
 individuals with mailing addresses on file. Only 8266 of the 12004
 individuals in the population had data from the third party study as a
@@ -297,8 +303,82 @@ individuals into four treatment groups of 495 individuals each.
 
 #### Validation of Randomization Procedure
 
-  - check the soundness of the randomization procedure
-  - covariate balance (see chapter 4)
+Data quality issues limited the number of covariates available to
+perform balance checks. In the end, we had membership data for our
+entire sample. We also had predicted affinities provided by Boodle.ai
+for about two-thirds of the sample. These affinities were for elements
+of the Center’s mission: children’s causes, cultural causes, educational
+causes, and science causes. Boodle’s methodology requires a mailing
+address, so the remaining third of the sample did not have mailing
+addresses on file. Not have an address on file is an indicator of
+engagement with the Center, so we created an indicator variable
+capturing this covariate There were, of course, no instances in which an
+individual without an mailing address on file also had data in any of
+the Boodle-generated covariates. Including the no mailing address
+covariate in the balance check required that we run two separate
+regressions for each treatment variable—one which captured the
+Boodle.ai-generated affinities and membership data, and the other which
+captured the lack of a mailing address and membership data.
+
+The regressions show no significant relationship between the covariates
+we tested and the treatment variables. We are confident that our
+randomization was successful.
+
+    ## 
+    ## Covariate Balance
+    ## =============================================================================================================
+    ##                                                          Dependent variable:                                 
+    ##                         -------------------------------------------------------------------------------------
+    ##                            Subj: Catalyst           From: ED           Subj: Catalyst          From: ED      
+    ##                                  (1)                   (2)                  (3)                  (4)         
+    ## -------------------------------------------------------------------------------------------------------------
+    ## Affinity - Children 35         -0.172                 0.104                                                  
+    ##                                (0.276)               (0.278)                                                 
+    ##                                                                                                              
+    ## Affinity - Children 90         -0.129                 0.090                                                  
+    ##                                (0.286)               (0.290)                                                 
+    ##                                                                                                              
+    ## Affinity - Education 35         0.104                -0.029                                                  
+    ##                                (0.198)               (0.199)                                                 
+    ##                                                                                                              
+    ## Affinity - Education 90         0.110                -0.077                                                  
+    ##                                (0.180)               (0.180)                                                 
+    ##                                                                                                              
+    ## Affinity - Science 35           0.082                 0.013                                                  
+    ##                                (0.224)               (0.222)                                                 
+    ##                                                                                                              
+    ## Affinity - Science 90           0.044                -0.034                                                  
+    ##                                (0.200)               (0.196)                                                 
+    ##                                                                                                              
+    ## Affinity - Culture 35           0.025                -0.033                                                  
+    ##                                (0.047)               (0.047)                                                 
+    ##                                                                                                              
+    ## Affinity - Culture 42          -0.006                -0.023                                                  
+    ##                                (0.074)               (0.074)                                                 
+    ##                                                                                                              
+    ## Affinity - Culture 50           0.012                 0.006                                                  
+    ##                                (0.078)               (0.078)                                                 
+    ##                                                                                                              
+    ## Affinity - Culture 90           0.517                 0.430                                                  
+    ##                                (0.321)               (0.882)                                                 
+    ##                                                                                                              
+    ## Member                          0.037                -0.001                0.031                0.001        
+    ##                                (0.029)               (0.029)              (0.028)              (0.028)       
+    ##                                                                                                              
+    ## No address                                                                 0.028                0.010        
+    ##                                                                           (0.026)              (0.026)       
+    ##                                                                                                              
+    ## Constant                      0.469***              0.482***              0.484***             0.497***      
+    ##                                (0.021)               (0.021)              (0.017)              (0.017)       
+    ##                                                                                                              
+    ## -------------------------------------------------------------------------------------------------------------
+    ## Observations                    1,356                 1,356                1,980                1,980        
+    ## R2                              0.003                 0.006                0.001                0.0001       
+    ## Adjusted R2                    -0.005                -0.002               -0.0001               -0.001       
+    ## Residual Std. Error       0.501 (df = 1344)     0.501 (df = 1344)    0.500 (df = 1977)    0.500 (df = 1977)  
+    ## F Statistic             0.416 (df = 11; 1344) 0.704 (df = 11; 1344) 0.884 (df = 2; 1977) 0.075 (df = 2; 1977)
+    ## =============================================================================================================
+    ## Note:                                                                             *p<0.1; **p<0.05; ***p<0.01
 
 #### Outcome Measures
 
@@ -430,7 +510,7 @@ comparing the compliers, the average treatment effect (ATET).
 
 There are 23 bounce emails during the campaign. For this specific
 experiment, it would be more important to know the CACE (Complier
-Average Causual Effect) than ITT (Intended To Treat) effect.
+Average Casual Effect) than ITT (Intended To Treat) effect.
 
     ## 
     ## ATET subjects and senders
