@@ -97,3 +97,12 @@ join_covariates <- function(results_path, covariates_path, combined_path) {
   results_w_covariates <- merge(results, covariates, all.x = TRUE)
   fwrite(results_w_covariates, combined_path)
 }
+
+calculate_rse_ci <- function(lm.mod, dt, alpha = 0.05){
+  lm.mod$se.ci_ <- confint(lm.mod, level = 1 - alpha)
+  lm.mod$vcovHC_ <- vcovHC(lm.mod)
+  lm.mod$rse_ <- sqrt(diag(lm.mod$vcovHC_))
+  lm.mod$rse.ci_ <- confint(coeftest(lm.mod, vcov. = lm.mod$vcovHC_), level = 1 - alpha)
+  
+  return(lm.mod)
+}

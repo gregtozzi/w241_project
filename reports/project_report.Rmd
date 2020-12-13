@@ -1,13 +1,13 @@
 ---
 title: "A/B Testing for Email Fundraising"
-author: "Taeil Goh, Greg Tozzi & Max Ziff"
+author: "Greg Tozzi, Max Ziff, and Taeil Goh"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: github_document
 knit: (function(inputFile, encoding) {
   rmarkdown::render(
     output_file = 'README.md',
     inputFile, encoding = encoding,
-    output_format = c('github_document')) 
+    output_format = c('github_document'))
     })
 ---
 
@@ -22,24 +22,12 @@ library(data.table)
 library(knitr)
 library(magrittr)
 
-opts_knit$set(root.dir=normalizePath('../'))
-opts_chunk$set(fig.path = "reports/figures/")
-knitr::opts_chunk$set(echo = TRUE)
-```
+# opts_knit$set(root.dir=normalizePath('../'))
+opts_chunk$set(fig.path = "figures/")
 
-```{r helper function, echo=FALSE}
-
-calculate_rse_ci <- function(lm.mod, dt, alpha = 0.05){
-    lm.mod$se.ci_ <- confint(lm.mod, level = 1 - alpha)
-    lm.mod$vcovHC_ <- vcovHC(lm.mod)
-    lm.mod$rse_ <- sqrt(diag(lm.mod$vcovHC_))
-    lm.mod$rse.ci_ <- confint(coeftest(lm.mod, vcov. = lm.mod$vcovHC_), level = 1 - alpha)
-    
-    return(lm.mod)
-}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE)
 
 ```
-
 
 ## Executive Summary and Recommendations
 
@@ -139,7 +127,9 @@ Powers between 0.8 and 0.9 are standard in clinical trials.  We chose 0.85 as a 
 
 `Taeil` to add x y label 
 
-```{r, echo=FALSE}
+```{r}
+source('../src/helper_functions.R')
+
 baseline_open_rates <- c(0.05, 0.1, 0.15, 0.2, 0.25)
 minDiffDetected <- sapply(baseline_open_rates,
                           function(i) power.prop.test(n = 990,
@@ -147,11 +137,11 @@ minDiffDetected <- sapply(baseline_open_rates,
                                                       p2 = NULL,
                                                       power = 0.85)$p2 - i)
 
-plot(minDiffDetected ~ baseline_open_rates, axes=F, xlab="", ylab="", pch=16, type="b")
+plot(minDiffDetected ~ baseline_open_rates, axes=F, xlab="baseline open rate", ylab="ATE", pch=16, type="b")
 axis(1, at=baseline_open_rates, label=baseline_open_rates, tick=F)
 axis(2, at=seq(0.035, 0.055, length.out=3),
      label=seq(0.035, 0.055, length.out=3), tick=F, las=1)
-text(0.25, 0.0375,"Min difference detected\nas a function of the baseline\nopen rate for power = 0.85", adj=1)
+text(0.25, 0.0375,"Minimum difference detected\nas a function of the baseline\nopen rate for power = 0.85", adj=1)
 ```
 
 
@@ -170,11 +160,10 @@ We agreed to target a random sample of 1,980 individuals for this experiment.  T
 To select subjects, we first filtered the extract of the Center's complete donor database on the list of individuals the Centered intended to target by email.  In the process, we removed three duplicated entries.
 
 ```{r, echo=FALSE}
-source('src/helper_functions.R')
 
 # Load the data and subset on IDs of interest
-subject_data <- read_subjects('data/raw/anonymized_altru.csv')
-index_ids    <- fread('data/raw/anonymized_index.csv')
+subject_data <- read_subjects('../data/raw/anonymized_altru.csv')
+index_ids    <- fread('../data/raw/anonymized_index.csv')
 subject_data <- subject_data[lookup_id %in% index_ids$`LOOKUP ID`]
 
 # De-duplicate
@@ -186,8 +175,8 @@ subject_data    <- subject_data[subject_index , ]
 
 We had hoped to incorporate donor history into our randomization scheme and balance checks, but the data provided by the Center was extremely sparse and contained obvious errors.  For every entry in the total gift amount column was either zero or `NA` and `r subject_data[first_gift_amt > 0 , .N]` entries in the first gift amount column were nonzero.  The Center's staff was well aware of the data quality issues in their donor database.  With zero covariates in the provided data, we turned to the output of the third party study contained in `anonymized_mail.csv`.  We joined the data in that set to our existing table.
 
-```{r, echo=FALSE}
-subject_boodle <- read_subjects_mail('data/raw/anonymized_mail.csv')
+```{r}
+subject_boodle <- read_subjects_mail('../data/raw/anonymized_mail.csv')
 subject_boodle <- subject_boodle[lookup_id %in% index_ids$`LOOKUP ID`]
 merged_dt      <- merge(subject_data, subject_boodle, all = TRUE)
 
@@ -203,7 +192,7 @@ As explained above, outputs of the third party study only existed for individual
 
 We conducted our randomization in two steps.  First, we identified 1,980 individuals who would receive an email.  Then, we randomly divided those individuals into four treatment groups of 495 individuals each.
 
-```{r, echo=FALSE}
+```{r}
 set.seed(1505)
 merged_dt[ , receive_email := as.integer(sample(.N) <= 1980)]
 merged_dt[receive_email == 1, treatment := sample(rep(1:4, .N / 4))]
@@ -218,7 +207,7 @@ Data quality issues limited the number of covariates available to perform balanc
 
 The regressions show no significant relationship between the covariates we tested and the treatment variables.  We are confident that our randomization was successful.
 
-```{r, echo=FALSE}
+```{r}
 # Code individual treatments
 merged_dt[treatment %in% c(1, 2), subj_catalyst := 1]
 merged_dt[treatment %in% c(3, 4), subj_catalyst := 0]
@@ -300,8 +289,8 @@ We considered non-compliers (all recipients who we were not able to deliver the 
 #### Experiment Results 
 
 
-```{r, echo=FALSE}
-d <- fread("data/raw/20201029_results_with_covariates")
+```{r}
+d <- fread("../data/raw/20201029_results_with_covariates")
 
 d[treatment_assigned == 1 | treatment_assigned == 2, subject := 1]
 d[treatment_assigned == 3 | treatment_assigned == 4, subject := 0]
@@ -315,8 +304,7 @@ d[is.na(treatment_received), click := 0]
 ```
 
 
-```{r warning=FALSE, echo=FALSE}
-
+```{r}
 m1.open = d[ , lm(open ~ subject)]
 m2.open = d[ , lm(open ~ sender)]
 m3.open = d[ , lm(open ~ subject + sender + subject*sender)]
@@ -326,13 +314,6 @@ m3.open = calculate_rse_ci(m3.open, d)
 
 m4.click = d[ , lm(click ~ subject + sender + subject*sender)]
 m4.click = calculate_rse_ci(m4.click, d)
-
-# dep.var.labels=c("You can be a Catalyst for STEM Learning","Jill McNabb, Board Chair ")
-
-# m1.open$rse.ci_
-# m3.open$rse.ci_
-# m4.click$rse.ci_
-
 ```
 
 `Max` 
@@ -354,7 +335,7 @@ Meanwhile, we did not observe enough clicks to draw conclusions about the effect
 - Sender: no significant difference
 
 
-```{r warning=FALSE}
+```{r}
 stargazer(m1.open, m2.open, m3.open, m4.click,
           se = c(list(m1.open$rse_), list(m2.open$rse_), 
                  list(m3.open$rse_), list(m4.click$rse_)), 

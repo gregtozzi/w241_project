@@ -1,6 +1,6 @@
 A/B Testing for Email Fundraising
 ================
-Taeil Goh, Greg Tozzi & Max Ziff
+Greg Tozzi, Max Ziff, and Taeil Goh
 December 13, 2020
 
 ## Executive Summary and Recommendations
@@ -233,7 +233,7 @@ would need to report a significant finding.
 
 `Taeil` to add x y label
 
-![](../README_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+![](../figures/unnamed-chunk-1-1.png)<!-- -->
 
 #### Enrollment Process & Criteria for Subjects
 
@@ -477,21 +477,6 @@ experiment.
   - Sender: no significant difference
 
 <!-- end list -->
-
-``` r
-stargazer(m1.open, m2.open, m3.open, m4.click,
-          se = c(list(m1.open$rse_), list(m2.open$rse_), 
-                 list(m3.open$rse_), list(m4.click$rse_)), 
-          type="text",
-          title = "Effect of different subjects and senders",
-          dep.var.labels=c("Open Rate", "Click Rate"),
-          covariate.labels=c("Subject - Catalyst", 
-                             "From - Board Chair" 
-                             , "Subject - Catalyst, from - Chair", 
-                             "Subject - Invest, from - Director"),
-          align=TRUE
-          )
-```
 
     ## 
     ## Effect of different subjects and senders
