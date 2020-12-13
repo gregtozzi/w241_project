@@ -192,7 +192,9 @@ development staff. The staff believed that subject lines could result in
 significantly different opening rates but did not have a going-in belief
 of which subject line would cause a stronger response.
 
-#### Treatment in Details
+#### Experimental Design and Treatment in Details
+
+`Greg`
 
 `see page 428`
 
@@ -214,7 +216,7 @@ effects. Each group would received a tailored email containing its
 assigned treatments sent through Mail Chimp. We tracked opening and
 click through using Mail Chimp’s out-of-the-box analytics.
 
-#### Power calculation
+#### Statistical Power
 
 The Center’s experience across all of its email-delivered messaging
 suggested that we should expect opening rates on the order of 10%. To
@@ -229,14 +231,11 @@ it would be unlikely that either treatment would produce differences in
 means as large as those that the power calculations suggested that we
 would need to report a significant finding.
 
+`Taeil` to add x y label
+
 ![](README_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
 
 #### Enrollment Process & Criteria for Subjects
-
-  - The criteria by which subjects were included
-  - explain how subjects were randomly assigned to experimental groups
-  - TG: need explanation of 2000 selection was randomized and no
-    selection bias
 
 The Center’s donor managment database contains over 41,000 individual
 entries, roughly half which include physical addresses. Entries that
@@ -305,8 +304,6 @@ individuals into four treatment groups of 495 individuals each.
     ## 5:      1016         4
     ## 6:      1026         2
 
-#### Summary of Experimental Design
-
 #### Validation of Randomization Procedure
 
 Data quality issues limited the number of covariates available to
@@ -335,61 +332,58 @@ randomization was successful.
     ## =============================================================================================================
     ##                                                          Dependent variable:                                 
     ##                         -------------------------------------------------------------------------------------
-    ##                            Subj: Catalyst           From: ED           Subj: Catalyst          From: ED      
-    ##                                  (1)                   (2)                  (3)                  (4)         
+    ##                                       Subj: Catalyst                                From: ED                 
+    ##                                  (1)                  (2)                   (3)                  (4)         
     ## -------------------------------------------------------------------------------------------------------------
-    ## Affinity - Children 35         -0.172                 0.104                                                  
-    ##                                (0.276)               (0.278)                                                 
+    ## Affinity - Children 35         -0.172                                      0.104                             
+    ##                                (0.276)                                    (0.278)                            
     ##                                                                                                              
-    ## Affinity - Children 90         -0.129                 0.090                                                  
-    ##                                (0.286)               (0.290)                                                 
+    ## Affinity - Children 90         -0.129                                      0.090                             
+    ##                                (0.286)                                    (0.290)                            
     ##                                                                                                              
-    ## Affinity - Education 35         0.104                -0.029                                                  
-    ##                                (0.198)               (0.199)                                                 
+    ## Affinity - Education 35         0.104                                     -0.029                             
+    ##                                (0.198)                                    (0.199)                            
     ##                                                                                                              
-    ## Affinity - Education 90         0.110                -0.077                                                  
-    ##                                (0.180)               (0.180)                                                 
+    ## Affinity - Education 90         0.110                                     -0.077                             
+    ##                                (0.180)                                    (0.180)                            
     ##                                                                                                              
-    ## Affinity - Science 35           0.082                 0.013                                                  
-    ##                                (0.224)               (0.222)                                                 
+    ## Affinity - Science 35           0.082                                      0.013                             
+    ##                                (0.224)                                    (0.222)                            
     ##                                                                                                              
-    ## Affinity - Science 90           0.044                -0.034                                                  
-    ##                                (0.200)               (0.196)                                                 
+    ## Affinity - Science 90           0.044                                     -0.034                             
+    ##                                (0.200)                                    (0.196)                            
     ##                                                                                                              
-    ## Affinity - Culture 35           0.025                -0.033                                                  
-    ##                                (0.047)               (0.047)                                                 
+    ## Affinity - Culture 35           0.025                                     -0.033                             
+    ##                                (0.047)                                    (0.047)                            
     ##                                                                                                              
-    ## Affinity - Culture 42          -0.006                -0.023                                                  
-    ##                                (0.074)               (0.074)                                                 
+    ## Affinity - Culture 42          -0.006                                     -0.023                             
+    ##                                (0.074)                                    (0.074)                            
     ##                                                                                                              
-    ## Affinity - Culture 50           0.012                 0.006                                                  
-    ##                                (0.078)               (0.078)                                                 
+    ## Affinity - Culture 50           0.012                                      0.006                             
+    ##                                (0.078)                                    (0.078)                            
     ##                                                                                                              
-    ## Affinity - Culture 90           0.517                 0.430                                                  
-    ##                                (0.321)               (0.882)                                                 
+    ## Affinity - Culture 90           0.517                                      0.430                             
+    ##                                (0.321)                                    (0.882)                            
     ##                                                                                                              
-    ## Member                          0.037                -0.001                0.031                0.001        
-    ##                                (0.029)               (0.029)              (0.028)              (0.028)       
+    ## Member                          0.037                0.031                -0.001                0.001        
+    ##                                (0.029)              (0.028)               (0.029)              (0.028)       
     ##                                                                                                              
-    ## No address                                                                 0.028                0.010        
-    ##                                                                           (0.026)              (0.026)       
+    ## No address                                           0.028                                      0.010        
+    ##                                                     (0.026)                                    (0.026)       
     ##                                                                                                              
-    ## Constant                      0.469***              0.482***              0.484***             0.497***      
-    ##                                (0.021)               (0.021)              (0.017)              (0.017)       
+    ## Constant                      0.469***              0.484***             0.482***              0.497***      
+    ##                                (0.021)              (0.017)               (0.021)              (0.017)       
     ##                                                                                                              
     ## -------------------------------------------------------------------------------------------------------------
-    ## Observations                    1,356                 1,356                1,980                1,980        
-    ## R2                              0.003                 0.006                0.001                0.0001       
-    ## Adjusted R2                    -0.005                -0.002               -0.0001               -0.001       
-    ## Residual Std. Error       0.501 (df = 1344)     0.501 (df = 1344)    0.500 (df = 1977)    0.500 (df = 1977)  
-    ## F Statistic             0.416 (df = 11; 1344) 0.704 (df = 11; 1344) 0.884 (df = 2; 1977) 0.075 (df = 2; 1977)
+    ## Observations                    1,356                1,980                 1,356                1,980        
+    ## R2                              0.003                0.001                 0.006                0.0001       
+    ## Adjusted R2                    -0.005               -0.0001               -0.002                -0.001       
+    ## Residual Std. Error       0.501 (df = 1344)    0.500 (df = 1977)     0.501 (df = 1344)    0.500 (df = 1977)  
+    ## F Statistic             0.416 (df = 11; 1344) 0.884 (df = 2; 1977) 0.704 (df = 11; 1344) 0.075 (df = 2; 1977)
     ## =============================================================================================================
     ## Note:                                                                             *p<0.1; **p<0.05; ***p<0.01
 
 #### Outcome Measures
-
-  - Open and click-through rates.
-  - mail chimp
 
 Implementing the experiment involved finding the proper balance between
 MailChimp’s technical capabilities, the Center’s expertise and
@@ -406,8 +400,8 @@ The four treatment groups were modeled in MailChimp by four different
 “campaigns”, MailChimp’s basic data object for representing at least
 one email send. Each campaign used a separate email tenmplate, with the
 appropriate variations hard-coded. A toy MailChimp list and template
-were used to prove out the MailChimp implementation. In addition, in the
-live implementation, dummy addresses were added to each group that
+we==re used to prove out the MailChimp implementation. In addition, in
+the live implementation, dummy addresses were added to each group that
 targeted the researchers, so we were reasonably confident that each
 group correctly received the email according to the experimental design.
 
@@ -436,19 +430,23 @@ its covariates.
 
   - how you plan to analyze the data
 
+`Max`
+
+we have waited for x days ….
+
 #### Accounting for Non-Compliance
+
+  - `Greg`
+
+We considered non-compliers (all recipients who we were not able to
+deliver the emails) marked them that they would not receive nor click
+the email.
 
 ## Research Report
 
-`Alex's suggestions` - who is the audience of the report and adjust the
-story - enough technical details to convince reproducability - or to
-client as a project consultant report (project closeout report)
-
-#### Flow Diagram
-
-`optional`
-
 #### Experiment Results
+
+`Max`
 
   - Attrition
   - additional outcome (e.g., unsubscription rate)
@@ -474,6 +472,26 @@ Meanwhile, we did not observe enough clicks to draw conclusions about
 the effect of the subject and from line choices on click-through
 rate.The following table describes statistic details how we analyzed the
 experiment.
+
+  - Subject: ***5.86*** percentage point \[0.4pp \~ 11.3pp\]
+  - Sender: no significant difference
+
+<!-- end list -->
+
+``` r
+stargazer(m1.open, m2.open, m3.open, m4.click,
+          se = c(list(m1.open$rse_), list(m2.open$rse_), 
+                 list(m3.open$rse_), list(m4.click$rse_)), 
+          type="text",
+          title = "Effect of different subjects and senders",
+          dep.var.labels=c("Open Rate", "Click Rate"),
+          covariate.labels=c("Subject - Catalyst", 
+                             "From - Board Chair" 
+                             , "Subject - Catalyst, from - Chair", 
+                             "Subject - Invest, from - Director"),
+          align=TRUE
+          )
+```
 
     ## 
     ## Effect of different subjects and senders
@@ -503,48 +521,3 @@ experiment.
     ## F Statistic                       5.333** (df = 1; 1978) 1.859 (df = 1; 1978) 2.579* (df = 3; 1976) 0.667 (df = 3; 1976)
     ## ========================================================================================================================
     ## Note:                                                                                        *p<0.1; **p<0.05; ***p<0.01
-
-  - Subject: ***5.86*** percentage point \[0.4pp \~ 11.3pp\]
-  - Sender: no significant difference
-
-#### How about CACE (ATET)?
-
-Our design is placebo design where we can calculate CACE directly
-comparing the compliers, the average treatment effect (ATET).
-
-(WIP)
-
-There are 23 bounce emails during the campaign. For this specific
-experiment, it would be more important to know the CACE (Complier
-Average Casual Effect) than ITT (Intended To Treat) effect.
-
-    ## 
-    ## ATET subjects and senders
-    ## ========================================================================================================================
-    ##                                                                    Dependent variable:                                  
-    ##                                   --------------------------------------------------------------------------------------
-    ##                                                               Open Rate                                  Click Rate      
-    ##                                            (1)                   (2)                   (3)                  (4)         
-    ## ------------------------------------------------------------------------------------------------------------------------
-    ## Subject - Catalyst                       0.044**                                     0.058**               -0.002       
-    ##                                          (0.019)                                     (0.028)              (0.004)       
-    ##                                                                                                                         
-    ## From - Board Chair                                              -0.025               -0.010                -0.002       
-    ##                                                                (0.019)               (0.027)              (0.004)       
-    ##                                                                                                                         
-    ## Subject - Catalyst, from - Chair                                                     -0.029               -0.00001      
-    ##                                                                                      (0.039)              (0.004)       
-    ##                                                                                                                         
-    ## Subject - Invest, from - Director        0.223***              0.258***             0.229***               0.004        
-    ##                                          (0.013)               (0.014)               (0.019)              (0.003)       
-    ##                                                                                                                         
-    ## ------------------------------------------------------------------------------------------------------------------------
-    ## Observations                              1,957                 1,957                 1,957                1,957        
-    ## R2                                        0.003                 0.001                 0.004                0.001        
-    ## Adjusted R2                               0.002                 0.0003                0.002                -0.001       
-    ## Residual Std. Error                 0.430 (df = 1955)     0.430 (df = 1955)     0.430 (df = 1953)    0.045 (df = 1953)  
-    ## F Statistic                       5.058** (df = 1; 1955) 1.627 (df = 1; 1955) 2.412* (df = 3; 1953) 0.666 (df = 3; 1953)
-    ## ========================================================================================================================
-    ## Note:                                                                                        *p<0.1; **p<0.05; ***p<0.01
-
-  - Subject: ***4.37*** percentage point \[0.6pp \~ 8.2pp\]
