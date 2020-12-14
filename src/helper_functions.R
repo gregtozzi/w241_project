@@ -98,7 +98,8 @@ join_covariates <- function(results_path, covariates_path, combined_path) {
   fwrite(results_w_covariates, combined_path)
 }
 
-calculate_rse_ci <- function(lm.mod, dt, alpha = 0.05){
+calculate_rse_ci <- function(lm.mod, alpha = 0.05){
+  # calculate robust standard error and confidence interval 
   lm.mod$se.ci_ <- confint(lm.mod, level = 1 - alpha)
   lm.mod$vcovHC_ <- vcovHC(lm.mod)
   lm.mod$rse_ <- sqrt(diag(lm.mod$vcovHC_))

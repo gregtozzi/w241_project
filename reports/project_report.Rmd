@@ -226,10 +226,10 @@ balance_lm_ED <- merged_dt[receive_email == 1, lm(from_ED ~ factor(affinity_chil
 
 balance_lm_ED_mbr <- merged_dt[receive_email == 1, lm(from_ED ~ is_member.x + missing_affinities)]
 
-balance_catalyst <- calculate_rse_ci(balance_lm_catalyst, merged_dt)
-balance_ED <- calculate_rse_ci(balance_lm_ED, merged_dt)
-balance_catalyst_mbr <- calculate_rse_ci(balance_lm_catalyst_mbr, merged_dt)
-balance_ED_mbr <- calculate_rse_ci(balance_lm_ED_mbr, merged_dt)
+balance_catalyst <- calculate_rse_ci(balance_lm_catalyst)
+balance_ED <- calculate_rse_ci(balance_lm_ED)
+balance_catalyst_mbr <- calculate_rse_ci(balance_lm_catalyst_mbr)
+balance_ED_mbr <- calculate_rse_ci(balance_lm_ED_mbr)
 
 stargazer(balance_catalyst, balance_catalyst_mbr, balance_ED, balance_ED_mbr,
           se = c(list(balance_catalyst$rse_), list(balance_catalyst_mbr$rse_), 
@@ -308,12 +308,12 @@ d[is.na(treatment_received), click := 0]
 m1.open = d[ , lm(open ~ subject)]
 m2.open = d[ , lm(open ~ sender)]
 m3.open = d[ , lm(open ~ subject + sender + subject*sender)]
-m1.open = calculate_rse_ci(m1.open, d)
-m2.open = calculate_rse_ci(m2.open, d)
-m3.open = calculate_rse_ci(m3.open, d)
+m1.open = calculate_rse_ci(m1.open)
+m2.open = calculate_rse_ci(m2.open)
+m3.open = calculate_rse_ci(m3.open)
 
 m4.click = d[ , lm(click ~ subject + sender + subject*sender)]
-m4.click = calculate_rse_ci(m4.click, d)
+m4.click = calculate_rse_ci(m4.click)
 ```
 
 `Max` 
