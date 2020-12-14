@@ -55,10 +55,16 @@ extracted the results from Mailchimp on October 28, 2020.
 
 Results for open rates are summarized below.
 
-| Open Rates (24% avg)                   | You can be a Catalyst for STEM Learning 💡 (26.4%) | Invest in the Power of STEM Learning 💡 (21.6%) |
-| -------------------------------------- | ------------------------------------------------- | ---------------------------------------------- |
-| Nene Spivy, Executive Director (22.8%) | 24.4%                                             | 21.2%                                          |
-| Jill McNabb, Board Chair (25.2%)       | 28.2%                                             | 22.0%                                          |
+We computed estimates of the effects of each of the two treatments.
+These are presented below.
+
+| Treatment                                       | Effect (confidence interval)       |
+| ----------------------------------------------- | ---------------------------------- |
+| Subj: You can be a Catalyst for STEM Learning 💡 | \[0.004, 0.113\] - Significant     |
+| From: Nene Spivey, Board Chair                  | \[-0.064, 0.04\] - Not significant |
+
+We did not find a significant effect resulting from the combination of
+the two treatments.
 
 #### Applying the results
 
@@ -422,14 +428,6 @@ necessary to run this script carefully, only on a trusted machine, and
 to then join this raw, sensitive data back to the full data set, with
 its covariates.
 
-#### Plan to analyze the data
-
-  - how you plan to analyze the data
-
-`Max`
-
-we have waited for x days ….
-
 #### Accounting for Non-Compliance
 
 We observed two avenues for non-compliance. In the first, twelve
@@ -457,29 +455,32 @@ received the email in any event.
 
 #### Experiment Results
 
-The experimental results are shown formally in the table below. In
-column 1, we see the effect of the subject line. Here the subject line
-“Invest in the Power of STEM Learning” is considered the control and
-“You can be a Catalyst for STEM Learning” is treatment. We see a
-statistically significant difference of 4.4% from “Invest” to
-“Catalyst”, with a standard error of 1.9% (note, we report robust
-standard errors here and elsewhere).
+The experimental results are shown formally in the table below. We first
+considered each treatment individually in columns 1 and 2. We consider a
+complete model of opening rates in column 3. While we recorded very few
+clicks, we included a model of clickthrough rates in column 4 for
+completeness. We report robust standard errors here and elsewhere.
 
-The second column shows the effect of the from-line. Here “Jill McNabb,
-Board Chair” is the control and “Nene Spivy, Executive Director” is the
-treatment. A slight decrease in open rate (-2.6%) is observed, but this
-is not statistically significant.
+Column 3 considers both treatments and the possibility of heterogeneous
+treatment effects. In comparing this model with those presented in
+columns 1 and 2, we note the following:
 
-The third column shows interactions between the two treatments. The
-results are not statistically relevant.
+  - Considering both treatments and the interaction term increases both
+    the estimate of the effect of the use of the *Catalyst* subject line
+    and its standard error. The estimate of the effect in the single
+    factor model was \[0.007, 0.082\]. In the saturated model, this
+    shifts and expands to \[0.004, 0.113\].
+
+  - We estimate the effect of the use of the *Board Chair* subject line
+    treatment to be \[-0.064, 0.04\] in the saturated model. While not
+    significant, the direction of the effect was not expected by the
+    Center’s staff, and this treatment may be worth further study with
+    an appropriately-powered experiment.
+
+  - We did not find a significant heterogeneous treatment effect.
 
 The last column examines click-through rates. For all treatments, there
 were not enough clicks to draw statistically relevant conclusions.
-
-  - Subject: ***5.86*** percentage point \[0.4pp \~ 11.3pp\]
-  - Sender: no significant difference
-
-<!-- end list -->
 
     ## 
     ## Effect of different subjects and senders
@@ -506,7 +507,7 @@ were not enough clicks to draw statistically relevant conclusions.
     ## R2                                        0.003                 0.001                 0.004                0.001        
     ## Adjusted R2                               0.002                 0.0004                0.002                -0.001       
     ## Residual Std. Error                 0.428 (df = 1978)     0.429 (df = 1978)     0.428 (df = 1976)    0.045 (df = 1976)  
-    ## F Statistic                       5.333** (df = 1; 1978) 1.859 (df = 1; 1978) 2.579* (df = 3; 1976) 0.667 (df = 3; 1976)
+    ## F Statistic                       5.330** (df = 1; 1978) 1.860 (df = 1; 1978) 2.580* (df = 3; 1976) 0.667 (df = 3; 1976)
     ## ========================================================================================================================
     ## Note:                                                                                        *p<0.1; **p<0.05; ***p<0.01
 
