@@ -30,7 +30,7 @@ knitr::opts_chunk$set(echo = FALSE, warning=FALSE, results='asis')
 
 ```
 
-## Executive Summary and Recommendations
+# Executive Summary and Recommendations
 
 Thank you for the opportunity to work with the Children's Science Center.  Below you will find a summary of our findings and recommendations. Details of our analysis are included in the technical report that follows this summary.
 
@@ -45,6 +45,7 @@ We sought to answer two questions posed by the Center. Both questions were relat
 *We did not observe enough clicks to draw conclusions about the effect of the subject and from line choices on click-through rate.*
 
 ### Review of the Methodology
+
 The Center provided our team with a list of approximately 12,000 potential subjects for this study. This list was compiled from the Center’s Altru database but specifically excluded individuals who were previously selected by the Center to receive a solicitation by traditional mail. We randomly selected 1,980 subjects to receive an email soliciting a donation. These individuals were evenly split into four groups of 495 with each group being assigned a unique combination of from and subject lines. The 68% of the population that had mailing addresses on file with the Center also had metadata provided by Boodle.ai related to their predicted affinity for various causes. We used this metadata to check the balance of our random assignment
 
 The Center provided a final quality assurance check of the individuals we assigned to the study and removed 23 records.  The Center sent emails to the remaining individuals using Mailchimp on October 20, 2020.  We extracted the results from Mailchimp on October 28, 2020.
@@ -52,9 +53,7 @@ The Center provided a final quality assurance check of the individuals we assign
 
 ### Results
 
-Results for open rates are summarized below.
-
-We computed estimates of the effects of each of the two treatments.  These are presented below.
+We computed estimates of the effects of each of the two treatments.  These are presented below.  *Significance* in this context refers to our ability to state that an effect is provably different than zero.  Our ability to find significant results was affected by the sample size that we used for this experiment.  We provide details of our analysis in the attached technical appendix.
 
 | Treatment                                        | Effect (confidence interval)     |
 |--------------------------------------------------|----------------------------------|
@@ -66,35 +65,34 @@ We did not find a significant effect resulting from the combination of the two t
 ### Applying the results
 We caution against drawing broad conclusions based on this experiment, particularly with respect to questions that the study was not designed to answer.  
 
-We are confident that the method we employed in this case produced evidence that the difference in opening rates was caused by the difference in subject lines.  You can reasonably expect that this result would generalize to the remainder of the candidate email recipients during the current year-end fund drive.  We suggest caution when drawing broader conclusions, however for the following reasons:
+We are confident that the method we employed in this case produced evidence that the difference in opening rates was caused by the difference in subject lines.  You can reasonably expect that this result would generalize to the remainder of the candidate email recipients during the current year-end fund drive.  When considering how to apply these findings, please keep the following points in mind:
 
 1. Responsiveness to the two subject lines may have been affected by factors that we could not control for, including the current public health and political situations.
 2. We drew our subjects from a filtered list of potential recipients.  Adding individuals to the population of recipients may invalidate the study’s results.
 
-The difference in opening rates between emails sent from Nene Spivey and Jill McNabb is interesting, but it is not significant.  With the sample size we used, our experiment would not have detected a difference in opening rates smaller than roughly 5.5 percentage points.  This is a fairly large difference.  If you are interested in pursuing the question of which principal drives higher opening rates, we suggest that you run another experiment with a larger sample size. 
+The difference in opening rates between emails sent from Nene Spivey and Jill McNabb is interesting, but it is not significant.  With the sample size we used, our experiment would not have detected a difference in opening rates smaller than roughly 5.5 percentage points.  This is a fairly large difference.  If you are interested in pursuing the question of which principal drives higher opening rates, we suggest that you run another experiment with a larger sample size.
 
-If you desire to run additional tests in subsequent emails, or if you would benefit from a discussion on setting up a testing program, we are happy to set a call.
+A natural follow-on qustion may be whether there is a difference in open rates between emails sent from a principal and those sent from an organizational email account.  If you would like to consider this, or if you would benefit from a discussion on setting up a testing program, we are happy to set a call.
 
+\newpage
 
-## Introduction and Context 
+# Technical Appendix
 
-The remainder of this document is technical detail that would be supplied to the customer as an appendix.
+## Introduction and Context
 
 ### The Children’s Science Center
 
-The Children’s Science Center (“the Center”) is a non-profit organization headquartered in Fairfax, Virginia.  Founded in TODO, the Center’s principal objective is to build the Northern Virginia region’s first interactive science center at a greenfield location on donated land in Reston, Virginia.  The capital campaign to raise fund to build this facility is the Center’s primary line of effort.  A recent partnership with the Commonwealth of Virginia’s 
+The Children’s Science Center (“the Center”) is a non-profit organization headquartered in Fairfax, Virginia.  Founded in 2004, the Center’s principal objective is to build the Northern Virginia region’s first interactive science center at a greenfield location on donated land in Reston, Virginia.  The capital campaign to raise fund to build this facility is the Center’s primary line of effort.  A recent partnership with the Commonwealth of Virginia’s 
 
-Recognizing the long-term nature of the capital campaign and the need to build interest and advocacy, the Center launched a series of intermediate efforts beginning in `TODO.`  The Center’s first outreach effort was the Museum without Walls, a program that delivered science-based programs to schools around the region.  In `TODO`, the Center launched the Lab, a test facility located in a shopping mall sited 12 miles outside of the Washington, DC Beltway.  The Lab hosted approximately `TODO` guests per year until it was temporarily shut down in response to the COVID-19 pandemic.
+Recognizing the long-term nature of the capital campaign and the need to build interest and advocacy, the Center launched a series of intermediate efforts beginning in 2010.  The Center’s first outreach effort was the Museum without Walls, a program that delivered science-based programs to schools around the region.  In 2015, the Center launched the Lab, a test facility located in a shopping mall sited 12 miles outside of the Washington, DC Beltway.  The Center served approximately 70,000 guests per year until the Lab was temporarily shut down in response to the COVID-19 pandemic.
 
 The Center funds operating expenses with Lab admissions, grants, and philanthropic giving.  The Center’s Development Department is responsible for developing and managing the latter two revenue streams.
 
 ### The Fundraising Surge
 
-The Center conducts a fundraising surge toward the end of the calendar year, consistent with the charitable giving cycle in the United States.
+The Center conducts a fundraising surge toward the end of the calendar year, consistent with the charitable giving cycle in the United States.  The organization expected to engage the majority of its stakeholders by email during the surge.  The Development Director expected that several rounds of engagement would be necessary to achieve a conversion in the form of a charitable gift.  Within each individual round, the path to conversion proceeded from receipt to opening to click-through using an embedded link or button.
 
-The Center expected to engage the majority of its stakeholders by email.  The Center viewed email marketing as repeated iterations of a three step process.  The Development Director expected that several rounds of engagement would be necessary to achieve a conversion in the form of a charitable gift.  Within each individual round, the path to conversion proceeded from receipt to opening to click-through using an embedded link or button.
-
-The Center introduced two major changes to its process ahead of the 2020 fundraising surge.  In previous year-end campaigns, the Center had used Constant Contact (www.constantcontact.com) to send branded emails to stakeholders.  In the 2020 campaign, the Center chose to switch to Mailchimp’s (www.mailchimp.com) free tier.  The Center also engaged a consulting firm that applies machine learning to the nonprofit space to predict top prospects from among the Center’s contact list and to predict affinities to aspects of the Center’s mission.  The consulting firm’s model requires a physical address as an entering argument, and it was, therefore, only applied to that subset of the Center’s contact list for which physical addresses were entered.  Based on the consulting firm’s output, the Center chose to engage a subset of their stakeholder list with physical mail and to wall this cohort off from subsequent email engagement.
+The Center introduced two major changes to its process ahead of the 2020 fundraising surge.  In previous year-end campaigns, the Center had used Constant Contact (www.constantcontact.com) to send branded emails to stakeholders.  In the 2020 campaign, the Center chose to switch to Mailchimp’s (www.mailchimp.com) free tier.  The Center also engaged a consulting firm that applies machine learning to the nonprofit space to predict top prospects from among non-profit organizations' contact lists.  The firm, Boodle.ai, predicted affinities for aspects of the Center's mission.  Boodle's model requires a physical address as an entering argument, and it was, therefore, only applied to that subset of the Center’s contact list for which physical addresses were entered.  Based on Boodle's findings, the Center chose to engage a subset of their stakeholder list with physical mail and to wall this cohort off from subsequent email engagement.
 
 ### Research Questions
 
@@ -115,20 +113,22 @@ Both of the subject lines considered were written by the Center's development st
 
 ### Experimental Design and Treatment in Details 
 
-We addressed the research questions by construction a 2x2 factorial design using the difference in means estimator with the subjects assigned to one of four balanced groups:
+We addressed the research questions by construction a 2x2 factorial design using the difference in means estimator with the subjects assigned to one of four balanced groups as shown in the table below.
 
-- Group 1 - From Executive Director; You can be a Catalyst for STEM Learning - RX_1,1O
-- Group 2 - From Board Chair; You can be a Catalyst for STEM Learning - RX_2,1, O
-- Group 3 - From Executive Director; Invest in the Power of STEM Learning - RX_1,2O
-- Group 4 - From Board Chair; Invest in the Power of STEM Learning - RX_2,2O
+| Group | Treatments | Design |
+|-------|------------|--------|
+| 1     | Executive Director; You can be a Catalyst for STEM Learning | $RX_{1,1}O$ |
+| 2     | Board Chair; You can be a Catalyst for STEM Learning        | $RX_{2,1}O$ |
+| 3     | Executive Director; Invest in the Power of STEM Learning    | $RX_{1,2}O$ |
+| 4     | Board Chair; Invest in the Power of STEM Learning           | $RX_{2,2}O$ |
 
-Our experiment follows the pattern While we are principally interested in the discrete effect of each treatment, this design allows us to explore heterogeneous treatment effects.  Each group would receive a tailored email containing its assigned treatments sent through Mailchimp.  We tracked opening and click through using Mailchimp out-of-the-box analytics.  More detail about the implementation of the study is provided in the Outcome Measures section below.
+While we are principally interested in the discrete effect of each treatment, this design allows us to explore heterogeneous treatment effects.  Each group would receive a tailored email containing its assigned treatments sent through Mailchimp.  We tracked opening and click through using Mailchimp out-of-the-box analytics.  More detail about the implementation of the study is provided in the Outcome Measures section below.
 
 ### Statistical Power 
 
 The Center's experience across all of its email-delivered messaging suggested that we should expect opening rates on the order of 10%.  To understand what deviations from this expectation would yield, we considered low, medium, and high baseline opening rates between 5% and 25% in our power calculations.
 
-Powers between 0.8 and 0.9 are standard in clinical trials.  We chose 0.85 as a target power and computed minimum detected differences for our range of baseline rates.  Entering into the experiment, we believed that it would be unlikely that either treatment would produce differences in means as large as those that the power calculations suggested that we would need to report a significant finding.
+Powers between 0.8 and 0.9 are standard in clinical trials.  We chose 0.85 as a target power and computed minimum detected differences for our range of baseline rates as shown in the figure that follows.  Entering into the experiment, we believed that it would be unlikely that either treatment would produce differences in means as large as those that the power calculations suggested that we would need to report a significant finding.
 
 
 ```{r}
@@ -151,7 +151,7 @@ text(0.25, 0.0375,"Minimum difference detected\nas a function of the baseline\no
 
 ### Enrollment Process & Criteria for Subjects
 
-The Center's donor management database contains over 41,000 individual entries, roughly half which include physical addresses. Entries that include a physical address have metadata generated by a third party, Boodle.ai, a Data Science start-up that the Center engaged. These metadata were designed to predict affinities for causes central to the Center's mission, such as children’s causes, educational causes, cultural causes, and scientific education.  The Center provided us a file listing 12,004 individuals that Center intended to target by email during its Fall 2020 fundraising surge. These individuals represent all of the database entries that include email addresses less specifically excluded individuals (board members, minor children, etc.) and less a special cohort that the Center intended to target through a physical mail campaign based on Boodle’s predicted capacity and willingness to donate.
+The Center's donor management database contains over 41,000 individual entries, roughly half which include physical addresses. As descrived above, entries that include a physical address have metadata generated Boodle.ai. These metadata predict affinities for causes central to the Center's mission, such as children’s causes, educational causes, cultural causes, and scientific education.  The Center provided us a file listing 12,004 individuals that Center intended to target by email during its Fall 2020 fundraising surge. These individuals represent all of the database entries that include email addresses less specifically excluded individuals (board members, minor children, etc.) and less the cohort of individuals that the center chose to target with a physical mail campaign on Boodle's recommendation.
 
 The Center provided three data files that we used to develop our randomization.  These files are located in the `data` directory in the project repository (www.github.com/gregtozzi/w241_project).
 
@@ -208,9 +208,9 @@ kable(head(random_assignment), caption = "Examples of the random assignment",)
 
 ### Validation of Randomization Procedure
 
-Data quality issues limited the number of covariates available to perform balance checks.  In the end, we had membership data for our entire sample. We also had predicted affinities provided by Boodle.ai for about two-thirds of the sample. These affinities were for elements of the Center's mission:  children's causes, cultural causes, educational causes, and science causes.  Boodle's methodology requires a mailing address, so the remaining third of the sample did not have mailing addresses on file.  Not having an address on file is an indicator of engagement with the Center, so we created an indicator variable capturing this covariate  There were, of course, no instances in which an individual without an mailing address on file also had data in any of the Boodle-generated covariates.  Including the no mailing address covariate in the balance check required that we run two separate regressions for each treatment variable---one which captured the Boodle.ai-generated affinities and membership data, and the other which captured the lack of a mailing address and membership data.
+Data quality issues limited the number of covariates available to perform balance checks.  In the end, we had membership data for our entire sample.  As described above, we also had predicted affinities provided by Boodle.ai for about two-thirds of the sample. These affinities were for elements of the Center's mission:  children's causes, cultural causes, educational causes, and science causes.  The remaining third of the sample did not have mailing addresses on file.  Not having an address on file is an indicator of engagement with the Center, so we created an indicator variable capturing this covariate  There were, of course, no instances in which an individual without an mailing address on file also had data in any of the Boodle-generated covariates.  Including the no mailing address covariate in the balance check required that we run two separate regressions for each treatment variable---one which captured the Boodle.ai-generated affinities and membership data, and the other which captured the lack of a mailing address and membership data.
 
-The regressions show no significant relationship between the covariates we tested and the treatment variables.  We are confident that our randomization was successful.
+The regressions presented below show no significant relationship between the covariates we tested and the treatment variables.  We are confident that our randomization was successful.
 
 ```{r}
 # Code individual treatments
@@ -283,9 +283,7 @@ To account for non-compliance conservatively, we coded the 35 non-compliers as h
 
 ## Research Report
 
-
 ### Experiment Results 
-
 
 ```{r}
 d <- fread("../data/raw/20201029_results_with_covariates")
@@ -348,6 +346,6 @@ stargazer(m1.open, m2.open, m3.open, m4.click,
 
 Although we saw statistically significant results in the context of our experiment, we are cautious to ascribe specific mediation mechanisms that would allow these results to be generalized. We feel that the specific variations we observed should generalize to the larger population from which we took our random sample. That is, if the Center had sent email to the larger group of 11k using the preferred subject line, we would expect that the improved open rate would apply to the entire population, but it is not clear that even that effect could be expected for hypothetical future mailings. We note that this experiment was run at a very specific moment, right before the Presidential election of 2020. There may have been special effects related to that time: the climate may have made the audience particularly responsive to certain keywords, or even more or less inclined to open mail at all.
 
-The Center’s development personnel have expressed that the lesson they draw from this is that email with a personal from-line out-performs email with a role from-line (e.g. “Nene Spivy” vs. “Executive Director”). This is interesting because this was not explicitly tested, and it illustrates the difficulty of translating intentions and desires of decision-makers into Data Science research questions. 
+The Center’s development personnel have expressed that the lesson they draw from this study is that email with a personal from-line out-performs email with a role from-line (e.g. “Nene Spivy” vs. “Executive Director”). This is interesting because this was not explicitly tested, and it illustrates the difficulty of translating intentions and desires of decision-makers into data science research questions. 
 
-It is interesting to speculate on what would be an interesting experiment or series of experiments to test a general hypothesis such as “email with a personal from-line out-performs email with a role from-line”. We expect that findings such as that would have to be at least somewhat temporally specific: the base might change from year to year - hopefully, it would become larger - and so its preferences might also change. It seems that ideally, experiments would become an on-going part of a development program.  
+It is interesting to speculate on what would be an interesting experiment or series of experiments to test a general hypothesis such as “email with a personal from-line out-performs email with a role from-line”. Stakeholders' relationships with the Center will change as the Center evolves.  As a result, we expect that the experimental findings would need to be periodically refreshed as the Center's stakeholders grow in size and as the date of the new facility's opening draws nearer.  It seems that ideally, experiments would become an on-going part of a development program.  

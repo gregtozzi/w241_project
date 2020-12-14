@@ -457,9 +457,10 @@ received the email in any event.
 
 The experimental results are shown formally in the table below. We first
 considered each treatment individually in columns 1 and 2. We consider a
-complete model of opening rates in column 3. While we recorded very few
-clicks, we included a model of clickthrough rates in column 4 for
-completeness. We report robust standard errors here and elsewhere.
+model that accounts for both treatments and their interaction in column
+3. While we recorded very few clicks, we included a model of
+clickthrough rates in column 4 for completeness. We report robust
+standard errors here and elsewhere.
 
 Column 3 considers both treatments and the possibility of heterogeneous
 treatment effects. In comparing this model with those presented in
@@ -468,16 +469,16 @@ columns 1 and 2, we note the following:
   - Considering both treatments and the interaction term increases both
     the estimate of the effect of the use of the *Catalyst* subject line
     and its standard error. The estimate of the effect in the single
-    factor model was \[0.007, 0.082\]. In the saturated model, this
-    shifts and expands to \[0.004, 0.113\].
+    factor model was \[0.007, 0.082\]. In the two factor model with an
+    interacton term, this shifts and expands to \[0.004, 0.113\].
 
   - We estimate the effect of the use of the *Board Chair* subject line
-    treatment to be \[-0.064, 0.04\] in the saturated model. While not
-    significant, the direction of the effect was not expected by the
-    Center’s staff, and this treatment may be worth further study with
-    an appropriately-powered experiment.
+    treatment to be \[-0.064, 0.04\] in column 3. While not significant,
+    the direction of the effect was not expected by the Center’s staff,
+    and this treatment may be worth further study with an
+    appropriately-powered experiment.
 
-  - We did not find a significant heterogeneous treatment effect.
+  - We did not find evidence of heterogeneous treatment effects.
 
 The last column examines click-through rates. For all treatments, there
 were not enough clicks to draw statistically relevant conclusions.
