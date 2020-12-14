@@ -7,14 +7,8 @@ December 13, 2020
 
 Thank you for the opportunity to work with the Children’s Science
 Center. Below you will find a summary of our findings and
-recommendations. This report is written for the Children’s Science
-Center. Still, it includes technical details in the second part to
-validate the work by other data scientists can validate and reproduce
-the results where our conclusion is based on. Due to the sensitivity of
-data stored on Mailchimp, it is required to export script by a person at
-the Children’s Science Center who has access to Mailchimp records.
-Details of our analysis are included in the technical report that
-follows this summary.
+recommendations. Details of our analysis are included in the technical
+report that follows this summary.
 
 #### Research Questions
 
@@ -66,7 +60,7 @@ Results for open rates are summarized below.
 | Nene Spivy, Executive Director (22.8%) | 24.4%                                             | 21.2%                                          |
 | Jill McNabb, Board Chair (25.2%)       | 28.2%                                             | 22.0%                                          |
 
-### Applying the results
+#### Applying the results
 
 We caution against drawing broad conclusions based on this experiment,
 particularly with respect to questions that the study was not designed
@@ -90,7 +84,7 @@ The difference in opening rates between emails sent from Nene Spivey and
 Jill McNabb is interesting, but it is not significant. With the sample
 size we used, our experiment would not have detected a difference in
 opening rates smaller than roughly 5.5 percentage points. This is a
-fairly large difference. If you are interested in pursing the question
+fairly large difference. If you are interested in pursuing the question
 of which principal drives higher opening rates, we suggest that you run
 another experiment with a larger sample size.
 
@@ -99,6 +93,9 @@ would benefit from a discussion on setting up a testing program, we are
 happy to set a call.
 
 ## Introduction and Context
+
+The remainder of this document is technical detail that would be
+supplied to the customer as an appendix.
 
 #### The Children’s Science Center
 
@@ -127,8 +124,7 @@ for developing and managing the latter two revenue streams.
 ##### The Fundraising Surge
 
 The Center conducts a fundraising surge toward the end of the calendar
-year, consistent with the charitable giving cycle in the United States
-\[`TODO`: add reference\].
+year, consistent with the charitable giving cycle in the United States.
 
 The Center expected to engage the majority of its stakeholders by email.
 The Center viewed email marketing as repeated iterations of a three step
@@ -140,17 +136,18 @@ link or button.
 
 The Center introduced two major changes to its process ahead of the 2020
 fundraising surge. In previous year-end campaigns, the Center had used
-Constant Contact to send branded emails to stakeholders. In the 2020
-campaign, the Center chose to switch to Mail Chimp’s free tier. The
-Center also engaged a consulting firm that applies machine learning to
-the nonprofit space to predict top prospects from among the Center’s
-contact list and to predict affinities to aspects of the Center’s
-mission. The consulting firm’s model requires a physical address as an
-entering argument, and it was, therefore, only applied to that subset of
-the Center’s contact list for which physical addresses were entered.
-Based on the consulting firm’s output, the Center chose to engage a
-subset of their stakeholder list with physical mail and to wall this
-cohort off from subsequent email engagement.
+Constant Contact (www.constantcontact.com) to send branded emails to
+stakeholders. In the 2020 campaign, the Center chose to switch to
+Mailchimp’s (www.mailchimp.com) free tier. The Center also engaged a
+consulting firm that applies machine learning to the nonprofit space to
+predict top prospects from among the Center’s contact list and to
+predict affinities to aspects of the Center’s mission. The consulting
+firm’s model requires a physical address as an entering argument, and it
+was, therefore, only applied to that subset of the Center’s contact list
+for which physical addresses were entered. Based on the consulting
+firm’s output, the Center chose to engage a subset of their
+stakeholder list with physical mail and to wall this cohort off from
+subsequent email engagement.
 
 #### Research Questions
 
@@ -158,9 +155,9 @@ The Center’s development staff was most strongly interested in
 conducting experiments to maximize the opening rates of the Center’s
 fundraising emails. The Development Director and her staff were keenly
 aware that email opening was the critical first step in achieving
-conversion. The follow-on actions—click though and conversion—were areas
-of secondary interest for this study. With this in mind, we sought to
-answer two specific questions posed by the Center.
+conversion. The follow-on actions—click through and conversion—were
+areas of secondary interest for this study. With this in mind, we sought
+to answer two specific questions posed by the Center.
 
 1.  Is there a difference in email opening or click-through caused by
     using the Executive Director’s name and title in the from line of
@@ -194,27 +191,26 @@ of which subject line would cause a stronger response.
 
 #### Experimental Design and Treatment in Details
 
-`Greg`
-
-`see page 428`
-
 We addressed the research questions by construction a 2x2 factorial
 design using the difference in means estimator with the subjects
 assigned to one of four balanced groups:
 
   - Group 1 - From Executive Director; You can be a Catalyst for STEM
-    Learning 💡
+    Learning 💡 - RX\_1,1O
   - Group 2 - From Board Chair; You can be a Catalyst for STEM Learning
-    💡
+    💡 - RX\_2,1, O
   - Group 3 - From Executive Director; Invest in the Power of STEM
-    Learning 💡
-  - Group 4 - From Board Chair; Invest in the Power of STEM Learning 💡
+    Learning 💡 - RX\_1,2O
+  - Group 4 - From Board Chair; Invest in the Power of STEM Learning 💡 -
+    RX\_2,2O
 
-While we are principally interested in the discrete effect of each
-treatment, this design allows us to explore heterogeneous treatment
-effects. Each group would received a tailored email containing its
-assigned treatments sent through Mail Chimp. We tracked opening and
-click through using Mail Chimp’s out-of-the-box analytics.
+Our experiment follows the pattern While we are principally interested
+in the discrete effect of each treatment, this design allows us to
+explore heterogeneous treatment effects. Each group would receive a
+tailored email containing its assigned treatments sent through
+Mailchimp. We tracked opening and click through using Mailchimp
+out-of-the-box analytics. More detail about the implementation of the
+study is provided in the Outcome Measures section below.
 
 #### Statistical Power
 
@@ -231,49 +227,50 @@ it would be unlikely that either treatment would produce differences in
 means as large as those that the power calculations suggested that we
 would need to report a significant finding.
 
-`Taeil` to add x y label
-
 ![](figures/unnamed-chunk-1-1.png)<!-- -->
 
 #### Enrollment Process & Criteria for Subjects
 
-The Center’s donor managment database contains over 41,000 individual
+The Center’s donor management database contains over 41,000 individual
 entries, roughly half which include physical addresses. Entries that
-include a phyical address have metadata generated by a third party that
-predict affinities for causes central to the Center’s mission. The
-Center provided us a file listing 12,004 individuals that Center
-intended to target by email during its Fall 2020 fundraising surge.
-These individuals represent all of the database entries that include
-email addresses less specifically excluded individuals (board members,
-minor children, etc.) and less a special cohort that the Center intended
-to target through a physical mail campaign based on the third party’s
-predicted capacity and willingness to donate.
+include a physical address have metadata generated by a third party,
+Boodle.ai, a Data Science start-up that the Center engaged. These
+metadata were designed to predict affinities for causes central to the
+Center’s mission, such as children’s causes, educational causes,
+cultural causes, and scientific education. The Center provided us a file
+listing 12,004 individuals that Center intended to target by email
+during its Fall 2020 fundraising surge. These individuals represent all
+of the database entries that include email addresses less specifically
+excluded individuals (board members, minor children, etc.) and less a
+special cohort that the Center intended to target through a physical
+mail campaign based on Boodle’s predicted capacity and willingness to
+donate.
 
 The Center provided three data files that we used to develop our
 randomization. These files are located in the `data` directory in the
-project repostiory.
+project repository (www.github.com/gregtozzi/w241\_project).
 
 1.  `anonymized_altru.csv` contains donor data for the Center’s entire
     database of over 41,000 individuals. Entries are keyed to a unique
-    donor idnetificaiton number.
+    donor identification number.
 2.  `anonymized_mail.csv` contains entries for a subset of the complete
     database for which the Center has physical addresses on file. This
     file includes third-party generated predictions of affinities for
     germane causes. Entries are also keyed to a unique donor
-    idnetificaiton number.
+    identification number.
 3.  `anonymized_index.csv` contains the unique donor identification
     numbers for the approximately 12,004 individuals that the Center
     intended to target by email during the Fall 2020 fundraising surge.
 
 We agreed to target a random sample of 1,980 individuals for this
-experiment. The intent was to remain within the bounds of the Mail Chimp
+experiment. The intent was to remain within the bounds of the Mailchimp
 free tier while leaving a small margin for the Center’s staff to send
 test emails to individuals outside of the experiment including to key
 members of the Center’s staff and our group. The Center delivered one of
-four solicitation emails via Mail Chimp’s web interface.
+four solicitation emails via Mailchimp’s web interface.
 
 To select subjects, we first filtered the extract of the Center’s
-complete donor database on the list of individuals the Centered intended
+complete donor database on the list of individuals the Center intended
 to target by email. In the process, we removed three duplicated entries.
 
 We had hoped to incorporate donor history into our randomization scheme
@@ -289,7 +286,7 @@ our existing table.
 As explained above, outputs of the third party study only existed for
 individuals with mailing addresses on file. Only 8266 of the 12004
 individuals in the population had data from the third party study as a
-result. We discuss the implications to covariate balance checks in a
+result. We discuss the implications to covariate balance checks in the
 following section.
 
 We conducted our randomization in two steps. First, we identified 1,980
@@ -313,7 +310,7 @@ for about two-thirds of the sample. These affinities were for elements
 of the Center’s mission: children’s causes, cultural causes, educational
 causes, and science causes. Boodle’s methodology requires a mailing
 address, so the remaining third of the sample did not have mailing
-addresses on file. Not have an address on file is an indicator of
+addresses on file. Not having an address on file is an indicator of
 engagement with the Center, so we created an indicator variable
 capturing this covariate There were, of course, no instances in which an
 individual without an mailing address on file also had data in any of
@@ -386,42 +383,41 @@ randomization was successful.
 #### Outcome Measures
 
 Implementing the experiment involved finding the proper balance between
-MailChimp’s technical capabilities, the Center’s expertise and
-availability, and the need to respect the privacy of the individuals on
-the Center’s mailing lists. Because the Center was new to MailChimp, it
-was important to keep the implementation simple and inexpensive. This
-ruled out the use of MailChimp’s in-built experimentation features, both
-from the point of view of expense (experimentation features require paid
-subscriptions) and transparency: MailChimp’s experimentation concealed
-their own randomization which, while probably sound, can not be
+Mailchimp technical capabilities, the Center’s expertise and
+availability, and the need to respect the individuals’ privacy on the
+Center’s mailing lists. Because the Center was new to Mailchimp, it was
+important to keep the implementation simple and inexpensive. This ruled
+out the use of Mailchimp’s in-built experimentation features, both from
+the point of view of expense (experimentation features require paid
+subscriptions) and transparency: Mailchimp experimentation concealed
+their own randomization, which, while probably sound, can not be
 externally audited because it is proprietary.
 
-The four treatment groups were modeled in MailChimp by four different
-“campaigns”, MailChimp’s basic data object for representing at least
-one email send. Each campaign used a separate email tenmplate, with the
-appropriate variations hard-coded. A toy MailChimp list and template
-we==re used to prove out the MailChimp implementation. In addition, in
-the live implementation, dummy addresses were added to each group that
-targeted the researchers, so we were reasonably confident that each
-group correctly received the email according to the experimental design.
+The four treatment groups were modeled in Mailchimp by four different
+“campaigns”, Mailchimp’s basic data object for representing at least
+one email sent. Each campaign used a separate email template, with the
+appropriate variations hard-coded. A toy Mailchimp list and template
+we==re used to prove out the Mailchimp implementation. Also, in the live
+implementation, dummy addresses were added to each group that targeted
+the researchers, so we were reasonably confident that each group
+correctly received the email according to the experimental design.
 
 Outcomes were gathered using a custom python script that in turn used
-MailChimp’s rest-ful API. During development, the script was run against
-the separate, toy implementation, so as to minimize the need to connect
-to the Center’s live data, and thus minimize the risk of accidental
-leakage of private data.
+Mailchimp RESTful API. During development, the script was run against
+the separate toy implementation to minimize the need to connect to the
+Center’s live data, thus minimizing the risk of accidental leakage of
+private data.
 
-MailChimp’s API provides a complete history of events for each send in
+Mailchimp’s API provides a complete history of events for each send in
 each campaign. In particular, it distinguishes between these event
-types: open, click and bounce. MailChimp records multiple instances of
+types: open, click, and bounce. Mailchimp records multiple instances of
 each event type: a recipient may open or click on a link in an email
 multiple times, and each event is recorded. For our purposes, we
-gathered only the date-time of the first occurrence of each event type,
-if any. As one would expect, click events were always preceded by an
-open event, and bounce events precluded the occurrence of any other
-events.
+gathered only the date-time of each event type’s first occurrence, if
+any. As one would expect, click events were always preceded by an open
+event, and bounce events precluded any other events.
 
-The MailChimp API reports events keyed by email address, thus it was
+The Mailchimp API reports events keyed by email address. Thus it was
 necessary to run this script carefully, only on a trusted machine, and
 to then join this raw, sensitive data back to the full data set, with
 its covariates.
@@ -436,42 +432,49 @@ we have waited for x days ….
 
 #### Accounting for Non-Compliance
 
-  - `Greg`
+We observed two avenues for non-compliance. In the first, twelve
+individuals did not receive an email because they were removed from the
+study after being assigned to a group. The Center determined that these
+individuals could not be included in the study because they were minor
+children or were related to board members. Given the challenge of
+maintaining a stakeholder database with inputs across departments, we
+were very pleased that this form of non-compliance affected well under
+1% of our subjects.
 
-We considered non-compliers (all recipients who we were not able to
-deliver the emails) marked them that they would not receive nor click
-the email.
+The second avenue for non-compliance was outdated or ill-formed email
+addresses. Mailchimp reported that 23 of our emails were not delivered.
+Again, we were impressed by the overall cleanliness of the data the
+Center provided.
+
+To account for non-compliance conservatively, we coded the 35
+non-compliers as having not opened the email. However, we believe that
+an argument could be made for simply neglecting these individuals from
+the analysis as the group of 12 who were removed should never have been
+included in the population, and the 23 who bounced would not have
+received the email in any event.
 
 ## Research Report
 
 #### Experiment Results
 
-`Max`
+The experimental results are shown formally in the table below. In
+column 1, we see the effect of the subject line. Here the subject line
+“Invest in the Power of STEM Learning” is considered the control and
+“You can be a Catalyst for STEM Learning” is treatment. We see a
+statistically significant difference of 4.4% from “Invest” to
+“Catalyst”, with a standard error of 1.9% (note, we report robust
+standard errors here and elsewhere).
 
-  - Attrition
-  - additional outcome (e.g., unsubscription rate)
-  - Mediation analysis: why more open rate?
-  - description of experimental results
+The second column shows the effect of the from-line. Here “Jill McNabb,
+Board Chair” is the control and “Nene Spivy, Executive Director” is the
+treatment. A slight decrease in open rate (-2.6%) is observed, but this
+is not statistically significant.
 
-We are confident that the method we employed in this case produced
-evidence that the difference in opening rates was caused by the
-difference in subject lines. You can reasonably expect that this result
-would generalize to the remainder of the candidate email recipients
-during the current year-end fund drive. We suggest caution when drawing
-broader conclusions, however for the following reasons:
+The third column shows interactions between the two treatments. The
+results are not statistically relevant.
 
-1.  Responsiveness to the two subject lines may have been affected by
-    factors that we could not control for, including the current public
-    health and political situations.
-
-2.  We drew our subjects from a filtered list of potential recipients.
-    Adding individuals to the population of recipients may invalidate
-    the study’s results.
-
-Meanwhile, we did not observe enough clicks to draw conclusions about
-the effect of the subject and from line choices on click-through
-rate.The following table describes statistic details how we analyzed the
-experiment.
+The last column examines click-through rates. For all treatments, there
+were not enough clicks to draw statistically relevant conclusions.
 
   - Subject: ***5.86*** percentage point \[0.4pp \~ 11.3pp\]
   - Sender: no significant difference
@@ -506,3 +509,35 @@ experiment.
     ## F Statistic                       5.333** (df = 1; 1978) 1.859 (df = 1; 1978) 2.579* (df = 3; 1976) 0.667 (df = 3; 1976)
     ## ========================================================================================================================
     ## Note:                                                                                        *p<0.1; **p<0.05; ***p<0.01
+
+#### Generalizability and Mediation Analysis
+
+Although we saw statistically significant results in the context of our
+experiment, we are cautious to ascribe specific mediation mechanisms
+that would allow these results to be generalized. We feel that the
+specific variations we observed should generalize to the larger
+population from which we took our random sample. That is, if the Center
+had sent email to the larger group of 11k using the preferred subject
+line, we would expect that the improved open rate would apply to the
+entire population, but it is not clear that even that effect could be
+expected for hypothetical future mailings. We note that this experiment
+was run at a very specific moment, right before the Presidential
+election of 2020. There may have been special effects related to that
+time: the climate may have made the audience particularly responsive to
+certain keywords, or even more or less inclined to open mail at all.
+
+The Center’s development personnel have expressed that the lesson they
+draw from this is that email with a personal from-line out-performs
+email with a role from-line (e.g. “Nene Spivy” vs. “Executive
+Director”). This is interesting because this was not explicitly
+tested, and it illustrates the difficulty of translating intentions and
+desires of decision-makers into Data Science research questions.
+
+It is interesting to speculate on what would be an interesting
+experiment or series of experiments to test a general hypothesis such as
+“email with a personal from-line out-performs email with a role
+from-line”. We expect that findings such as that would have to be at
+least somewhat temporally specific: the base might change from year to
+year - hopefully, it would become larger - and so its preferences might
+also change. It seems that ideally, experiments would become an on-going
+part of a development program.
