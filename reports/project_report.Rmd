@@ -5,9 +5,8 @@ date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: github_document
 knit: (function(inputFile, encoding) {
   rmarkdown::render(
-    output_file = 'README.md',
     inputFile, encoding = encoding,
-    output_format = c('github_document'))
+    output_format = c('pdf_document'))
     })
 ---
 
@@ -26,7 +25,7 @@ library(magrittr)
 opts_chunk$set(fig.path = "figures/")
 options(digits=3)
 
-knitr::opts_chunk$set(echo = FALSE, warning=FALSE)
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, results='asis')
 
 ```
 
@@ -39,7 +38,7 @@ Thank you for the opportunity to work with the Children's Science Center.  Below
 We sought to answer two questions posed by the Center. Both questions were related to the effect on opening and click-through rates of treatments in emails sent by the Center soliciting donations ahead of the planned Fall 2020 fundraising surge.
 
 1. Is there a difference in email opening or click-through caused by the choice of using the Executive Director’s name and title in the from line versus using the Board Chair’s name and title?  *While we did observe a difference in opening rates favoring emails from Jill McNabb, the difference was not significant.*
-2. Is there a difference in email opening or click-through behavior caused by the choice of using one of two potential subject lines?  *The subject line, “You can be a Catalyst for STEM Learning 💡,” caused significantly higher opening rates.*
+2. Is there a difference in email opening or click-through behavior caused by the choice of using one of two potential subject lines?  *The subject line, “You can be a Catalyst for STEM Learning,” caused significantly higher opening rates.*
 3. Were combinations of the two treatments particularly effective?  *We found no significant effect due to the combination of treatments.*
 
 *We did not observe enough clicks to draw conclusions about the effect of the subject and from line choices on click-through rate.*
@@ -58,7 +57,7 @@ We computed estimates of the effects of each of the two treatments.  These are p
 
 | Treatment                                        | Effect (confidence interval)     |
 |--------------------------------------------------|----------------------------------|
-| Subj: You can be a Catalyst for STEM Learning 💡 | [0.004, 0.113] - Significant     |
+| Subj: You can be a Catalyst for STEM Learning    | [0.004, 0.113] - Significant     |
 | From: Nene Spivey, Board Chair                   | [-0.064, 0.04] - Not significant |
 
 We did not find a significant effect resulting from the combination of the two treatments.
@@ -102,7 +101,7 @@ The Center's development staff was most strongly interested in conducting experi
 
 1. Is there a difference in email opening or click-through caused by using the Executive Director’s name and title in the from line of the solicitation email versus using the Board Chair’s name and title?
 
-2. Is there a difference in email opening or click-through behavior caused by the choice of using one of two potential subject lines?  The two subject lines considered were, “You can be a Catalyst for STEM Learning 💡," and , "Invest in the Power of STEM Learning 💡."
+2. Is there a difference in email opening or click-through behavior caused by the choice of using one of two potential subject lines?  The two subject lines considered were, “You can be a Catalyst for STEM Learning," and , "Invest in the Power of STEM Learning."
 
 
 ## Research Proposal 
@@ -117,10 +116,10 @@ Both of the subject lines considered were written by the Center's development st
 
 We addressed the research questions by construction a 2x2 factorial design using the difference in means estimator with the subjects assigned to one of four balanced groups:
 
-- Group 1 - From Executive Director; You can be a Catalyst for STEM Learning 💡 - RX_1,1O
-- Group 2 - From Board Chair; You can be a Catalyst for STEM Learning 💡 - RX_2,1, O
-- Group 3 - From Executive Director; Invest in the Power of STEM Learning 💡 - RX_1,2O
-- Group 4 - From Board Chair; Invest in the Power of STEM Learning 💡 - RX_2,2O
+- Group 1 - From Executive Director; You can be a Catalyst for STEM Learning - RX_1,1O
+- Group 2 - From Board Chair; You can be a Catalyst for STEM Learning - RX_2,1, O
+- Group 3 - From Executive Director; Invest in the Power of STEM Learning - RX_1,2O
+- Group 4 - From Board Chair; Invest in the Power of STEM Learning - RX_2,2O
 
 Our experiment follows the pattern While we are principally interested in the discrete effect of each treatment, this design allows us to explore heterogeneous treatment effects.  Each group would receive a tailored email containing its assigned treatments sent through Mailchimp.  We tracked opening and click through using Mailchimp out-of-the-box analytics.  More detail about the implementation of the study is provided in the Outcome Measures section below.
 
@@ -239,7 +238,8 @@ balance_ED_mbr <- calculate_rse_ci(balance_lm_ED_mbr)
 stargazer(balance_catalyst, balance_catalyst_mbr, balance_ED, balance_ED_mbr,
           se = c(list(balance_catalyst$rse_), list(balance_catalyst_mbr$rse_), 
                  list(balance_ED$rse_), list(balance_ED_mbr$rse_)), 
-          type="text",
+          header=FALSE,
+          type="latex",
           title = "Covariate Balance",
           dep.var.labels=c("Subj: Catalyst", "From: ED"),
           covariate.labels=c("Affinity - Children 35", 
@@ -329,14 +329,15 @@ The last column examines click-through rates. For all treatments, there were not
 stargazer(m1.open, m2.open, m3.open, m4.click,
           se = c(list(m1.open$rse_), list(m2.open$rse_), 
                  list(m3.open$rse_), list(m4.click$rse_)), 
-          type="text",
+          header=FALSE, 
+          type='latex',
           title = "Effect of different subjects and senders",
           dep.var.labels=c("Open Rate", "Click Rate"),
           covariate.labels=c("Subject - Catalyst", 
                              "From - Board Chair" 
                              , "Subject - Catalyst, from - Chair", 
                              "Subject - Invest, from - Director"),
-          align=TRUE
+          align=FALSE
           )
 ```
 
