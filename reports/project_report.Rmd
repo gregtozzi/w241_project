@@ -40,7 +40,7 @@ We sought to answer two questions posed by the Center. Both questions were relat
 
 1. Is there a difference in email opening or click-through caused by the choice of using the Executive Director’s name and title in the from line versus using the Board Chair’s name and title?  *While we did observe a difference in opening rates favoring emails from Jill McNabb, the difference was not significant.*
 2. Is there a difference in email opening or click-through behavior caused by the choice of using one of two potential subject lines?  *The subject line, “You can be a Catalyst for STEM Learning,” caused significantly higher opening rates.*
-3. Were combinations of the two treatments particularly effective?  *We found no significant effect due to the combination of treatments.*
+3. Are combinations of the two treatments particularly effective?  *We found no significant effect due to the combination of treatments.*
 
 *We did not observe enough clicks to draw conclusions about the effect of the subject and from line choices on click-through rate.*
 
@@ -58,7 +58,7 @@ We computed estimates of the effects of each of the two treatments.  These are p
 | Treatment                                        | Effect (confidence interval)     |
 |--------------------------------------------------|----------------------------------|
 | Subj: You can be a Catalyst for STEM Learning    | [0.004, 0.113] - Significant     |
-| From: Nene Spivey, Board Chair                   | [-0.064, 0.04] - Not significant |
+| From: Nene Spivy, Board Chair                    | [-0.064, 0.04] - Not significant |
 
 We did not find a significant effect resulting from the combination of the two treatments.
 
@@ -70,7 +70,7 @@ We are confident that the method we employed in this case produced evidence that
 1. Responsiveness to the two subject lines may have been affected by factors that we could not control for, including the current public health and political situations.
 2. We drew our subjects from a filtered list of potential recipients.  Adding individuals to the population of recipients may invalidate the study’s results.
 
-The difference in opening rates between emails sent from Nene Spivey and Jill McNabb is interesting, but it is not significant.  With the sample size we used, our experiment would not have detected a difference in opening rates smaller than roughly 5.5 percentage points.  This is a fairly large difference.  If you are interested in pursuing the question of which principal drives higher opening rates, we suggest that you run another experiment with a larger sample size.
+The difference in opening rates between emails sent from Nene Spivy and Jill McNabb is interesting, but it is not significant.  With the sample size we used, our experiment would not have detected a difference in opening rates smaller than roughly 5.5 percentage points.  This is a fairly large difference.  If you are interested in pursuing the question of which principal drives higher opening rates, we suggest that you run another experiment with a larger sample size.
 
 A natural follow-on qustion may be whether there is a difference in open rates between emails sent from a principal and those sent from an organizational email account.  If you would like to consider this, or if you would benefit from a discussion on setting up a testing program, we are happy to set a call.
 
@@ -102,6 +102,7 @@ The Center's development staff was most strongly interested in conducting experi
 
 2. Is there a difference in email opening or click-through behavior caused by the choice of using one of two potential subject lines?  The two subject lines considered were, “You can be a Catalyst for STEM Learning," and , "Invest in the Power of STEM Learning."
 
+3. Are combinations of the two treatments particularly effective?
 
 ## Research Proposal 
 
@@ -265,7 +266,7 @@ stargazer(balance_catalyst, balance_catalyst_mbr, balance_ED, balance_ED_mbr,
 
 Implementing the experiment involved finding the proper balance between Mailchimp technical capabilities, the Center’s expertise and availability, and the need to respect the individuals’ privacy on the Center’s mailing lists. Because the Center was new to Mailchimp, it was important to keep the implementation simple and inexpensive. This ruled out the use of Mailchimp’s in-built experimentation features, both from the point of view of expense (experimentation features require paid subscriptions) and transparency: Mailchimp experimentation concealed their own randomization, which, while probably sound, can not be externally audited because it is proprietary. 
 
-The four treatment groups were modeled in Mailchimp by four different “campaigns”, Mailchimp’s basic data object for representing at least one email sent. Each campaign used a separate email template, with the appropriate variations hard-coded. A toy Mailchimp list and template we==re used to prove out the Mailchimp implementation. Also, in the live implementation, dummy addresses were added to each group that targeted the researchers, so we were reasonably confident that each group correctly received the email according to the experimental design.
+The four treatment groups were modeled in Mailchimp by four different “campaigns”, Mailchimp’s basic data object for representing at least one email sent. Each campaign used a separate email template, with the appropriate variations hard-coded. A toy Mailchimp list and template were used to prove out the Mailchimp implementation. Also, in the live implementation, dummy addresses were added to each group that targeted the researchers, so we were reasonably confident that each group correctly received the email according to the experimental design.
 
 Outcomes were gathered using a custom python script that in turn used Mailchimp RESTful API. During development, the script was run against the separate toy implementation to minimize the need to connect to the Center’s live data, thus minimizing the risk of accidental leakage of private data. 
 
@@ -322,9 +323,6 @@ Column 3 considers both treatments and the possibility of heterogeneous treatmen
 
 - We did not find a significant heterogeneous treatment effect.
 
-The last column examines click-through rates. For all treatments, there were not enough clicks to draw statistically relevant conclusions.
-
-
 ```{r}
 stargazer(m1.open, m2.open, m3.open, m4.click,
           se = c(list(m1.open$rse_), list(m2.open$rse_), 
@@ -337,7 +335,7 @@ stargazer(m1.open, m2.open, m3.open, m4.click,
           covariate.labels=c("Subject - Catalyst", 
                              "From - Board Chair" 
                              , "Subject - Catalyst, from - Chair", 
-                             "Subject - Invest, from - Director"),
+                             "Baseline"),
           align=FALSE
           )
 ```
