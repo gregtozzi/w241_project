@@ -1,7 +1,7 @@
 # w241_project
 
 Report and source code can be found in the links below. 
-- [Reports](reports/project_report.pdf)
+- [Report](reports/project_report.pdf)
 - [RMarkdown for the report](reports/project_report.Rmd)
 
 Project Organization
