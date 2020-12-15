@@ -58,7 +58,7 @@ We computed estimates of the effects of each of the two treatments.  These are p
 | Treatment                                        | Effect (confidence interval)     |
 |--------------------------------------------------|----------------------------------|
 | Subj: You can be a Catalyst for STEM Learning    | [0.004, 0.113] - Significant     |
-| From: Nene Spivy, Board Chair                    | [-0.064, 0.04] - Not significant |
+| From: Nene Spivy, Executive Director             | [-0.064, 0.04] - Not significant |
 
 We did not find a significant effect resulting from the combination of the two treatments.
 
@@ -112,6 +112,7 @@ We claim expertise neither in non-profit email fundraising nor in the preference
 
 Both of the subject lines considered were written by the Center's development staff.  The staff believed that subject lines could result in significantly different opening rates but did not have a going-in belief of which subject line would cause a stronger response.
 
+\newpage
 ### Experimental Design and Treatment in Details 
 
 We addressed the research questions by construction a 2x2 factorial design using the difference in means estimator with the subjects assigned to one of four balanced groups as shown in the table below.
@@ -123,7 +124,7 @@ We addressed the research questions by construction a 2x2 factorial design using
 | 3     | Executive Director; Invest in the Power of STEM Learning    | $RX_{1,2}O$ |
 | 4     | Board Chair; Invest in the Power of STEM Learning           | $RX_{2,2}O$ |
 
-While we are principally interested in the discrete effect of each treatment, this design allows us to explore heterogeneous treatment effects.  Each group would receive a tailored email containing its assigned treatments sent through Mailchimp.  We tracked opening and click through using Mailchimp out-of-the-box analytics.  More detail about the implementation of the study is provided in the Outcome Measures section below.
+While we are principally interested in the discrete effect of each treatment, this design allows us to explore heterogeneous treatment effects.  Each group would receive a tailored email with assigned from- and subject-line treatments sent through Mailchimp. We tracked opening and click through using Mailchimp out-of-the-box analytics.  More detail about the implementation of the study is provided in the Outcome Measures section below.
 
 ### Statistical Power 
 
@@ -203,7 +204,7 @@ set.seed(1505)
 merged_dt[ , receive_email := as.integer(sample(.N) <= 1980)]
 merged_dt[receive_email == 1, treatment := sample(rep(1:4, .N / 4))]
 random_assignment <- merged_dt[receive_email == 1, c("lookup_id", "treatment")]
-kable(head(random_assignment), caption = "Examples of the random assignment",)
+kable(head(random_assignment), caption = "Examples of random assignment",)
 ```
 
 
@@ -243,7 +244,7 @@ stargazer(balance_catalyst, balance_catalyst_mbr, balance_ED, balance_ED_mbr,
           header=FALSE,
           type="latex",
           font.size = "scriptsize", 
-          title = "Covariate Balance",
+          title = "Covariate balance",
           dep.var.labels=c("Subj: Catalyst", "From: ED"),
           covariate.labels=c("Affinity - Children 35", 
                              "Affinity - Children 90",
@@ -294,7 +295,7 @@ d[treatment_assigned == 3 | treatment_assigned == 4, subject := 0]
 d[treatment_assigned == 1 | treatment_assigned == 3, sender := 1]
 d[treatment_assigned == 2 | treatment_assigned == 4, sender := 0]
 
-# mark zero if non-compliant. Well, can we? 
+# mark zero if non-compliant
 d[is.na(treatment_received), open := 0]
 d[is.na(treatment_received), click := 0]
 
@@ -332,9 +333,9 @@ stargazer(m1.open, m2.open, m3.open, m4.click,
           font.size = "scriptsize", 
           title = "Effect of different subjects and senders",
           dep.var.labels=c("Open Rate", "Click Rate"),
-          covariate.labels=c("Subject - Catalyst", 
-                             "From - Board Chair" 
-                             , "Subject - Catalyst, from - Chair", 
+          covariate.labels=c("Subj - Catalyst", 
+                             "From - Exec Dir" 
+                             , "Subj - Catalyst:From - Exec Dir", 
                              "Baseline"),
           align=FALSE
           )
