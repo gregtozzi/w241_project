@@ -1,8 +1,16 @@
-# w241_project
+# A/B Testing for Email Fundraising
 
-Report and source code can be found in the links below. 
-- [Report](reports/project_report.pdf)
-- [RMarkdown for the report](reports/project_report.Rmd)
+#### Taeil Goh | [Greg Tozzi](https://www.linkedin.com/in/gregorytozzi/) | Max Ziff | December, 2020
+
+*This is our final project for the [experiments and causal inference](https://www.ischool.berkeley.edu/courses/datasci/241) course of the UC Berkeley School of Information's [Master of Information and Data Science](https://datascience.berkeley.edu) program.  We conducted A/B testing of email subject and from lines to support a non-profit's year end fundraising surge.*
+
+**Skills demonstrated:** *Causal inference* | *Regression* | *Literate programming*
+
+**Languages and frameworks**: *R* | *data.table* | *knitr*
+
+### [Read the report](reports/project_report.pdf)
+
+### [View the RMarkdown](reports/project_report.Rmd)
 
 Project Organization
 ------------
